@@ -7,12 +7,12 @@ import styles from './Styles/NavigationStyles'
 const PrimaryNav = StackNavigator({
   LaunchScreen: { screen: LaunchScreen }
 }, {
-  // Default config for all screens
-  headerMode: 'none',
-  initialRouteName: 'LaunchScreen',
-  navigationOptions: {
-    headerStyle: styles.header
-  }
-})
+    // Default config for all screens
+    headerMode: 'none',
+    initialRouteName: 'LaunchScreen',
+    navigationOptions: {
+      headerStyle: styles.header
+    }
+  })
 
 export default PrimaryNav
