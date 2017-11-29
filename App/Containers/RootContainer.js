@@ -4,7 +4,8 @@ import ReduxNavigation from '../Navigation/ReduxNavigation'
 import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
-import firebase from 'firebase'
+import { loginRequest } from '../Actions/auth-actions';
+import firebaseApp from '../Config/firebase'
 
 // Styles
 import styles from './Styles/RootContainerStyles'
@@ -16,15 +17,23 @@ class RootContainer extends Component {
     if (!ReduxPersist.active) {
       this.props.startup()
     }
-    firebase.auth().onAuthStateChanged((user) => {
+    firebaseApp.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ loggedIn: true });
         console.log('User signed in', user)
+        this.props.loginRequest(user);
       } else {
         this.setState({ loggedIn: false });
         console.log('No user signed in')
       }
     });
+    let signedInUser = firebaseApp.auth().currentUser;
+    
+    if (signedInUser) {
+      console.log('Signed In User', signedInUser)
+    } else {
+      console.log('no active user', signedInUser)
+    }
   }
 
   render () {
@@ -44,7 +53,8 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  startup: () => dispatch(StartupActions.startup())
+  startup: () => dispatch(StartupActions.startup()),
+  loginRequest: (user) => dispatch(loginRequest(user))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)

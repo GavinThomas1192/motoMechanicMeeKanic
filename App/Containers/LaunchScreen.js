@@ -24,8 +24,20 @@ class LaunchScreen extends Component {
       this.setState({ error: '', loading: true });
   
       firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(this.onLoginSuccess.bind(this))
+        .then(() => {
+          
+          this.onLoginSuccess.bind(this)
+        })
         .catch(this.onLoginFail.bind(this));
+    }
+
+    onLogoutPress(){
+
+      firebase.auth().signOut().then(function() {
+        console.log('Signed User out')
+      }).catch(function(error) {
+        console.log('Something went wrong');
+      });
     }
   
     onLoginFail() {
@@ -53,7 +65,7 @@ class LaunchScreen extends Component {
           
         // </FullButton>
         <Button block onPress={this.onButtonPress.bind(this)}>
-        <Text>Primary</Text>
+        <Text>Log In</Text>
       </Button>
       );
     }
@@ -90,6 +102,9 @@ class LaunchScreen extends Component {
           </Form>
           
       {this.renderButton()}
+      <Button block onPress={this.onLogoutPress.bind(this)}>
+        <Text>Sign Out</Text>
+      </Button>
         </Content>
       </Container>
       
@@ -104,11 +119,14 @@ class LaunchScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    loginRequest: (user) => dispatch(loginRequest(user))
+    
   }
 }
 
