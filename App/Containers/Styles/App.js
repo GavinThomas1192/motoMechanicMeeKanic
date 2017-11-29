@@ -33,15 +33,15 @@ class App extends Component {
       messagingSenderId: '833429505896'
     });
   
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ loggedIn: true });
-        console.log('User signed in')
-      } else {
-        this.setState({ loggedIn: false });
-        console.log('No user signed in')
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.setState({ loggedIn: true });
+    //     console.log('User signed in', user)
+    //   } else {
+    //     this.setState({ loggedIn: false });
+    //     console.log('No user signed in')
+    //   }
+    // });
   }
   
  

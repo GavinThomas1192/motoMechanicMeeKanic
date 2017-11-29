@@ -14,5 +14,15 @@ export default StyleSheet.create({
   },
   centered: {
     alignItems: 'center'
+  },
+  catchPhrase: {
+    marginTop: 40,
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  textInput: {
+    backgroundColor: 'rgba(255, 255, 255, .75)',
   }
+
 })

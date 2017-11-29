@@ -6,5 +6,8 @@ export default StyleSheet.create({
 
   form: {
     marginTop: 50,
+  },
+  centered: {
+    alignItems: 'center'
   }
 })
