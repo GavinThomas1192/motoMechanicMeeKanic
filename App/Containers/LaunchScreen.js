@@ -1,14 +1,62 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
+import firebase from 'firebase'
+import { ScrollView, Text, Image, View, TextInput } from 'react-native'
+import { Container, Header, Content, Form, Item, Input,Left, Body, Right, Button, Icon, Title } from 'native-base';
 import { Images } from '../Themes'
-import FullButton from '../Components/FullButton'
+import Spinner from '../Components/Spinner'
 import RootContainer from './RootContainer'
 import App from './Styles/App'
+import { connect } from 'react-redux'
+
+import {loginRequest } from '../Actions/auth-actions'
 
 // Styles
 import styles from './Styles/LaunchScreenStyles'
 
-export default class LaunchScreen extends Component {
+class LaunchScreen extends Component {
+
+    state = {
+      loggedIn: false, email: '', password: '', error: '', loading: false 
+    }
+    onButtonPress() {
+      const { email, password } = this.state;
+  
+      this.setState({ error: '', loading: true });
+  
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(this.onLoginSuccess.bind(this))
+        .catch(this.onLoginFail.bind(this));
+    }
+  
+    onLoginFail() {
+      this.setState({ error: 'Authentication Failed', loading: false });
+      alert('Whoops, thats not the correct information!')
+    }
+  
+    onLoginSuccess() {
+      this.setState({
+        email: '',
+        password: '',
+        loading: false,
+        error: ''
+      });
+      alert('You got signed in yolo!')
+    }
+  
+    renderButton() {
+      if (this.state.loading) {
+        return <Spinner size="small" />;
+      }
+  
+      return (
+        // <FullButton text='Log In' onPress={this.onButtonPress.bind(this)}>
+          
+        // </FullButton>
+        <Button block onPress={this.onButtonPress.bind(this)}>
+        <Text>Primary</Text>
+      </Button>
+      );
+    }
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -16,19 +64,52 @@ export default class LaunchScreen extends Component {
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
           <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
-          </View>
-
-          <View style={styles.section} >
-            <Image source={Images.ready} />
-            <Text style={styles.sectionText}>
-              Hi Shaun Hi Isaac!
+          <Text style={styles.catchPhrase}>
+            Catchy looking logo here
             </Text>
-            <FullButton text={'Hello World'} onPress={() => navigate('LoginScreen')} />
-          </View>
-
+          <Text style={styles.catchPhrase}>
+          MeeKanic, 
+          A car guys right hand man. 
+          </Text>
+      </View>
+        
+    <Container>
+      <Content>
+          <Form style={styles.textInput}>
+            <Item>
+              <Input placeholder="Email" 
+              value={this.state.email}
+              onChangeText={email => this.setState({ email })}/>
+            </Item>
+            <Item last>
+              <Input 
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              placeholder="Password" />
+            </Item>
+          </Form>
+          
+      {this.renderButton()}
+        </Content>
+      </Container>
+      
+      <Text style={styles.errorTextStyle}>
+        {this.state.error}
+      </Text>
         </ScrollView>
       </View>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LaunchScreen)

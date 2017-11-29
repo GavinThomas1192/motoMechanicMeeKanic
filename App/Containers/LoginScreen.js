@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar } from 'react-native'
+import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
 import { connect } from 'react-redux'
-import Header from '../Components/Header';
-import  Spinner  from '../Components/Spinner';
-import FullButton from '../Components/FullButton';
+import { Container, Header, Content, Form, Item, Input,Left, Body, Right, Button, Icon, Title } from 'native-base';
+import { Images } from '../Themes'
 
 import firebase from 'firebase'
 
@@ -56,31 +55,23 @@ class LoginScreen extends Component {
   }
   render() {
     return (
-    <View style={styles.form}>
-        <StatusBar barStyle='light-content' />
-
-        <TextInput
-          placeholder="user@gmail.com"
-          label="Email"
-          value={this.state.email}
-          onChangeText={email => this.setState({ email })}
-        />
-
-        <TextInput
-          secureTextEntry
-          placeholder="password"
-          label="Password"
-          value={this.state.password}
-          onChangeText={password => this.setState({ password })}
-        />
-
-
-      <Text style={styles.errorTextStyle}>
-        {this.state.error}
-      </Text>
-
-        {this.renderButton()}
-        </View>
+    <View>
+      <Header>
+        <Left>
+          <Button transparent>
+            <Icon name='arrow-back' />
+          </Button>
+        </Left>
+        <Body>
+          <Title><Text>Meekanic</Text></Title>
+        </Body>
+        <Right>
+          <Button transparent>
+            <Icon name='menu' />
+          </Button>
+        </Right>
+      </Header>        
+      </View>
 
     )
   }
