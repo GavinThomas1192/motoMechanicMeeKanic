@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, Text, KeyboardAvoidingView, View, TextInput } from 'react-native'
 import { connect } from 'react-redux'
-import LoginForm from '../Components/LoginForm'
-import { Header} from '../Components/Header';
-import { Spinner } from '../Components/Spinner';
-import { FullButton} from '../Components/FullButton';
-import { Card} from '../Components/Card';
-import { CardSection } from '../Components/CardSection';
-import { Input } from '../Components/Input';
+import Header from '../Components/Header';
+import  Spinner  from '../Components/Spinner';
+import FullButton from '../Components/FullButton';
+
+import firebase from 'firebase'
+
 
 
 
@@ -22,29 +21,73 @@ import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
   state = {
-    loggedIn: false
+    loggedIn: false, email: '', password: '', error: '', loading: false 
   }
-  renderContent() {
-    switch (this.state.loggedIn) {
-      case true:
-        return (
-          <FullButton onPress={() => firebase.auth().signOut()}>
-            Log Out
-          </FullButton>
-        );
-      case false:
-        return <LoginForm />;
-      default:
-        return <Spinner size="large" />;
+  onButtonPress() {
+    const { email, password } = this.state;
+
+    this.setState({ error: '', loading: true });
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
+      .catch(() => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then(this.onLoginSuccess.bind(this))
+          .catch(this.onLoginFail.bind(this));
+      });
+  }
+
+  onLoginFail() {
+    this.setState({ error: 'Authentication Failed', loading: false });
+  }
+
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      loading: false,
+      error: ''
+    });
+    alert('You got signed in yolo!')
+  }
+
+  renderButton() {
+    if (this.state.loading) {
+      return <Spinner size="small" />;
     }
+
+    return (
+      <FullButton text='Log In' onPress={this.onButtonPress.bind(this)}>
+        
+      </FullButton>
+    );
   }
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <KeyboardAvoidingView behavior='position'>
-          <Text>Hello from the login Screen!</Text>
-        </KeyboardAvoidingView>
-      </ScrollView>
+    <View style={styles.form}>
+        <TextInput
+          placeholder="user@gmail.com"
+          label="Email"
+          value={this.state.email}
+          onChangeText={email => this.setState({ email })}
+        />
+
+        <TextInput
+          secureTextEntry
+          placeholder="password"
+          label="Password"
+          value={this.state.password}
+          onChangeText={password => this.setState({ password })}
+        />
+
+
+      <Text style={styles.errorTextStyle}>
+        {this.state.error}
+      </Text>
+
+        {this.renderButton()}
+        </View>
+
     )
   }
 }

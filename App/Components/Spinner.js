@@ -1,20 +1,19 @@
-import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react';
+import { ActivityIndicator } from 'react-native';
 
-const Spinner = ({ size }) => {
-  return (
-    <View style={styles.spinnerStyle}>
-      <ActivityIndicator size={size || 'large'} />
-    </View>
-  );
-};
+import { Colors } from '../Themes/';
 
-const styles = {
-  spinnerStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+export default class Spinner extends Component {
+  render() {
+    return (
+      <ActivityIndicator
+        ref={c => this._root = c} {...this.props}
+        color={
+          this.props.color ? this.props.color :
+          this.props.inverse ? Colors.inverseSpinnerColor : Colors.defaultSpinnerColor
+        }
+        size={this.props.size ? this.props.size : 'large'}
+      />
+    );
   }
-};
-
-export { Spinner };
+}
