@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView, View, TextInput } from 'react-native'
+import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 import Header from '../Components/Header';
 import  Spinner  from '../Components/Spinner';
 import FullButton from '../Components/FullButton';
 
 import firebase from 'firebase'
-
-
-
-
-
 
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -62,6 +57,8 @@ class LoginScreen extends Component {
   render() {
     return (
     <View style={styles.form}>
+        <StatusBar barStyle='light-content' />
+
         <TextInput
           placeholder="user@gmail.com"
           label="Email"
