@@ -3,6 +3,7 @@ export default (state = [], action) => {
  let { type, payload } = action;
  switch (type) {
      case 'USER_SET':
+     console.log('USER SET INTO STORE W/ THIS PAYLOAD', payload)
          return payload;
      case 'USER_CREATE':
          return [payload, ...state];
