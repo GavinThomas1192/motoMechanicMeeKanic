@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import RootContainer from '../RootContainer'
 import createStore from '../../Redux'
+import firebase from 'firebase';
 
 // create our store
 const store = createStore()
@@ -17,7 +18,31 @@ const store = createStore()
  *
  * We separate like this to play nice with React Native's hot reloading.
  */
+
+
 class App extends Component {
+  state = { loggedIn: null };
+  
+
+  componentWillMount() {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyBl19lQkKFQiGh9V4ZTFLSRVftqGLZw-Y8',
+      authDomain: 'motomechanic-dd66a.firebaseapp.com',
+      databaseURL: 'https://motomechanic-dd66a.firebaseio.com',
+      storageBucket: 'motomechanic-dd66a.appspot.com',
+      messagingSenderId: '833429505896'
+    });
+  
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  }
+  
+ 
   render() {
     return (
       <Provider store={store}>
