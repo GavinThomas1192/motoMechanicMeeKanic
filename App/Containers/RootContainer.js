@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
 import { loginRequest } from '../Actions/auth-actions';
-import firebaseApp from '../Config/firebase'
+import firebase from 'firebase'
 
 // Styles
 import styles from './Styles/RootContainerStyles'
@@ -17,23 +17,23 @@ class RootContainer extends Component {
     if (!ReduxPersist.active) {
       this.props.startup()
     }
-    firebaseApp.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ loggedIn: true });
         console.log('User signed in', user)
-        this.props.loginRequest(user);
+        // this.props.loginRequest(user);
       } else {
         this.setState({ loggedIn: false });
         console.log('No user signed in')
       }
     });
-    let signedInUser = firebaseApp.auth().currentUser;
+    // let signedInUser = firebase.auth().currentUser;
     
-    if (signedInUser) {
-      console.log('Signed In User', signedInUser)
-    } else {
-      console.log('no active user', signedInUser)
-    }
+    // if (signedInUser) {
+    //   console.log('Signed In User', signedInUser)
+    // } else {
+    //   console.log('no active user', signedInUser)
+    // }
   }
 
   render () {
