@@ -1,9 +1,9 @@
-import '../../Config'
-import DebugConfig from '../../Config/DebugConfig'
+import '../Config'
+import DebugConfig from '../Config/DebugConfig'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import RootContainer from '../RootContainer'
-import createStore from '../../Redux'
+import RootContainer from './RootContainer'
+import createStore from '../Redux'
 import * as firebase from 'firebase';
 
 // create our store
