@@ -1,8 +1,5 @@
 #  motoMechanicMeeKanic
-* This is our main mobile Port using Redux.
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
-
-* Standard compliant React Native App Utilizing [Ignite](https://github.com/infinitered/ignite)
+Moto Mechanic was created as a resource for DIY mechanics or everyday people wanting to learn how to work on motorcycle. By signing up with a user account and adding your vehicle through our database we can help you figure out when and how to do your next repair. Whether that be providing you with links to parts and repairs or showing you the closest trusted garage. You'll never forget to get an oil change again!
 
 ## :arrow_up: How to Setup
 
