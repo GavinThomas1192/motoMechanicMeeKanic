@@ -48,7 +48,8 @@ export const loginRequest = user => dispatch => {
 
                 : dispatch(userSet(username))
         }
-    });
+    })
+    .catch((err) => console.log(err));
 
     dispatch(userSet(user))
     console.log('INSIDE FIREBASEE DB SET', user)
