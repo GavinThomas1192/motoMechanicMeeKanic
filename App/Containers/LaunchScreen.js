@@ -5,7 +5,7 @@ import { Container, Header, Content, Form, Item, Input,Left, Body, Right, Button
 import { Images } from '../Themes'
 import Spinner from '../Components/Spinner'
 import RootContainer from './RootContainer'
-import App from './Styles/App'
+import App from './App'
 import { connect } from 'react-redux'
 
 import {loginRequest } from '../Actions/auth-actions'
