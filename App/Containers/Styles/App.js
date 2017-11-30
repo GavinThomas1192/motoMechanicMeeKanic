@@ -25,13 +25,13 @@ class App extends Component {
   
 
   componentWillMount() {
-    // firebase.initializeApp({
-    //   apiKey: 'AIzaSyBl19lQkKFQiGh9V4ZTFLSRVftqGLZw-Y8',
-    //   authDomain: 'motomechanic-dd66a.firebaseapp.com',
-    //   databaseURL: 'https://motomechanic-dd66a.firebaseio.com',
-    //   storageBucket: 'motomechanic-dd66a.appspot.com',
-    //   messagingSenderId: '833429505896'
-    // });
+    firebase.initializeApp({
+      apiKey: 'AIzaSyBl19lQkKFQiGh9V4ZTFLSRVftqGLZw-Y8',
+      authDomain: 'motomechanic-dd66a.firebaseapp.com',
+      databaseURL: 'https://motomechanic-dd66a.firebaseio.com',
+      storageBucket: 'motomechanic-dd66a.appspot.com',
+      messagingSenderId: '833429505896'
+    });
   
     // firebase.auth().onAuthStateChanged((user) => {
     //   if (user) {

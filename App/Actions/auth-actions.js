@@ -1,5 +1,4 @@
-import firebaseApp from '../Config/firebase'
-
+import firebase from 'firebase'
 // import { getDatabase } from './database'
 
 // getDatabase().ref('...') // etc.
@@ -36,12 +35,12 @@ export const tokenSetRequest = token => dispatch => {
 export const loginRequest = user => dispatch => {
     // ******** Here we need to check if user already exists so that we dont overwrite their old data ********
     console.log('RECIEVED USER TO LOOKUP', user);
-    firebaseApp.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
+    firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
         let username = snapshot.val();
         console.log(' FOUND THIS USER FROM THE DB', username);
         {
             // ******** If theres no user already lets set it to the database ********
-            username === null ? firebaseApp.database().ref('users/' + user.uid).set({
+            username === null ? firebase.database().ref('users/' + user.uid).set({
                 account: username
             }).then(function () {
                 console.log('SET NEW USER TO REDUX STORY', username);
