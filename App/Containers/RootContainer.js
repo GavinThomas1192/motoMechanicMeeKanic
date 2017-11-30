@@ -21,7 +21,7 @@ class RootContainer extends Component {
       if (user) {
         this.setState({ loggedIn: true });
         console.log('User signed in', user)
-        // this.props.loginRequest(user);
+        this.props.loginRequest(user);
       } else {
         this.setState({ loggedIn: false });
         console.log('No user signed in')
