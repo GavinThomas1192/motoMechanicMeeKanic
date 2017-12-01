@@ -17,16 +17,14 @@ class RootContainer extends Component {
     if (!ReduxPersist.active) {
       this.props.startup()
     }
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ loggedIn: true });
-        console.log('User signed in', user)
-        this.props.loginRequest(user);
-      } else {
-        this.setState({ loggedIn: false });
-        console.log('No user signed in')
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     console.log('User signed in', user)
+    //     this.props.loginRequest(user);
+    //   } else {
+    //     console.log('No user signed in')
+    //   }
+    // });
     // let signedInUser = firebase.auth().currentUser;
     
     // if (signedInUser) {

@@ -43,7 +43,7 @@ export const loginRequest = user => dispatch => {
             username === null ? firebase.database().ref('users/' + user.uid).set({
                 account: username
             }).then(function () {
-                console.log('SET NEW USER TO REDUX STORY', username);
+                console.log('STORED THIS USER TO FIREBASE DB', username);
             })
 
                 : dispatch(userSet(username))
@@ -53,6 +53,31 @@ export const loginRequest = user => dispatch => {
 
     dispatch(userSet(user))
     console.log('INSIDE FIREBASEE DB SET', user)
+
+};
+export const signupRequest = (email, password, username) => dispatch => {
+    // ******** Here we need to check if user already exists so that we dont overwrite their old data ********
+    console.log('RECIEVED USER TO SIGNUP', email, password);
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((authData) => {
+        let account = {}
+        account.email = email
+        account.uid = authData.uid
+        account.username = username
+        firebase.database().ref('users/' + authData.uid).set({
+            account
+        }).then(() => {
+            firebase.database().ref('users/' + authData.uid).once('value').then(function (snapshot) {
+                let username = snapshot.val();
+                console.log(' FOUND THIS USER FROM THE DB after signup', username);
+        })
+    })
+    })
+          
+        
+    .catch((err) => console.log(err));
+
+ 
 
 };
 
