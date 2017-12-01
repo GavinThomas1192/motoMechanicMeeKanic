@@ -6,7 +6,7 @@ import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
-  LoginScreen: { screen: LoginScreen, component: RoundedButton },
+  LoginScreen: { screen: LoginScreen},
   LaunchScreen: { screen: LaunchScreen }
 }, {
     // Default config for all screens

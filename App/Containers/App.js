@@ -3,11 +3,11 @@ import DebugConfig from '../Config/DebugConfig'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import RootContainer from './RootContainer'
-import createStore from '../Redux'
+import appStoreCreate from '../Redux/app-create-store'
 import * as firebase from 'firebase';
 
 // create our store
-const store = createStore()
+const store = appStoreCreate()
 
 /**
  * Provides an entry point into our application.  Both index.ios.js and index.android.js
@@ -33,15 +33,7 @@ class App extends Component {
       messagingSenderId: '833429505896'
     });
   
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     this.setState({ loggedIn: true });
-    //     console.log('User signed in', user)
-    //   } else {
-    //     this.setState({ loggedIn: false });
-    //     console.log('No user signed in')
-    //   }
-    // });
+
   }
   
  

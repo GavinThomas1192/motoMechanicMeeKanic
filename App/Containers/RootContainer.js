@@ -4,7 +4,7 @@ import ReduxNavigation from '../Navigation/ReduxNavigation'
 import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
-import { loginRequest } from '../Actions/auth-actions';
+import { loginRequest, userSetRequest} from '../Actions/auth-actions';
 import firebase from 'firebase'
 
 // Styles
@@ -17,21 +17,23 @@ class RootContainer extends Component {
     if (!ReduxPersist.active) {
       this.props.startup()
     }
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     console.log('User signed in', user)
-    //     this.props.loginRequest(user);
-    //   } else {
-    //     console.log('No user signed in')
-    //   }
-    // });
-    // let signedInUser = firebase.auth().currentUser;
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('User signed in', user)
+        this.props.loginRequest(user);
+      } else {
+        console.log('No user signed in')
+      }
+    });
+    //need to store auth in store to render home if user exists
+    let signedInUser = firebase.auth().currentUser;
     
-    // if (signedInUser) {
-    //   console.log('Signed In User', signedInUser)
-    // } else {
-    //   console.log('no active user', signedInUser)
-    // }
+    if (signedInUser) {
+      this.props.userSetRequest(signedInUser);
+      console.log('Signed In User', signedInUser)
+    } else {
+      console.log('no active user', signedInUser)
+    }
   }
 
   render () {
@@ -47,12 +49,14 @@ class RootContainer extends Component {
 // wraps dispatch to create nicer functions to call within our component
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.user
   }
+  
 }
 const mapDispatchToProps = (dispatch) => ({
   startup: () => dispatch(StartupActions.startup()),
-  loginRequest: (user) => dispatch(loginRequest(user))
+  loginRequest: (user) => dispatch(loginRequest(user)),
+  userSetRequest: (user) => dispatch(userSetRequest(user))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)

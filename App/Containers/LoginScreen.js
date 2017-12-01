@@ -2,20 +2,26 @@ import React, { Component } from 'react'
 import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Header, Content, Form, Item, Input,Left, Body, Right, Button, Icon, Title } from 'native-base';
-import { Images } from '../Themes'
-
+import Spinner from '../Components/Spinner'
 import firebase from 'firebase'
+import {loginRequest, signupRequest } from '../Actions/auth-actions'
 
 
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
 
-// Styles
+
+
 import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
+  constructor(props){
+    super(props);
+  }
   state = {
     loggedIn: false, email: '', password: '', error: '', loading: false 
+  }
+
+  componentDidUpdate(){
+    console.log('login screen did update', this.props)
   }
   onButtonPress() {
     const { email, password } = this.state;
@@ -48,15 +54,16 @@ class LoginScreen extends Component {
     }
 
     return (
-      <FullButton text='Log In' onPress={this.onButtonPress.bind(this)}>
-        
-      </FullButton>
+      <Button block onPress={this.onButtonPress.bind(this)}>
+        <Text>Log In</Text>
+      </Button>
     );
   }
   render() {
     return (
     <View>
-      <Header>
+      <ScrollView>
+      {/* <Header>
         <Left>
           <Button transparent>
             <Icon name='arrow-back' />
@@ -70,7 +77,28 @@ class LoginScreen extends Component {
             <Icon name='menu' />
           </Button>
         </Right>
-      </Header>        
+      </Header>   */}
+      <Container style={styles.Container}>
+      <Content>
+          <Form style={styles.textInput}>
+            <Item>
+              <Input placeholder="Email" 
+              value={this.state.email}
+              onChangeText={email => this.setState({ email })}/>
+            </Item>
+            <Item last>
+              <Input 
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              placeholder="Password" />
+            </Item>
+          </Form>
+          
+      {this.renderButton()}
+      
+        </Content>
+      </Container> 
+      </ScrollView>
       </View>
 
     )
@@ -79,11 +107,14 @@ class LoginScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    loginRequest: (user) => dispatch(loginRequest(user)),
+    
   }
 }
 

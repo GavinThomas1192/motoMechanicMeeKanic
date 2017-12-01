@@ -10,11 +10,6 @@ import App from './App'
 import { connect } from 'react-redux'
 import Login from '../Components/FacebookLogin'
 import {loginRequest, signupRequest } from '../Actions/auth-actions'
-import { AccessToken, LoginManager, LoginButton } from 'react-native-fbsdk';
-// const FBSDK = require('react-native-fbsdk');
-// const {
-//   LoginButton,
-// } = FBSDK;
 
 // Styles
 import styles from './Styles/LaunchScreenStyles'
@@ -33,6 +28,7 @@ class LaunchScreen extends Component {
       this.setState({ error: '', loading: true });
   
       this.props.signupRequest(email, password, username);
+      
     }
 
     onLogoutPress(){
@@ -70,7 +66,7 @@ class LaunchScreen extends Component {
       return (
 
         <Button block onPress={this.onButtonPress.bind(this)}>
-        <Text>Log In</Text>
+        <Text>Sign Up</Text>
       </Button>
       );
     }
@@ -116,9 +112,17 @@ class LaunchScreen extends Component {
           </Form>
           
       {this.renderButton()}
-      <Button block onPress={this.onLogoutPress.bind(this)}>
+      {/* <Button block onPress={this.onLogoutPress.bind(this)}>
         <Text>Sign Out</Text>
-      </Button>
+      </Button> */}
+      <Text>Already have an account?</Text>
+      <Button
+      block
+        onPress={() =>
+          navigate('LoginScreen')
+        }
+      ><Text>Go Log In</Text></Button>
+
         </Content>
       </Container>
       
