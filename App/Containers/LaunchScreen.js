@@ -4,28 +4,35 @@ import { ScrollView, Text, Image, View, TextInput } from 'react-native'
 import { Container, Header, Content, Form, Item, Input,Left, Body, Right, Button, Icon, Title } from 'native-base';
 import { Images } from '../Themes'
 import Spinner from '../Components/Spinner'
+import FacebookLogin from '../Components/FacebookLogin'
 import RootContainer from './RootContainer'
 import App from './App'
 import { connect } from 'react-redux'
-
-import {loginRequest } from '../Actions/auth-actions'
+import Login from '../Components/FacebookLogin'
+import {loginRequest, signupRequest } from '../Actions/auth-actions'
+import { AccessToken, LoginManager, LoginButton } from 'react-native-fbsdk';
+// const FBSDK = require('react-native-fbsdk');
+// const {
+//   LoginButton,
+// } = FBSDK;
 
 // Styles
 import styles from './Styles/LaunchScreenStyles'
 
 class LaunchScreen extends Component {
 
+  componentDidUpdate(){
+    console.log('LAUNCH SCREEN DID UPDATE ', this.props)
+  }
     state = {
-      loggedIn: false, email: '', password: '', error: '', loading: false 
+      loggedIn: false, email: '', username: '', password: '', error: '', loading: false 
     }
     onButtonPress() {
-      const { email, password } = this.state;
+      const { email, password, username } = this.state;
   
       this.setState({ error: '', loading: true });
   
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(this.onLoginSuccess.bind(this))
-        .catch(this.onLoginFail.bind(this));
+      this.props.signupRequest(email, password, username);
     }
 
     onLogoutPress(){
@@ -47,10 +54,13 @@ class LaunchScreen extends Component {
         email: '',
         password: '',
         loading: false,
+        username: '',
         error: ''
       });
       alert('You got signed in yolo!')
     }
+
+    
   
     renderButton() {
       if (this.state.loading) {
@@ -58,14 +68,15 @@ class LaunchScreen extends Component {
       }
   
       return (
-        // <FullButton text='Log In' onPress={this.onButtonPress.bind(this)}>
-          
-        // </FullButton>
+
         <Button block onPress={this.onButtonPress.bind(this)}>
         <Text>Log In</Text>
       </Button>
       );
     }
+
+      
+         
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -81,10 +92,16 @@ class LaunchScreen extends Component {
           A car guys right hand man. 
           </Text>
       </View>
-        
     <Container>
+
       <Content>
+        <Text style={styles.catchPhrase}>Sign up today!</Text>
           <Form style={styles.textInput}>
+          <Item>
+              <Input placeholder="Username" 
+              value={this.state.username}
+              onChangeText={username => this.setState({ username })}/>
+            </Item>
             <Item>
               <Input placeholder="Email" 
               value={this.state.email}
@@ -122,7 +139,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginRequest: (user) => dispatch(loginRequest(user))
+    loginRequest: (user) => dispatch(loginRequest(user)),
+    signupRequest: (email, password, username) => dispatch(signupRequest(email, password, username))
     
   }
 }
