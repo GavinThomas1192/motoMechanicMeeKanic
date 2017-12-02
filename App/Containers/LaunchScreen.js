@@ -15,9 +15,31 @@ import {loginRequest, signupRequest } from '../Actions/auth-actions'
 import styles from './Styles/LaunchScreenStyles'
 
 class LaunchScreen extends Component {
-
+  constructor(props){
+    super(props)
+    this.goHomeIfUser = this.goHomeIfUser.bind(this);
+  }
   componentDidUpdate(){
     console.log('LAUNCH SCREEN DID UPDATE ', this.props)
+  }
+  
+  componentWillReceiveProps(nextProps){
+    const { navigate } = this.props.navigation
+    console.log('NEXTPROPS', nextProps)
+    let user = {}
+    if(user.length === 0) {
+      user = nextProps.user;
+    }
+    if(user.length !== 0){
+     navigate('HomeScreen')
+    }
+    
+  }
+  
+  componentDidMount(){
+    
+    {this.props.user.account ? navigate('HomeScreen') : undefined}
+    
   }
     state = {
       loggedIn: false, email: '', username: '', password: '', error: '', loading: false 
@@ -69,6 +91,12 @@ class LaunchScreen extends Component {
         <Text>Sign Up</Text>
       </Button>
       );
+    }
+
+    goHomeIfUser(){
+      const { navigate } = this.props.navigation
+  
+      {this.props.user.account.uid !== null ? navigate('LoginScreen') : undefined}
     }
 
       

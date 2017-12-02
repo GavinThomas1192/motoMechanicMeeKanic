@@ -63,21 +63,21 @@ class LoginScreen extends Component {
     return (
     <View>
       <ScrollView>
-      {/* <Header>
+      <Header>
         <Left>
           <Button transparent>
             <Icon name='arrow-back' />
           </Button>
         </Left>
         <Body>
-          <Title><Text>Meekanic</Text></Title>
+          <Title><Text>Welcome Back Please Login</Text></Title>
         </Body>
         <Right>
           <Button transparent>
             <Icon name='menu' />
           </Button>
         </Right>
-      </Header>   */}
+      </Header>  
       <Container style={styles.Container}>
       <Content>
           <Form style={styles.textInput}>
