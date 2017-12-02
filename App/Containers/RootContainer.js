@@ -35,7 +35,8 @@ class RootContainer extends Component {
       console.log('no active user', signedInUser)
     }
   }
-
+  
+  
   render () {
     return (
       <View style={styles.applicationView}>
