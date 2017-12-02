@@ -31,6 +31,12 @@ export const tokenSetRequest = token => dispatch => {
     });
 };
 
+export const userSetRequest = user => dispatch => {
+    return new Promise((resolve, reject) => {
+        resolve(dispatch(userSet(user)));
+    });
+};
+
 
 export const loginRequest = user => dispatch => {
     // ******** Here we need to check if user already exists so that we dont overwrite their old data ********
@@ -70,15 +76,11 @@ export const signupRequest = (email, password, username) => dispatch => {
             firebase.database().ref('users/' + authData.uid).once('value').then(function (snapshot) {
                 let username = snapshot.val();
                 console.log(' FOUND THIS USER FROM THE DB after signup', username);
+            }).then(() => {
+                dispatch(userSet(username));
+            })
         })
-    })
-    })
-          
-        
-    .catch((err) => console.log(err));
-
- 
-
+    }).catch((err) => console.log(err));
 };
 
 export const bikeCreateRequest = bike => (dispatch, getState) => {
