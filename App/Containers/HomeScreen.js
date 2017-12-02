@@ -24,6 +24,7 @@ class HomeScreen extends Component {
 
   componentDidUpdate() {
     console.log('login screen did update', this.props)
+    const { navigate } = this.props.navigation
   }
 
   closeDrawer = () => {
@@ -48,27 +49,27 @@ class HomeScreen extends Component {
     this.menu.show();
   };
 
-  // openDropDown = () => {
-  //   return (
-  //     <Dropdown
-  //       label='Favorite Fruit'
-  //       data={data}
-  //     />
-  //   );
-  // }
 
-  //TODO: Make settings button have its own drawer that can log user out.
-  onLogoutPress() {
+
+  onLogoutPress(props) {
+    // ******** Sign user out of Firebase Auth ********
     firebase.auth().signOut().then(function () {
       console.log('Signed User out')
     }).catch(function (error) {
       console.log('Something went wrong');
     });
+    // ******** Navigate to splash Login page ********
+    props.navigate('LoginScreen')
+    this.menu.hide();
   }
-
   render() {
 
     return (
+      // ******** This is the left Drawer component ********
+      // ******** For some reason it MUST wrap everything in this homescreen ********
+      // ******** The HEADER holds some words and left/right icons to open drawer and Menu ********
+      // ******** The Drawer will show garage, maintence logs, repair lookup info ********
+      // ******** The menu will hold settings, profile, and logout ********
       <Drawer
         ref={(ref) => { this.drawer = ref; }}
         content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
@@ -90,13 +91,10 @@ class HomeScreen extends Component {
               ref={this.setMenuRef}
               style={{ alignSelf: 'flex-end' }}
             >
-              <MenuItem onPress={this.hideMenu}>Test 1</MenuItem>
-              <MenuItem onPress={this.hideMenu}>Test 2</MenuItem>
-              <MenuItem onPress={this.hideMenu} disabled>
-                Test 3
-              </MenuItem>
+              <MenuItem onPress={this.hideMenu}>Profile</MenuItem>
+              <MenuItem onPress={this.hideMenu} >Settings</MenuItem>
               <MenuDivider />
-              <MenuItem onPress={this.hideMenu}>Test 4</MenuItem>
+              <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
             </Menu>
           </Right>
         </Header>
