@@ -1,7 +1,6 @@
 import { StackNavigator } from 'react-navigation'
 import LoginScreen from '../Containers/LoginScreen'
 import LaunchScreen from '../Containers/LaunchScreen'
-import RoundedButton from '../Components/RoundedButton'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens

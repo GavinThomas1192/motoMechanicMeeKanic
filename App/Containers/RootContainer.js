@@ -49,7 +49,8 @@ class RootContainer extends Component {
 // wraps dispatch to create nicer functions to call within our component
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    nav: state.nav,
   }
   
 }
