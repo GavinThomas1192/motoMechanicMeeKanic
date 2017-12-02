@@ -32,12 +32,20 @@ class HomeScreen extends Component {
     console.log('openopen')
     this.drawer._root.open()
   };
+  //TODO: Make settings button have its own drawer that can log user out.
+  onLogoutPress() {
+    firebase.auth().signOut().then(function () {
+      console.log('Signed User out')
+    }).catch(function (error) {
+      console.log('Something went wrong');
+    });
+  }
 
   render() {
     return (
       <Drawer
         ref={(ref) => { this.drawer = ref; }}
-        content={<SideBar />}
+        content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
         onClose={() => this.closeDrawer()} >
         <Header>
           <Left>

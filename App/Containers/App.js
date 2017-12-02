@@ -17,12 +17,14 @@ const store = appStoreCreate()
  * RootContainer.
  *
  * We separate like this to play nice with React Native's hot reloading.
+ * 
+ * We also intialize the firebase connection
  */
 
 
 class App extends Component {
   state = { loggedIn: null };
-  
+
 
   componentWillMount() {
     firebase.initializeApp({
@@ -32,11 +34,11 @@ class App extends Component {
       storageBucket: 'motomechanic-dd66a.appspot.com',
       messagingSenderId: '833429505896'
     });
-  
+
 
   }
-  
- 
+
+
   render() {
     return (
       <Provider store={store}>
