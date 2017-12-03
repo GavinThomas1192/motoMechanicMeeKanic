@@ -5,6 +5,7 @@ import styles from './Styles/SideBarStyle';
 // import backgroundImage from '../Images/vw.jpg'
 
 const backgroundImage = require("../Images/vw.jpg");
+const drawerImage = require("../Images/dirtyHandsDark.jpg");
 
 
 export default class SideBar extends Component {
@@ -40,6 +41,7 @@ export default class SideBar extends Component {
             <Container>
                 <Content bounces={false} style={{ flex: 1, backgroundColor: "#fff", top: -1 }}>
                     <Image source={backgroundImage} style={styles.drawerCover}>
+                        <Image square style={styles.drawerImage} source={drawerImage} />
                     </Image>
                     <List
                         dataArray={datas}

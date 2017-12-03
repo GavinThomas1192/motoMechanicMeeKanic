@@ -48,7 +48,7 @@ class RootContainer extends Component {
     // ********* Go Look at ../Navigation/AppNavigation to see all the screens, later we will be able to render screens by navigate('screenname')*********  
     return (
       <View style={styles.applicationView}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar hidden={true} barStyle='light-content' />
         <ReduxNavigation />
       </View>
     )
