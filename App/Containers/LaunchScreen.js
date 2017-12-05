@@ -108,38 +108,19 @@ class LaunchScreen extends Component {
     const { navigate } = this.props.navigation
     return (
       <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
-        <Image source={Images.tools} style={styles.logo} resizeMode='stretch' />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
+        <Image source={Images.tools} style={styles.logo} />
 
         <ScrollView style={styles.container}>
           <Container style={styles.container} >
-            <Text style={styles.logoText}>MeeKanic</Text>
             <Content>
               <Text style={styles.catchPhrase}>Drop the shop.</Text>
-              <Text style={styles.centered}>Sign up today.</Text>
-              <Form style={styles.textInput}>
-                <Item>
-                  <Input placeholder="Username"
-                    value={this.state.username}
-                    onChangeText={username => this.setState({ username })} />
-                </Item>
-                <Item>
-                  <Input placeholder="Email"
-                    value={this.state.email}
-                    onChangeText={email => this.setState({ email })} />
-                </Item>
-                <Item last>
-                  <Input
-                    value={this.state.password}
-                    onChangeText={password => this.setState({ password })}
-                    placeholder="Password" />
-                </Item>
-              </Form>
+
 
               {this.renderButton()}
-
-              <Text>Already have an account?</Text>
+              <Text style={styles.centered}> </Text>
               <Button
+
                 block
                 onPress={() =>
                   navigate('LoginScreen')
@@ -153,7 +134,7 @@ class LaunchScreen extends Component {
             {this.state.error}
           </Text>
         </ScrollView>
-      </View>
+      </View >
     )
   }
 }
