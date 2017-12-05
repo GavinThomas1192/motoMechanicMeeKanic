@@ -154,3 +154,23 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LaunchScreen)
+
+{/* <Form style={styles.textInput}>
+<Item>
+  <Input placeholder="Username"
+    value={this.state.username}
+    onChangeText={username => this.setState({ username })} />
+</Item>
+<Item>
+  <Input placeholder="Email"
+    value={this.state.email}
+    onChangeText={email => this.setState({ email })} />
+</Item>
+<Item last>
+  <Input
+    value={this.state.password}
+    onChangeText={password => this.setState({ password })}
+    placeholder="Password" />
+</Item>
+</Form> */}
+
