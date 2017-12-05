@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import Login from '../Components/FacebookLogin'
 import { loginRequest, signupRequest } from '../Actions/auth-actions'
 
-import styles from './Styles/LaunchScreenStyles'
+import styles from './Styles/SignUpScreenStyles'
 
 class SignUpScreen extends Component {
     constructor(props) {
@@ -21,6 +21,7 @@ class SignUpScreen extends Component {
             UsernameinputError: true,
             EmailinputSuccess: false,
             EmailinputError: true,
+            EmailError: null,
             PasswordinputSuccess: false,
             PasswordinputError: true,
             email: '',
@@ -41,7 +42,13 @@ class SignUpScreen extends Component {
     onButtonPress() {
         const { email, password, username } = this.state;
         this.setState({ error: '', loading: true });
-        this.props.signupRequest(email, password, username);
+        if (this.state.EmailError !== null) {
+            console.log(this.state.EmailError);
+        } else {
+            console.log('NOW FIRING SIGNUP REQUEST')
+            this.setState({ loading: false })
+            // this.props.signupRequest(email, password, username);
+        }
     }
 
     // onLogoutPress() {
@@ -53,26 +60,34 @@ class SignUpScreen extends Component {
     //     });
     // }
 
-    // handleChange(text) {
-    //     this.setState({
-    //         [placeholder]: value,
-    //         UsernameinputError: name === 'Username' && !value ? true : null,
-    //         EmailinputError: name === 'Email' && !value ? true : null,
-    //         passwordError: name === 'Password' && !value ? true : null,
-    //     });
-
-    //     if (placeholder === 'Username') {
-    //         if (this.state.username.length !== 5) {
-    //             this.setState({ usernameError: true })
-    //         }
-    //     }
-
-    // }
-
     handleUsernameChange(usernameText) {
         this.setState({ username: usernameText })
-        if (usernameText.length > 8) {
-            this.setState({ usernameError: true })
+        console.log(usernameText)
+        if (usernameText.length > 5) {
+            this.setState({ UsernameinputError: false, UsernameinputSuccess: true, })
+        } else {
+            this.setState({ UsernameinputError: true, UsernameinputSuccess: false, })
+        }
+    }
+
+    handlePasswordChange(passwordText) {
+        this.setState({ password: passwordText })
+        console.log(passwordText)
+        if (passwordText.length > 5) {
+            this.setState({ PasswordinputError: false, PasswordinputSuccess: true, })
+        } else {
+            this.setState({ PasswordinputError: true, PasswordinputSuccess: false, })
+        }
+    }
+
+    handleEmailChange(emailText) {
+        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //need to validate empty box with no text
+        this.setState({ email: emailText })
+        if (re.test(emailText) == true && this.state.email > 1) {
+            this.setState({ EmailinputError: false, EmailinputSuccess: true, EmailError: null })
+        } else {
+            this.setState({ EmailinputError: true, EmailinputSuccess: false, EmailError: 'Whoops, that email won\'t work' })
         }
     }
 
@@ -87,20 +102,17 @@ class SignUpScreen extends Component {
             password: '',
             loading: false,
             username: '',
-            error: ''
+            error: '',
+            EmailError: '',
         });
         alert('You got signed in yolo!')
     }
 
-    validateEmail(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    }
 
     renderButton() {
-        if (this.state.loading) {
-            return <Spinner size="small" />;
-        }
+        // if (this.state.loading) {
+        //     return <Spinner size="small" />;
+        // }
 
         return (
             <Button block onPress={this.onButtonPress.bind(this)}>
@@ -143,7 +155,6 @@ class SignUpScreen extends Component {
                                     success={this.state.UsernameinputSuccess ? true : false}
                                     error={this.state.UsernameinputError ? true : false}>
                                     <Input
-                                        name="Username"
                                         placeholder="Username"
                                         value={this.state.username}
                                         onChangeText={(text) => this.handleUsernameChange(text)} />
@@ -154,20 +165,20 @@ class SignUpScreen extends Component {
                                     success={this.state.EmailinputSuccess ? true : false}
                                     error={this.state.EmailinputError ? true : false}>
                                     <Input
-                                        name="Email"
                                         placeholder="Email"
                                         value={this.state.email}
-                                        onChangeText={email => this.setState({ email })} />
+                                        onChangeText={(text) => this.handleEmailChange(text)} />
+                                    <Icon name='checkmark-circle' />
                                 </Item>
                                 <Item
                                     success={this.state.PasswordinputSuccess ? true : false}
                                     error={this.state.PasswordinputError ? true : false}
                                     last>
                                     <Input
-                                        name="Password"
                                         value={this.state.password}
-                                        onChangeText={password => this.setState({ password })}
+                                        onChangeText={(text) => this.handlePasswordChange(text)}
                                         placeholder="Password" />
+                                    <Icon name='checkmark-circle' />
                                 </Item>
                             </Form>
                             {this.renderButton()}
