@@ -30,6 +30,7 @@ class SignUpScreen extends Component {
             error: '',
             loading: false,
             loggedIn: false,
+            passwordValidation: 'nope'
         }
     }
 
@@ -55,9 +56,11 @@ class SignUpScreen extends Component {
 
 
     handleUsernameChange(usernameText) {
+        let reg = /^[a-zA-Z0-9_-]{3,15}$/
+        
         this.setState({ username: usernameText })
-        console.log(usernameText)
-        if (usernameText.length > 5) {
+        console.log(reg.test(usernameText))
+        if (reg.test(usernameText) == true && usernameText.length > 1) {
             this.setState({ UsernameinputError: false, UsernameinputSuccess: true, })
         } else {
             this.setState({ UsernameinputError: true, UsernameinputSuccess: false, })
@@ -65,9 +68,10 @@ class SignUpScreen extends Component {
     }
 
     handlePasswordChange(passwordText) {
+        let reg = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,24}$/
+        
         this.setState({ password: passwordText })
-        console.log(passwordText)
-        if (passwordText.length > 5) {
+        if (reg.test(passwordText) == true && this.state.password.length > 1) {
             this.setState({ PasswordinputError: false, PasswordinputSuccess: true, })
         } else {
             this.setState({ PasswordinputError: true, PasswordinputSuccess: false, })
@@ -115,19 +119,6 @@ class SignUpScreen extends Component {
         );
     }
 
-    //     <Content>
-    //     <Item success>
-    //         <Input placeholder='Textbox with Success Input' />
-    //         <Icon name='checkmark-circle' />
-    //     </Item>
-    // </Content>
-
-    //     <Content>
-    //     <Item error>
-    //       <Input placeholder='Textbox with Error Input'/>
-    //       <Icon name='close-circle' />
-    //     </Item>
-    //   </Content>
 
     render() {
         const { navigate } = this.props.navigation
@@ -145,6 +136,8 @@ class SignUpScreen extends Component {
                             <Text>Sign up for your free account today!</Text>
 
                             <Form style={styles.textInput}>
+                            <Text>Must be 3-15 characters, no special characters</Text>
+
                                 <Item
                                     success={this.state.UsernameinputSuccess ? true : false}
                                     error={this.state.UsernameinputError ? true : false}>
@@ -164,14 +157,16 @@ class SignUpScreen extends Component {
                                         onChangeText={(text) => this.handleEmailChange(text)} />
                                     <Icon name='checkmark-circle' />
                                 </Item>
+                                <Text>Must be at least 8 characters, two uppercase, two numbers, one special character</Text>
                                 <Item
                                     success={this.state.PasswordinputSuccess ? true : false}
                                     error={this.state.PasswordinputError ? true : false}
                                     last>
                                     <Input
+                                        secureTextEntry={ true }
                                         value={this.state.password}
                                         onChangeText={(text) => this.handlePasswordChange(text)}
-                                        placeholder="Password" />
+                                        placeholder='Password' />
                                     <Icon name='checkmark-circle' />
                                 </Item>
                             </Form>
