@@ -21,7 +21,7 @@ class SignUpScreen extends Component {
             UsernameinputError: true,
             EmailinputSuccess: false,
             EmailinputError: true,
-            EmailError: null,
+            EmailError: '',
             PasswordinputSuccess: false,
             PasswordinputError: true,
             email: '',
@@ -36,14 +36,15 @@ class SignUpScreen extends Component {
 
     // ********* The next many lines handles the Signup.. *********
 
-    // state = {
-    //     loggedIn: false, email: '', username: '', password: '', error: '', loading: false
-    // }
+
     onButtonPress() {
         const { email, password, username } = this.state;
         this.setState({ error: '', loading: true });
-        if (this.state.EmailError !== null) {
+        console.log(this.state.EmailError)
+        if (this.state.EmailError !== null || this.state.EmailError == '') {
             console.log(this.state.EmailError);
+            console.log('Whoops error or empty string')
+            
         } else {
             console.log('NOW FIRING SIGNUP REQUEST')
             this.setState({ loading: false })
@@ -51,14 +52,7 @@ class SignUpScreen extends Component {
         }
     }
 
-    // onLogoutPress() {
 
-    //     firebase.auth().signOut().then(function () {
-    //         console.log('Signed User out')
-    //     }).catch(function (error) {
-    //         console.log('Something went wrong');
-    //     });
-    // }
 
     handleUsernameChange(usernameText) {
         this.setState({ username: usernameText })
@@ -82,9 +76,9 @@ class SignUpScreen extends Component {
 
     handleEmailChange(emailText) {
         let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        //need to validate empty box with no text
+
         this.setState({ email: emailText })
-        if (re.test(emailText) == true && this.state.email > 1) {
+        if (re.test(emailText) == true && this.state.email.length > 1) {
             this.setState({ EmailinputError: false, EmailinputSuccess: true, EmailError: null })
         } else {
             this.setState({ EmailinputError: true, EmailinputSuccess: false, EmailError: 'Whoops, that email won\'t work' })
