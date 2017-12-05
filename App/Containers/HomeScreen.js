@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Header, Content, Item, Left, Body, Right, Button, Icon, Title, Drawer } from 'native-base';
+import { Container, Header, Content, Item, Left, Body, Right, Button, Icon, Title, Drawer, Footer, FooterTab } from 'native-base';
 import Spinner from '../Components/Spinner'
 import firebase from 'firebase'
 import SideBar from '../Components/SideBar';
@@ -70,37 +70,57 @@ class HomeScreen extends Component {
       // ******** The HEADER holds some words and left/right icons to open drawer and Menu ********
       // ******** The Drawer will show garage, maintence logs, repair lookup info ********
       // ******** The menu will hold settings, profile, and logout ********
-      <Drawer
-        ref={(ref) => { this.drawer = ref; }}
-        content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
-        onClose={() => this.closeDrawer()} >
-        <Header>
-          <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
+      <Container>
+        <Drawer
+          ref={(ref) => { this.drawer = ref; }}
+          content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
+          onClose={() => this.closeDrawer()} >
+          <Header>
+            <Left>
+              <Button transparent onPress={() => this.openDrawer()}>
+                <Icon name='menu' />
+              </Button>
+            </Left>
+            <Body>
+              <Title>In Home</Title>
+            </Body>
+            <Right>
+              <Button transparent onPress={this.showMenu}>
+                <Icon name='settings' />
+              </Button>
+              <Menu
+                ref={this.setMenuRef}
+                style={{ alignSelf: 'flex-end' }}
+              >
+                <MenuItem onPress={this.hideMenu}>Profile</MenuItem>
+                <MenuItem onPress={this.hideMenu} >Settings</MenuItem>
+                <MenuDivider />
+                <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
+              </Menu>
+            </Right>
+          </Header>
+        </Drawer>
+        <Footer>
+          <FooterTab>
+            <Button vertical>
+              <Icon name="apps" />
+              <Text>Repair</Text>
             </Button>
-          </Left>
-          <Body>
-            <Title>In Home</Title>
-          </Body>
-          <Right>
-            <Button transparent onPress={this.showMenu}>
-              <Icon name='settings' />
+            <Button vertical>
+              <Icon name="camera" />
+              <Text>Forums</Text>
             </Button>
-            <Menu
-              ref={this.setMenuRef}
-              style={{ alignSelf: 'flex-end' }}
-            >
-              <MenuItem onPress={this.hideMenu}>Profile</MenuItem>
-              <MenuItem onPress={this.hideMenu} >Settings</MenuItem>
-              <MenuDivider />
-              <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
-            </Menu>
-          </Right>
-        </Header>
-      </Drawer>
-
-
+            <Button vertical active>
+              <Icon active name="navigate" />
+              <Text>Logs</Text>
+            </Button>
+            <Button vertical>
+              <Icon name="person" />
+              <Text>Profile</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
     )
   }
 }
