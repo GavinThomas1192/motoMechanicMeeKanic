@@ -30,8 +30,6 @@ export default StyleSheet.create({
     marginTop: 5,
   },
 
-
-
   catchPhrase: {
     textAlign: 'center',
     marginTop: 200,
