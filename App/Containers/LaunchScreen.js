@@ -109,20 +109,14 @@ class LaunchScreen extends Component {
     return (
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
-        <ScrollView style={styles.container}>
-          <View style={styles.centered}>
-            <Text style={styles.catchPhrase}>
-              Catchy looking logo here
-            </Text>
-            <Text style={styles.catchPhrase}>
-              MeeKanic,
-          A car guys right hand man.
-          </Text>
-          </View>
-          <Container>
+        <Image source={Images.tools} style={styles.logo} resizeMode='stretch' />
 
+        <ScrollView style={styles.container}>
+          <Container style={styles.container} >
+            <Text style={styles.logoText}>MeeKanic</Text>
             <Content>
-              <Text style={styles.catchPhrase}>Sign up today!</Text>
+              <Text style={styles.catchPhrase}>Drop the shop.</Text>
+              <Text style={styles.centered}>Sign up today.</Text>
               <Form style={styles.textInput}>
                 <Item>
                   <Input placeholder="Username"
