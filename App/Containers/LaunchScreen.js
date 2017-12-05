@@ -116,16 +116,9 @@ class LaunchScreen extends Component {
             <Content>
               <Text style={styles.catchPhrase}>Drop the shop.</Text>
 
+              <Button style={{ backgroundColor: '#757575', margin: 5 }} block onPress={() => navigate('SignUpScreen')} ><Text style={{ color: 'white', fontWeight: 'bold' }} >Sign Up</Text></Button>
+              <Button style={{ backgroundColor: '#757575', margin: 5 }} block onPress={() => navigate('LoginScreen')} ><Text style={{ color: 'white', fontWeight: 'bold' }}>Log In</Text></Button>
 
-              {this.renderButton()}
-              <Text style={styles.centered}> </Text>
-              <Button
-
-                block
-                onPress={() =>
-                  navigate('LoginScreen')
-                }
-              ><Text>Go Log In</Text></Button>
 
             </Content>
           </Container>
