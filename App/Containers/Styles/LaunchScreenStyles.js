@@ -7,15 +7,30 @@ export default StyleSheet.create({
     paddingBottom: Metrics.baseMargin
   },
   logo: {
-    marginTop: Metrics.doubleSection,
-    height: Metrics.images.logo,
     width: Metrics.images.logo,
-    resizeMode: 'contain'
+    height: Metrics.images.logo,
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'contain',
   },
+
+  logoText: {
+    fontSize: 60,
+    color: 'white',
+    marginTop: Metrics.doubleSection,
+    fontWeight: "bold",
+    textAlign: 'center',
+  },
+
   centered: {
-    alignItems: 'center'
+    textAlign: 'center',
+    color: 'white',
   },
+
+
   catchPhrase: {
+    textAlign: 'center',
+
     marginTop: 40,
     color: 'white',
     fontWeight: 'bold',
