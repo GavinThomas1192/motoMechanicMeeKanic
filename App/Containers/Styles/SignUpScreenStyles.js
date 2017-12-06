@@ -38,6 +38,18 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 30,
     },
+
+    signUp: {
+        fontWeight: 'bold',
+        
+        fontSize: 30,
+        textAlign: 'center'
+    },
+
+    validation: {
+        textAlign: 'center'
+        
+    },
     textInput: {
         backgroundColor: 'rgba(255, 255, 255, .75)',
     }

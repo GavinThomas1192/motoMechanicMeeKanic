@@ -54,7 +54,7 @@ class LoginScreen extends Component {
     }
 
     return (
-      <Button block onPress={this.onButtonPress.bind(this)}>
+      <Button style={{ backgroundColor: '#757575', margin: 5 }} block onPress={this.onButtonPress.bind(this)}>
         <Text>Log In</Text>
       </Button>
     );
@@ -65,12 +65,12 @@ class LoginScreen extends Component {
       <ScrollView>
       <Header>
         <Left>
-          <Button transparent>
+          <Button transparent onPress={() => this.props.navigation.navigate('LaunchScreen')}>
             <Icon name='arrow-back' />
           </Button>
         </Left>
         <Body>
-          <Title><Text>Welcome Back Please Login</Text></Title>
+          <Title><Text></Text></Title>
         </Body>
         <Right>
           <Button transparent>
