@@ -19,11 +19,13 @@ class SignUpScreen extends Component {
             firstTime: false,
             UsernameinputSuccess: false,
             UsernameinputError: true,
+            UsernameError: '',
             EmailinputSuccess: false,
             EmailinputError: true,
             EmailError: '',
             PasswordinputSuccess: false,
             PasswordinputError: true,
+            PasswordError: '',
             email: '',
             username: '',
             password: '',
@@ -113,7 +115,7 @@ class SignUpScreen extends Component {
         // }
 
         return (
-            <Button block onPress={this.onButtonPress.bind(this)}>
+            <Button style={{ backgroundColor: '#757575', margin: 5 }} block bordered onPress={this.onButtonPress.bind(this)}>
                 <Text>Sign Up</Text>
             </Button>
         );
@@ -124,19 +126,30 @@ class SignUpScreen extends Component {
         const { navigate } = this.props.navigation
         return (
             <View style={styles.mainContainer}>
-                <Header />
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 <Image source={Images.tools} style={styles.logo} />
 
                 <ScrollView style={styles.container}>
+                 <Header style={{ shadowOpacity: 0, backgroundColor: 'transparent' }}>
+                    <Left>
+                    <Button transparent onPress={() => this.props.navigation.navigate('LaunchScreen')}>
+                        <Icon name='arrow-back' />
+                    </Button>
+                    </Left>
+                    <Body>
+                    <Title><Text></Text></Title>
+                    </Body>
+                    
+                </Header> 
                     <Container style={styles.container} >
                         <Content>
                             <Text style={styles.catchPhrase}>Drop the shop.</Text>
 
-                            <Text>Sign up for your free account today!</Text>
-
+                            <Text style={styles.signUp}>Sign up for your free account today!</Text>
+                            <Text style={styles.validation}>Password be at least 8 characters, two uppercase letter, two numbers, one special character</Text>
+                            <Text style={styles.validation}>Must be 3-15 characters, no special characters</Text>
                             <Form style={styles.textInput}>
-                            <Text>Must be 3-15 characters, no special characters</Text>
+                            
 
                                 <Item
                                     success={this.state.UsernameinputSuccess ? true : false}
@@ -157,7 +170,7 @@ class SignUpScreen extends Component {
                                         onChangeText={(text) => this.handleEmailChange(text)} />
                                     <Icon name='checkmark-circle' />
                                 </Item>
-                                <Text>Must be at least 8 characters, two uppercase, two numbers, one special character</Text>
+                                
                                 <Item
                                     success={this.state.PasswordinputSuccess ? true : false}
                                     error={this.state.PasswordinputError ? true : false}
