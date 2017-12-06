@@ -1,5 +1,5 @@
 #  motoMechanicMeeKanic
-Moto Mechanic was created as a resource for DIY mechanics or everyday people wanting to learn how to work on motorcycle. By signing up with a user account and adding your vehicle through our database we can help you figure out when and how to do your next repair. Whether that be providing you with links to parts and repairs or showing you the closest trusted garage. You'll never forget to get an oil change again!
+MeeKanic was created as a resource for DIY mechanics or everyday people wanting repair their vehicle at home. By signing up with a user account and adding your vehicle through our database we can help you figure out how and what you'll need to do your next repair. Whether that be providing you with links to parts and repairs or showing you the closest trusted garage. You'll never forget to get an oil change again!
 
 
 ![Kritter Logo](./App/Images/homeScreen.jpeg)
