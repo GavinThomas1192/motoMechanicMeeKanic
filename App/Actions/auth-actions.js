@@ -1,6 +1,7 @@
 // ******** This is actually referencing the firebaseInitializeApp from the ./Containers/App ********
 import firebase from 'firebase'
 
+
 export const userSet = user => ({
     type: 'USER_SET',
     payload: user,
@@ -77,6 +78,19 @@ export const signupRequest = (email, password, username) => dispatch => {
         }).catch((err) => console.log(err));
 };
 
+
+export const passwordResetRequest = email => dispatch => {
+    var auth = firebase.auth();
+
+    let emailAccount = email.toLowerCase();
+    console.log(emailAccount)
+    auth.sendPasswordResetEmail(emailAccount).then(function () {
+        console.log('Password reset email sent')
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+};
 
 // ******** TODO: all of the bike actions ********
 export const bikeCreateRequest = bike => (dispatch, getState) => {

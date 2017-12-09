@@ -47,11 +47,11 @@ class SignUpScreen extends Component {
         if (this.state.EmailError !== null || this.state.EmailError == '') {
             console.log(this.state.EmailError);
             console.log('Whoops error or empty string')
-            
+
         } else {
             console.log('NOW FIRING SIGNUP REQUEST')
             this.setState({ loading: false })
-            // this.props.signupRequest(email, password, username);
+            this.props.signupRequest(email, password, username);
         }
     }
 
@@ -59,7 +59,7 @@ class SignUpScreen extends Component {
 
     handleUsernameChange(usernameText) {
         let reg = /^[a-zA-Z0-9_-]{3,15}$/
-        
+
         this.setState({ username: usernameText })
         console.log(reg.test(usernameText))
         if (reg.test(usernameText) == true && usernameText.length > 1) {
@@ -71,7 +71,7 @@ class SignUpScreen extends Component {
 
     handlePasswordChange(passwordText) {
         let reg = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,24}$/
-        
+
         this.setState({ password: passwordText })
         if (reg.test(passwordText) == true && this.state.password.length > 1) {
             this.setState({ PasswordinputError: false, PasswordinputSuccess: true, })
@@ -130,17 +130,17 @@ class SignUpScreen extends Component {
                 <Image source={Images.tools} style={styles.logo} />
 
                 <ScrollView style={styles.container}>
-                 <Header style={{ shadowOpacity: 0, backgroundColor: 'transparent' }}>
-                    <Left>
-                    <Button transparent onPress={() => this.props.navigation.navigate('LaunchScreen')}>
-                        <Icon name='arrow-back' />
-                    </Button>
-                    </Left>
-                    <Body>
-                    <Title><Text></Text></Title>
-                    </Body>
-                    
-                </Header> 
+                    <Header style={{ shadowOpacity: 0, backgroundColor: 'transparent' }}>
+                        <Left>
+                            <Button transparent onPress={() => this.props.navigation.navigate('LaunchScreen')}>
+                                <Icon name='arrow-back' />
+                            </Button>
+                        </Left>
+                        <Body>
+                            <Title><Text></Text></Title>
+                        </Body>
+
+                    </Header>
                     <Container style={styles.container} >
                         <Content>
                             <Text style={styles.catchPhrase}>Drop the shop.</Text>
@@ -149,7 +149,7 @@ class SignUpScreen extends Component {
                             <Text style={styles.validation}>Password be at least 8 characters, two uppercase letter, two numbers, one special character</Text>
                             <Text style={styles.validation}>Must be 3-15 characters, no special characters</Text>
                             <Form style={styles.textInput}>
-                            
+
 
                                 <Item
                                     success={this.state.UsernameinputSuccess ? true : false}
@@ -170,13 +170,13 @@ class SignUpScreen extends Component {
                                         onChangeText={(text) => this.handleEmailChange(text)} />
                                     <Icon name='checkmark-circle' />
                                 </Item>
-                                
+
                                 <Item
                                     success={this.state.PasswordinputSuccess ? true : false}
                                     error={this.state.PasswordinputError ? true : false}
                                     last>
                                     <Input
-                                        secureTextEntry={ true }
+                                        secureTextEntry={true}
                                         value={this.state.password}
                                         onChangeText={(text) => this.handlePasswordChange(text)}
                                         placeholder='Password' />
