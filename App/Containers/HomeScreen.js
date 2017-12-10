@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Header, Content, Item, Left, Body, Right, Button, Icon, Title, Drawer, Footer, FooterTab } from 'native-base';
+import { Container, Header, Content, Item, Left, Body, Right, Button, Icon, Title, Drawer, Footer, FooterTab, Card, CardItem } from 'native-base';
 import Spinner from '../Components/Spinner'
 import firebase from 'firebase'
 import SideBar from '../Components/SideBar';
 import { Dropdown } from 'react-native-material-dropdown';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import HomeOverview from '../Components/HomeOverview'
+
 
 
 
@@ -15,23 +17,33 @@ import styles from './Styles/HomeScreenStyle'
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loading: true, historyActive: false, NewEventActive: false, OverviewActive: false, headerTitle: 'My Overview', user: {}
+    }
     this.openDrawer = this.openDrawer.bind(this);
-    // this.openDropDown = this.openDropDown.bind(this);
-  }
-  state = {
-    loggedIn: false, email: '', password: '', error: '', loading: false
   }
 
   componentDidUpdate() {
     console.log('login screen did update', this.props)
     const { navigate } = this.props.navigation
+    console.log('HOME SCREEN PROPS', this.props)
   }
+
+  componentDidMount() {
+    this.setState({ OverviewActive: true })
+    // this.state.user.length === 0 ? this.state.loading === true : this.state.loading === false
+  }
+  componentWillReceiveProps(nextProps) {
+    this.state.user.length === 0 ? this.setState({ user: nextProps.user, loading: true }) : undefined
+
+  }
+
+
 
   closeDrawer = () => {
     this.drawer._root.close()
   };
   openDrawer = () => {
-    console.log('openopen')
     this.drawer._root.open()
   };
 
@@ -49,7 +61,33 @@ class HomeScreen extends Component {
     this.menu.show();
   };
 
+  onHistoryPress() {
+    this.setState({ historyActive: true, OverviewActive: false, NewEventActive: false, headerTitle: 'History' }, function () {
+      // do something with new state
+      console.log(this.state, 'history')
+    });
+    // this.setState = ({ historyActive: true })
+  }
 
+  onNewEventPress() {
+    this.setState({ historyActive: false, OverviewActive: false, NewEventActive: true, headerTitle: 'New Entry' }, function () {
+      // do something with new state
+      console.log(this.state, 'new event')
+    });
+  }
+
+  onOverviewPress() {
+    this.setState({ historyActive: false, OverviewActive: true, NewEventActive: false, headerTitle: 'My Overview' }, function () {
+      // do something with new state
+      console.log(this.state, 'overview')
+    });
+
+  }
+
+  onProfilePress(props) {
+    props.navigate('SettingsScreen')
+    this.menu.hide();
+  }
 
   onLogoutPress(props) {
     // ******** Sign user out of Firebase Auth ********
@@ -64,25 +102,27 @@ class HomeScreen extends Component {
   }
   render() {
 
+
     return (
       // ******** This is the left Drawer component ********
       // ******** For some reason it MUST wrap everything in this homescreen ********
       // ******** The HEADER holds some words and left/right icons to open drawer and Menu ********
       // ******** The Drawer will show garage, maintence logs, repair lookup info ********
       // ******** The menu will hold settings, profile, and logout ********
-      <Container>
+      <View style={{ flex: 1 }}>
         <Drawer
           ref={(ref) => { this.drawer = ref; }}
           content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
-          onClose={() => this.closeDrawer()} >
+          onClose={() => this.closeDrawer()}
+          onOpen={() => this.openDrawer()} >
           <Header>
             <Left>
-              <Button transparent onPress={() => this.openDrawer()}>
+              <Button transparent onPress={this.openDrawer}>
                 <Icon name='menu' />
               </Button>
             </Left>
             <Body>
-              <Title>In Home</Title>
+              <Title>{this.state.headerTitle}</Title>
             </Body>
             <Right>
               <Button transparent onPress={this.showMenu}>
@@ -92,47 +132,48 @@ class HomeScreen extends Component {
                 ref={this.setMenuRef}
                 style={{ alignSelf: 'flex-end' }}
               >
-                <MenuItem onPress={this.hideMenu}>Profile</MenuItem>
-                <MenuItem onPress={this.hideMenu} >Settings</MenuItem>
+                {<MenuItem onPress={() => this.onProfilePress(this.props.navigation)}>Profile</MenuItem>}
+                <MenuItem onPress={() => this.props.navigation.navigate('SettingsScreen')} >Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
               </Menu>
             </Right>
           </Header>
+
+          {this.state.OverviewActive ? <HomeOverview props={this.props.user} /> : <Spinner />}
+
         </Drawer>
         <Footer>
           <FooterTab>
-            <Button vertical>
+            <Button vertical onPress={() => this.onHistoryPress()} active={this.state.historyActive}>
               <Icon name="apps" />
-              <Text>Repair</Text>
+              <Text>Maintence History</Text>
             </Button>
-            <Button vertical>
+            <Button vertical onPress={() => this.onOverviewPress()} active={this.state.OverviewActive}>
               <Icon name="camera" />
-              <Text>Forums</Text>
+              <Text>Overview</Text>
             </Button>
-            <Button vertical active>
+            <Button vertical onPress={() => this.onNewEventPress()} active={this.state.NewEventActive}>
               <Icon active name="navigate" />
-              <Text>Logs</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="person" />
-              <Text>Profile</Text>
+              <Text>New Event</Text>
             </Button>
           </FooterTab>
         </Footer>
-      </Container>
+      </View>
     )
   }
 }
-{/* <Dropdown
-  label='Favorite Fruit'
-  data={data}
-/> */}
+
 
 const mapStateToProps = (state) => {
-  return {
-    user: state.user,
+  if (state.user.account) {
+    return {
+      user: state.user
+    }
+  } else {
+    return {}
   }
+
 }
 
 const mapDispatchToProps = (dispatch) => {

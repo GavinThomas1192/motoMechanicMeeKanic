@@ -22,14 +22,14 @@ export default class SideBar extends Component {
                 bg: "#C5F442",
             },
             {
-                name: "Garage",
+                name: "Repair",
                 route: "HomeScreen",
                 icon: "settings",
                 bg: "#C5F442",
             },
             {
-                name: "Repair",
-                route: "HomeScreen",
+                name: "My Profile",
+                route: "SettingsScreen",
                 icon: "settings",
                 bg: "#C5F442",
             },

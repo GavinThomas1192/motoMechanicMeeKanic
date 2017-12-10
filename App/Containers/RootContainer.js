@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
 import { loginRequest, userSetRequest } from '../Actions/auth-actions';
+import { userVehicleFetchRequest } from '../Actions/vehicle-actions';
 import firebase from 'firebase'
 import styles from './Styles/RootContainerStyles'
 
@@ -39,6 +40,7 @@ class RootContainer extends Component {
     } else {
       console.log('no active user', signedInUser)
     }
+
   }
 
 
@@ -65,7 +67,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   startup: () => dispatch(StartupActions.startup()),
   loginRequest: (user) => dispatch(loginRequest(user)),
-  userSetRequest: (user) => dispatch(userSetRequest(user))
+  userSetRequest: (user) => dispatch(userSetRequest(user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)

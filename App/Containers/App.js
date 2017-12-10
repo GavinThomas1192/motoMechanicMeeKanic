@@ -40,6 +40,8 @@ class App extends Component {
 
 
   render() {
+    console.disableYellowBox = true;
+
     console.ignoredYellowBox = ['Remote debugger'];
     return (
       <Provider store={store}>
