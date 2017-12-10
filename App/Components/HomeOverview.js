@@ -21,19 +21,22 @@ export default class HomeOverview extends Component {
         console.log('homeoverview', this.props)
         return (
             <Container>
-                {!this.state.loading ?
-                    <Content>
-                        <Card>
-                            <CardItem>
-                                <Icon active name="logo-googleplus" />
-                                <Text>{this.state.user ? this.state.user.account.username : 'didnt work'}</Text>
-                                <Right>
-                                    <Icon name="arrow-forward" />
-                                </Right>
-                            </CardItem>
-                        </Card>
-                    </Content>
-                    : <Spinner />}
+                {this.state.loading ? <Spinner /> :
+                    <Container>
+                        {this.state.user.allVehicles ?
+                            <Content>
+                                <Card>
+                                    <CardItem>
+                                        <Icon active name="logo-googleplus" />
+                                        <Text>{this.state.user ? this.state.user.account.username : 'didnt work'}</Text>
+                                        <Right>
+                                            <Icon name="arrow-forward" />
+                                        </Right>
+                                    </CardItem>
+                                </Card>
+                            </Content>
+                            : <Text>Opps it looks like you don't have any vehicles yet!</Text>}
+                    </Container>}
             </Container>
         );
     }
