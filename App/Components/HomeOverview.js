@@ -11,7 +11,8 @@ export default class HomeOverview extends Component {
     }
 
     componentDidMount() {
-        console.log('HEYYAAAA GAVIN', this.props)
+        // ********** This will always be undefined the first time this component mounts. 
+        // However the Second time, props will already be loaded from the store **********
         {
             this.props.props ? this.setState({ user: this.props.props, loading: false }, function () {
             }) : undefined
@@ -20,15 +21,22 @@ export default class HomeOverview extends Component {
 
 
     componentWillReceiveProps(nextProps) {
+        // ******* When this component mounts the first time the firebase actions aren't complete and there isn't any user info
+        // ******* When Firebase returns promise we will assign the database user to this.state.user
+        // ******* We have to render everything in this component from this.state.user to avoid async errors
+
         this.setState({ user: nextProps.props, loading: false }, function () {
             console.log('HEREER@@@@@@@@@@', this.state, nextProps)
         });
     }
 
     render() {
-        console.log('homeoverview', this.props)
         return (
+            // ******* The first if, renders loading spinner if firebase promise isn't returned yet.
+            // ******* The second if, checks to make sure the user returned from firebase has vehicles.
+
             <Container>
+
                 {this.state.loading ? <Spinner /> :
                     <Container>
                         {this.state.user.allVehicles ?
