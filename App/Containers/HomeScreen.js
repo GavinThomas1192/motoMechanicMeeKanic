@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Header, Content, Item, Left, Body, Right, Button, Icon, Title, Drawer, Footer, FooterTab } from 'native-base';
+import { Container, Header, Content, Item, Left, Body, Right, Button, Icon, Title, Drawer, Footer, FooterTab, Card, CardItem } from 'native-base';
 import Spinner from '../Components/Spinner'
 import firebase from 'firebase'
 import SideBar from '../Components/SideBar';
 import { Dropdown } from 'react-native-material-dropdown';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import HomeOverview from '../Components/HomeOverview'
+
 
 
 
@@ -16,7 +18,7 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false, email: '', password: '', error: '', loading: false, historyActive: false, NewEventActive: false, OverviewActive: false, headerTitle: 'My Overview'
+      loading: true, historyActive: false, NewEventActive: false, OverviewActive: false, headerTitle: 'My Overview', user: {}
     }
     this.openDrawer = this.openDrawer.bind(this);
   }
@@ -24,12 +26,19 @@ class HomeScreen extends Component {
   componentDidUpdate() {
     console.log('login screen did update', this.props)
     const { navigate } = this.props.navigation
+    console.log('HOME SCREEN PROPS', this.props)
   }
 
   componentDidMount() {
     this.setState({ OverviewActive: true })
+    // this.state.user.length === 0 ? this.state.loading === true : this.state.loading === false
+  }
+  componentWillReceiveProps(nextProps) {
+    this.state.user.length === 0 ? this.setState({ user: nextProps.user, loading: true }) : undefined
 
   }
+
+
 
   closeDrawer = () => {
     this.drawer._root.close()
@@ -100,7 +109,7 @@ class HomeScreen extends Component {
       // ******** The HEADER holds some words and left/right icons to open drawer and Menu ********
       // ******** The Drawer will show garage, maintence logs, repair lookup info ********
       // ******** The menu will hold settings, profile, and logout ********
-      <Container>
+      <View style={{ flex: 1 }}>
         <Drawer
           ref={(ref) => { this.drawer = ref; }}
           content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
@@ -130,6 +139,9 @@ class HomeScreen extends Component {
               </Menu>
             </Right>
           </Header>
+
+          {this.state.OverviewActive ? <HomeOverview props={this.props.user} /> : <Spinner />}
+
         </Drawer>
         <Footer>
           <FooterTab>
@@ -147,19 +159,21 @@ class HomeScreen extends Component {
             </Button>
           </FooterTab>
         </Footer>
-      </Container>
+      </View>
     )
   }
 }
-{/* <Dropdown
-  label='Favorite Fruit'
-  data={data}
-/> */}
+
 
 const mapStateToProps = (state) => {
-  return {
-    user: state.user,
+  if (state.user.account) {
+    return {
+      user: state.user
+    }
+  } else {
+    return {}
   }
+
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -7,7 +7,6 @@ import Spinner from '../Components/Spinner'
 import RootContainer from './RootContainer'
 import App from './App'
 import { connect } from 'react-redux'
-import Login from '../Components/FacebookLogin'
 import { loginRequest, signupRequest } from '../Actions/auth-actions'
 
 import styles from './Styles/SignUpScreenStyles'
