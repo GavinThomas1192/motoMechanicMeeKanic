@@ -26,6 +26,8 @@ export const userSetRequest = user => dispatch => {
 
 
 export const loginRequest = user => dispatch => {
+    // ******** This gets called in RootContainer on mount, it will populate redux store with the entire User object from firebase ********
+    // ******** FYI - The entire user object also contains their vehicles ********
     // ******** Here we need to check if user already exists in Firebase Database so that we dont overwrite their old data ********
     // ******** WARNING! With Firebase if you set data to a spot that has existing data it will overwrite it! ********
     console.log('RECIEVED USER TO LOOKUP', user);
@@ -61,7 +63,7 @@ export const signupRequest = (email, password, username) => dispatch => {
             // ******** We dont actually want this to avoid deep nesting ********
             // ******** So we package up our user.account object and .set(account) without any key value pairs ********
             let account = {}
-            account.email = email
+            account.email = email.toLowerCase()
             account.uid = authData.uid
             account.username = username
             firebase.database().ref('users/' + authData.uid).set({
@@ -92,33 +94,4 @@ export const passwordResetRequest = email => dispatch => {
 
 };
 
-// ******** TODO: all of the bike actions ********
-export const bikeCreateRequest = bike => (dispatch, getState) => {
-    let { user } = getState();
-    console.log('_ROUTING_NEWbike_TO_STORE_', bike)
-    console.log('_Attaching to this user_', user)
-    user.allBikes = []
-    user.allBikes.push(bike);
-    console.log('_AFTER COMBINING_', user)
-
-    firebase.database().ref('users/' + user.uid).set({
-        account: user
-
-    })
-    dispatch(userUpdate(user));
-}
-
-export const bikeUpdateRequest = bike => (dispatch, getState) => {
-    let { user } = getState();
-    console.log('_bike_UPDATE_INCOMING_bike', bike)
-    dispatch(bikeUpdate(bike));
-}
-
-export const bikeDeleteRequest = bike => (dispatch, getState) => {
-    let { user } = getState();
-    console.log('_bike_DELETE_INCOMING_bike', bike)
-    dispatch(bikeDelete(bike));
-}
-
-export const tokenDelete = () => ({ type: 'TOKEN_DELETE', payload: null });
 

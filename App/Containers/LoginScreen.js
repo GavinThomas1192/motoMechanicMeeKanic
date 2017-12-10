@@ -5,6 +5,7 @@ import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Butto
 import Spinner from '../Components/Spinner'
 import firebase from 'firebase'
 import { loginRequest, signupRequest, passwordResetRequest } from '../Actions/auth-actions'
+import { Images } from '../Themes'
 
 
 
@@ -84,6 +85,7 @@ class LoginScreen extends Component {
             </Body>
           </Header>
           <Container style={styles.Container}>
+
             <Content>
               {!this.state.showPasswordReset ?
                 <Form style={styles.textInput}>
@@ -94,6 +96,7 @@ class LoginScreen extends Component {
                   </Item>
                   <Item last>
                     <Input
+                      secureTextEntry={true}
                       value={this.state.password}
                       onChangeText={password => this.setState({ password })}
                       placeholder="Password" />

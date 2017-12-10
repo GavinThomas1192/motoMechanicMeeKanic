@@ -16,7 +16,7 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.openDrawer = this.openDrawer.bind(this);
-    // this.openDropDown = this.openDropDown.bind(this);
+
   }
   state = {
     loggedIn: false, email: '', password: '', error: '', loading: false
@@ -31,7 +31,6 @@ class HomeScreen extends Component {
     this.drawer._root.close()
   };
   openDrawer = () => {
-    console.log('openopen')
     this.drawer._root.open()
   };
 
@@ -49,7 +48,21 @@ class HomeScreen extends Component {
     this.menu.show();
   };
 
+  onHistoryPress() {
 
+  }
+
+  onNewEventPress() {
+    console.log('hi')
+  }
+
+  onOverviewPress() {
+    console.log('hi')
+  }
+
+  onProfilePress(props) {
+
+  }
 
   onLogoutPress(props) {
     // ******** Sign user out of Firebase Auth ********
@@ -92,7 +105,7 @@ class HomeScreen extends Component {
                 ref={this.setMenuRef}
                 style={{ alignSelf: 'flex-end' }}
               >
-                <MenuItem onPress={this.hideMenu}>Profile</MenuItem>
+                <MenuItem onPress={() => this.onProfilePress(this.props.navigation)}>Profile</MenuItem>
                 <MenuItem onPress={this.hideMenu} >Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
@@ -102,21 +115,17 @@ class HomeScreen extends Component {
         </Drawer>
         <Footer>
           <FooterTab>
-            <Button vertical>
+            <Button vertical onPress={() => this.onHistoryPress}>
               <Icon name="apps" />
-              <Text>Repair</Text>
+              <Text>Maintence History</Text>
             </Button>
-            <Button vertical>
+            <Button vertical onPress={() => this.onOverviewPress} active={true}>
               <Icon name="camera" />
-              <Text>Forums</Text>
+              <Text>Overview</Text>
             </Button>
-            <Button vertical active>
+            <Button vertical onPress={() => this.onNewEventPress}>
               <Icon active name="navigate" />
-              <Text>Logs</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="person" />
-              <Text>Profile</Text>
+              <Text>New Event</Text>
             </Button>
           </FooterTab>
         </Footer>

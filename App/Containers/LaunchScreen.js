@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
-import { ScrollView, Text, Image, View, TextInput } from 'react-native'
+import { ScrollView, Text, Image, View, TextInput, ImageBackground } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import { Images } from '../Themes'
 import Spinner from '../Components/Spinner'
@@ -108,7 +108,7 @@ class LaunchScreen extends Component {
     const { navigate } = this.props.navigation
     return (
       <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
+        <ImageBackground source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
         <Image source={Images.tools} style={styles.logo} />
 
         <ScrollView style={styles.container}>
