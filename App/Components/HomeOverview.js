@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Spinner from './Spinner'
-import { Container, Header, Content, Card, CardItem, Text, Icon, Right } from 'native-base';
+import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Button } from 'native-base';
 export default class HomeOverview extends Component {
     constructor(props) {
         super(props);
@@ -28,14 +28,23 @@ export default class HomeOverview extends Component {
                                 <Card>
                                     <CardItem>
                                         <Icon active name="logo-googleplus" />
-                                        <Text>{this.state.user ? this.state.user.account.username : 'didnt work'}</Text>
+                                        <Text>{this.state.user ? this.state.user.allVehicles[0].name : 'didnt work'}</Text>
                                         <Right>
                                             <Icon name="arrow-forward" />
                                         </Right>
                                     </CardItem>
                                 </Card>
                             </Content>
-                            : <Text>Opps it looks like you don't have any vehicles yet!</Text>}
+                            :
+                            <Container>
+                                <Content>
+                                    <Text>Opps it looks like you don't have any vehicles yet!</Text>
+                                    <Button transparent onPress={() => this.props.navigation.navigate('VehicleCreateScreen')} >
+                                        <Text>Go Make one!</Text>
+                                    </Button>
+                                </Content>
+                            </Container>
+                        }
                     </Container>}
             </Container>
         );

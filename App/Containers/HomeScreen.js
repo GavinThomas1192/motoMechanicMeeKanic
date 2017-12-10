@@ -140,7 +140,7 @@ class HomeScreen extends Component {
             </Right>
           </Header>
 
-          {this.state.OverviewActive ? <HomeOverview props={this.props.user} /> : <Spinner />}
+          {this.state.OverviewActive ? <HomeOverview navigation={this.props.navigation} props={this.props.user} /> : <Spinner />}
 
         </Drawer>
         <Footer>
