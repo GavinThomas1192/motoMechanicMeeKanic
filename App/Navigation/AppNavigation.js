@@ -5,6 +5,7 @@ import LaunchScreen from '../Containers/LaunchScreen'
 import HomeScreen from '../Containers/HomeScreen'
 import SignUpScreen from '../Containers/SignUpScreen'
 import SettingsScreen from '../Containers/SettingsScreen'
+import VehicleCreateScreen from '../Containers/VehicleCreateScreen'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
@@ -13,7 +14,8 @@ const PrimaryNav = StackNavigator({
   LaunchScreen: { screen: LaunchScreen },
   HomeScreen: { screen: HomeScreen },
   SignUpScreen: { screen: SignUpScreen },
-  SettingsScreen: { screen: SettingsScreen }
+  SettingsScreen: { screen: SettingsScreen },
+  VehicleCreateScreen: { screen: VehicleCreateScreen }
 }, {
     // Default config for all screens
     headerMode: 'none',
