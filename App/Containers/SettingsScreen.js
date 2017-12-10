@@ -78,31 +78,22 @@ class SettingsScreen extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <Header style={{ shadowOpacity: 0, backgroundColor: 'transparent' }} >
+                    <Left>
+                        <Button transparent onPress={() => this.props.navigation.navigate('HomeScreen')}>
+                            <Icon name='arrow-back' />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title><Text></Text></Title>
+                    </Body>
+                </Header>
                 <ScrollView>
                     <Container style={styles.Container}>
                         <Text>Hello from the settings</Text>
                     </Container>
                 </ScrollView>
-                <Footer>
-                    <FooterTab>
-                        <Button vertical>
-                            <Icon name="apps" />
-                            <Text>Repair</Text>
-                        </Button>
-                        <Button vertical active={false} onPress={() => this.onHomePress(this.props.navigation)}>
-                            <Icon name="camera" />
-                            <Text>Home</Text>
-                        </Button>
-                        <Button vertical>
-                            <Icon active name="navigate" />
-                            <Text>Logs</Text>
-                        </Button>
-                        <Button active={true} vertical onPress={() => this.onProfilePress(this.props.navigation)}>
-                            <Icon name="person" />
-                            <Text>Profile</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
+
             </View >
 
         )

@@ -49,7 +49,7 @@ class LoginScreen extends Component {
       loading: false,
       error: ''
     });
-    alert('You got signed in yolo!')
+    this.props.navigation.navigate('HomeScreen')
   }
 
   sendPasswordResetEmail() {

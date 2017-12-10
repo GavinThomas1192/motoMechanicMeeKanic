@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation'
+import { Animated, Easing } from 'react-native'
 import LoginScreen from '../Containers/LoginScreen'
 import LaunchScreen from '../Containers/LaunchScreen'
 import HomeScreen from '../Containers/HomeScreen'
@@ -20,9 +21,15 @@ const PrimaryNav = StackNavigator({
     navigationOptions: {
       headerStyle: styles.header
     },
+    transitionSpec: {
+      duration: 0,
+      timing: Animated.timing,
+      easing: Easing.step0,
+    },
   },
 
-
+  transitionConfig = () => ({
+  }),
 
 
 )

@@ -15,16 +15,20 @@ import styles from './Styles/HomeScreenStyle'
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loggedIn: false, email: '', password: '', error: '', loading: false, historyActive: false, NewEventActive: false, OverviewActive: false, headerTitle: 'My Overview'
+    }
     this.openDrawer = this.openDrawer.bind(this);
-
-  }
-  state = {
-    loggedIn: false, email: '', password: '', error: '', loading: false
   }
 
   componentDidUpdate() {
     console.log('login screen did update', this.props)
     const { navigate } = this.props.navigation
+  }
+
+  componentDidMount() {
+    this.setState({ OverviewActive: true })
+
   }
 
   closeDrawer = () => {
@@ -49,19 +53,31 @@ class HomeScreen extends Component {
   };
 
   onHistoryPress() {
-
+    this.setState({ historyActive: true, OverviewActive: false, NewEventActive: false, headerTitle: 'History' }, function () {
+      // do something with new state
+      console.log(this.state, 'history')
+    });
+    // this.setState = ({ historyActive: true })
   }
 
   onNewEventPress() {
-    console.log('hi')
+    this.setState({ historyActive: false, OverviewActive: false, NewEventActive: true, headerTitle: 'New Entry' }, function () {
+      // do something with new state
+      console.log(this.state, 'new event')
+    });
   }
 
   onOverviewPress() {
-    console.log('hi')
+    this.setState({ historyActive: false, OverviewActive: true, NewEventActive: false, headerTitle: 'My Overview' }, function () {
+      // do something with new state
+      console.log(this.state, 'overview')
+    });
+
   }
 
   onProfilePress(props) {
-
+    props.navigate('SettingsScreen')
+    this.menu.hide();
   }
 
   onLogoutPress(props) {
@@ -77,6 +93,7 @@ class HomeScreen extends Component {
   }
   render() {
 
+
     return (
       // ******** This is the left Drawer component ********
       // ******** For some reason it MUST wrap everything in this homescreen ********
@@ -87,15 +104,16 @@ class HomeScreen extends Component {
         <Drawer
           ref={(ref) => { this.drawer = ref; }}
           content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
-          onClose={() => this.closeDrawer()} >
+          onClose={() => this.closeDrawer()}
+          onOpen={() => this.openDrawer()} >
           <Header>
             <Left>
-              <Button transparent onPress={() => this.openDrawer()}>
+              <Button transparent onPress={this.openDrawer}>
                 <Icon name='menu' />
               </Button>
             </Left>
             <Body>
-              <Title>In Home</Title>
+              <Title>{this.state.headerTitle}</Title>
             </Body>
             <Right>
               <Button transparent onPress={this.showMenu}>
@@ -105,8 +123,8 @@ class HomeScreen extends Component {
                 ref={this.setMenuRef}
                 style={{ alignSelf: 'flex-end' }}
               >
-                <MenuItem onPress={() => this.onProfilePress(this.props.navigation)}>Profile</MenuItem>
-                <MenuItem onPress={this.hideMenu} >Settings</MenuItem>
+                {<MenuItem onPress={() => this.onProfilePress(this.props.navigation)}>Profile</MenuItem>}
+                <MenuItem onPress={() => this.props.navigation.navigate('SettingsScreen')} >Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
               </Menu>
@@ -115,15 +133,15 @@ class HomeScreen extends Component {
         </Drawer>
         <Footer>
           <FooterTab>
-            <Button vertical onPress={() => this.onHistoryPress}>
+            <Button vertical onPress={() => this.onHistoryPress()} active={this.state.historyActive}>
               <Icon name="apps" />
               <Text>Maintence History</Text>
             </Button>
-            <Button vertical onPress={() => this.onOverviewPress} active={true}>
+            <Button vertical onPress={() => this.onOverviewPress()} active={this.state.OverviewActive}>
               <Icon name="camera" />
               <Text>Overview</Text>
             </Button>
-            <Button vertical onPress={() => this.onNewEventPress}>
+            <Button vertical onPress={() => this.onNewEventPress()} active={this.state.NewEventActive}>
               <Icon active name="navigate" />
               <Text>New Event</Text>
             </Button>
