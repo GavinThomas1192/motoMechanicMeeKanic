@@ -10,6 +10,14 @@ export default class HomeOverview extends Component {
         }
     }
 
+    componentDidMount() {
+        console.log('HEYYAAAA GAVIN', this.props)
+        {
+            this.props.props ? this.setState({ user: this.props.props, loading: false }, function () {
+            }) : undefined
+        }
+    }
+
 
     componentWillReceiveProps(nextProps) {
         this.setState({ user: nextProps.props, loading: false }, function () {
