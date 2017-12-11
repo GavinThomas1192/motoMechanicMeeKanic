@@ -3,6 +3,7 @@ import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Ima
 import { connect } from 'react-redux'
 import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import Spinner from '../Components/Spinner'
+import VehicleYearPicker from '../Components/vehicleYearPicker'
 import firebase from 'firebase'
 import { loginRequest, signupRequest, passwordResetRequest } from '../Actions/auth-actions'
 import { Images } from '../Themes'
@@ -17,7 +18,7 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '',
+            nickname: '', make: '', model: '', years: [],
         }
     }
 
@@ -25,7 +26,13 @@ class VehicleCreateScreen extends Component {
         console.log('login screen did update', this.props)
     }
     componentDidMount() {
-        console.log('login screen did mount', this.state)
+        console.log('vehicleCreateScreen', this.state)
+        for (let i = 0; i < (2017 - 1941); i++) {
+
+            this.state.years.push(
+                { year: (1941 + i) }
+            )
+        }
     }
     onButtonPress() {
         const { email, password } = this.state;
@@ -69,36 +76,7 @@ class VehicleCreateScreen extends Component {
                     <Container style={styles.Container}>
 
                         <Content>
-                            <Form style={styles.textInput}>
-                                <Item
-                                    success={true}
-                                    error={false}>
-                                    <Input
-                                        placeholder="Vehicle Nickname"
-                                        value={this.state.nickname}
-                                        onChangeText={(text) => this.handleChange(text)} />
-                                    <Icon name='checkmark-circle' />
-
-                                </Item>
-                                <Item
-                                    success={true}
-                                    error={false}>
-                                    <Input
-                                        placeholder="Make"
-                                        value={this.state.make}
-                                        onChangeText={(text) => this.handleChange(text)} />
-                                    <Icon name='checkmark-circle' />
-                                </Item>
-                                <Item
-                                    success={true}
-                                    error={false}>
-                                    <Input
-                                        placeholder="Model"
-                                        value={this.state.model}
-                                        onChangeText={(text) => this.handleChange(text)} />
-                                    <Icon name='checkmark-circle' />
-                                </Item>
-                            </Form>
+                            <VehicleYearPicker years={this.state.years} />
                         </Content>
                     </Container>
                 </ScrollView>
@@ -122,3 +100,34 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(VehicleCreateScreen)
+
+    // <Form style={styles.textInput}>
+    //     <Item
+    //         success={true}
+    //         error={false}>
+    //         <Input
+    //             placeholder="Vehicle Nickname"
+    //             value={this.state.nickname}
+    //             onChangeText={(text) => this.handleChange(text)} />
+    //         <Icon name='checkmark-circle' />
+
+    //     </Item>
+    //     <Item
+    //         success={true}
+    //         error={false}>
+    //         <Input
+    //             placeholder="Make"
+    //             value={this.state.make}
+    //             onChangeText={(text) => this.handleChange(text)} />
+    //         <Icon name='checkmark-circle' />
+    //     </Item>
+    //     <Item
+    //         success={true}
+    //         error={false}>
+    //         <Input
+    //             placeholder="Model"
+    //             value={this.state.model}
+    //             onChangeText={(text) => this.handleChange(text)} />
+    //         <Icon name='checkmark-circle' />
+    //     </Item>
+    // </Form>
