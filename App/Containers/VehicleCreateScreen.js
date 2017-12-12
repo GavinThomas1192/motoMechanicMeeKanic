@@ -27,12 +27,6 @@ class VehicleCreateScreen extends Component {
     }
     componentDidMount() {
         console.log('vehicleCreateScreen', this.state)
-        for (let i = 0; i < (2017 - 1941); i++) {
-
-            this.state.years.push(
-                { year: (1941 + i) }
-            )
-        }
     }
     onButtonPress() {
         const { email, password } = this.state;
@@ -76,7 +70,7 @@ class VehicleCreateScreen extends Component {
                     <Container style={styles.Container}>
 
                         <Content>
-                            <VehicleYearPicker years={this.state.years} />
+                            <VehicleYearPicker  />
                         </Content>
                     </Container>
                 </ScrollView>
