@@ -43,6 +43,7 @@ export const loginRequest = user => dispatch => {
                 account: username
             }).then(function () {
                 console.log('STORED THIS USER TO FIREBASE DB', username);
+                dispatch(userSet(username))
             })
                 // ******** Otherwise, the user already exists and we should update redux store with logged in user ********
                 : dispatch(userSet(username))
@@ -75,6 +76,7 @@ export const signupRequest = (email, password, username) => dispatch => {
                     console.log(' FOUND THIS USER FROM THE DB after signup', username);
                 }).then(() => {
                     dispatch(userSet(username));
+
                 })
             })
         }).catch((err) => console.log(err));

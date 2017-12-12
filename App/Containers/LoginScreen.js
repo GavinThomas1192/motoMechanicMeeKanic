@@ -49,7 +49,7 @@ class LoginScreen extends Component {
       loading: false,
       error: ''
     });
-    this.props.navigation.navigate('HomeScreen')
+    this.props.navigation.navigate('LaunchScreen')
   }
 
   sendPasswordResetEmail() {
