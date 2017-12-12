@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Platform, ScrollView, View, Picker } from "react-native";
 import Spinner from '../Components/Spinner'
-// import { Container, Header, Title, Content, Button, Icon, Text, Right, Body, Left, Picker, Form, View, H3, Item as FormItem } from "native-base";
+import { Button, Text} from "native-base";
 // const Item = Picker.Item;
 import SmartPicker from 'react-native-smart-picker'
 
@@ -11,10 +11,14 @@ export default class VehicleYearPicker extends Component {
         this.state = {
             selected1: "key1",
             years: [],
+            expanded: false
         };
     }
     componentDidMount() {
-        console.log('YEARPICKERDID MOUNT', this.props.years)
+    }
+
+    componentDidUpdate(){
+        console.log(this.state, 'yololololol')
     }
 
 
@@ -22,6 +26,10 @@ export default class VehicleYearPicker extends Component {
         this.setState({
             selected1: value
         });
+    }
+
+    handleClose(){
+
     }
 
 
@@ -38,9 +46,10 @@ export default class VehicleYearPicker extends Component {
         return (
             <ScrollView >
             <View style={{flex: 1, marginTop: 20}}>
-                <ScrollView >
                     {data.length > 0 ?
+                <ScrollView >
                 <SmartPicker
+                    expanded={this.state.expanded}
                     selectedValue={this.state.selected1}
                     label='Vehicle Year'
                     onValueChange={this.handleChange.bind(this)}
@@ -51,12 +60,15 @@ export default class VehicleYearPicker extends Component {
                 }) 
             }
                     <Picker.Item label='Select Year' value='1941' />
-                    
                 </SmartPicker>
-                    : <Spinner /> }
+                    <Button block onPress={() => this.setState({expanded: !this.state.expanded})}>
+                        <Text>Done</Text>
+                    </Button>
                 </ScrollView>
+                    : <Spinner /> }
 
             </View>
+            
             </ScrollView>
         );
     }
