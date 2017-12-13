@@ -72,10 +72,10 @@ export const signupRequest = (email, password, username) => dispatch => {
             }).then(() => {
                 // ******** Now we need to grap a snapshot from the DB to validate account creation and update the redux store locally ********
                 firebase.database().ref('users/' + authData.uid).once('value').then(function (snapshot) {
-                    let username = snapshot.val();
+                    let updatedUser = snapshot.val();
                     console.log(' FOUND THIS USER FROM THE DB after signup', username);
                 }).then(() => {
-                    dispatch(userSet(username));
+                    dispatch(userSet(updatedUser));
 
                 })
             })

@@ -35,7 +35,7 @@ class RootContainer extends Component {
     let signedInUser = firebase.auth().currentUser;
 
     if (signedInUser) {
-      this.props.userSetRequest(signedInUser);
+      this.props.loginRequest(signedInUser);
       console.log('Signed In User', signedInUser)
     } else {
       console.log('no active user', signedInUser)
