@@ -14,6 +14,7 @@ export default class HomeOverview extends Component {
         // ********** This will always be undefined the first time this component mounts. 
         // However the Second time, props will already be loaded from the store **********
         {
+            console.log('heyyyyllloo', this.props.props)
             this.props.props ? this.setState({ user: this.props.props, loading: false }, function () {
             }) : undefined
         }

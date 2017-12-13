@@ -16,6 +16,7 @@ class LaunchScreen extends Component {
     super(props)
     this.state = {
       firstTime: false,
+      user: {},
     }
     // this.goHomeIfUser = this.goHomeIfUser.bind(this);
   }
@@ -33,16 +34,18 @@ class LaunchScreen extends Component {
     const { navigate } = this.props.navigation
     console.log('NEXTPROPS', nextProps)
 
-    let user = {}
     // ********* If the length is null we can assume no user has been set yet *********
-    if (user.length === 0) {
+    if (this.state.user.length === 0) {
       // ********* Assigned nextProps(which is the returned promise from firebase) to this user object *********
       // ********* Now this is basically recursion, next time this component recieves nextProps the user object.length will not be null *********
-      user = nextProps.user;
+      this.setState({
+        user: nextProps.user,
+      })
+      // user = nextProps.user;
     }
     // ********* Now we can assume we have logged in a user through the above steps and can automatically render the home screen! *********
     // ********* Trigger the first time so anytime this componentReceivesProps, it doesn't trigger *********
-    if (user.length !== 0 && this.state.firstTime === false) {
+    if (this.state.user.length !== 0 && this.state.firstTime === false) {
       this.setState({ firstTime: true })
       navigate('HomeScreen')
     }

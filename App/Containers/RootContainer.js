@@ -23,7 +23,7 @@ class RootContainer extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       // ********* If a user is logged in firebase will return the user object. THEY ARE NOT LOGGED IN THOUGH *********
       if (user) {
-        console.log('User signed in', user)
+        console.log('onAuthStateChanged', user)
         // ********* Then we call an official Firebase login function through actions *********
         this.props.loginRequest(user);
       } else {
@@ -35,8 +35,8 @@ class RootContainer extends Component {
     let signedInUser = firebase.auth().currentUser;
 
     if (signedInUser) {
-      this.props.userSetRequest(signedInUser);
-      console.log('Signed In User', signedInUser)
+      this.props.loginRequest(signedInUser);
+      console.log('currentUserSignedIn', signedInUser)
     } else {
       console.log('no active user', signedInUser)
     }

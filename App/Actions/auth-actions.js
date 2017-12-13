@@ -43,6 +43,7 @@ export const loginRequest = user => dispatch => {
                 account: username
             }).then(function () {
                 console.log('STORED THIS USER TO FIREBASE DB', username);
+                dispatch(userSet(username))
             })
                 // ******** Otherwise, the user already exists and we should update redux store with logged in user ********
                 : dispatch(userSet(username))
@@ -71,10 +72,11 @@ export const signupRequest = (email, password, username) => dispatch => {
             }).then(() => {
                 // ******** Now we need to grap a snapshot from the DB to validate account creation and update the redux store locally ********
                 firebase.database().ref('users/' + authData.uid).once('value').then(function (snapshot) {
-                    let username = snapshot.val();
+                    let updatedUser = snapshot.val();
                     console.log(' FOUND THIS USER FROM THE DB after signup', username);
                 }).then(() => {
-                    dispatch(userSet(username));
+                    dispatch(userSet(updatedUser));
+
                 })
             })
         }).catch((err) => console.log(err));
