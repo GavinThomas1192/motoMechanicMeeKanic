@@ -28,9 +28,7 @@ export default class VehicleYearPicker extends Component {
         });
     }
 
-    handleClose(){
-
-    }
+  
 
 
 
@@ -61,7 +59,7 @@ export default class VehicleYearPicker extends Component {
             }
                     <Picker.Item label='Select Year' value='1941' />
                 </SmartPicker>
-                    <Button block onPress={() => this.setState({expanded: !this.state.expanded})}>
+                    <Button block onPress={() => this.props.vehicleYear(this.state.selected1)}>
                         <Text>Done</Text>
                     </Button>
                 </ScrollView>

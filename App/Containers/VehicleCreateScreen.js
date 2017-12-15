@@ -18,12 +18,13 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '', years: [],
+            nickname: '', make: '', model: '', vehicleYear: '',
         }
+        this.yearPicked = this.yearPicked.bind(this);
     }
 
     componentDidUpdate() {
-        console.log('login screen did update', this.props)
+        console.log('VehicleCreateScreen did update', this.state)
     }
     componentDidMount() {
         console.log('vehicleCreateScreen', this.state)
@@ -36,6 +37,12 @@ class VehicleCreateScreen extends Component {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(this.onLoginSuccess.bind(this))
             .catch(this.onLoginFail.bind(this));
+    }
+
+    yearPicked(year) {
+        this.setState({ vehicleYear: year }, function () {
+            console.log(this.state, 'Updated year')
+          });
     }
 
     handleChange(text) {
@@ -70,7 +77,7 @@ class VehicleCreateScreen extends Component {
                     <Container style={styles.Container}>
 
                         <Content>
-                            <VehicleYearPicker  />
+                            <VehicleYearPicker vehicleYear={this.yearPicked}  />
                         </Content>
                     </Container>
                 </ScrollView>
