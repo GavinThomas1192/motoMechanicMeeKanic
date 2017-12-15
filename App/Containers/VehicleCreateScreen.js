@@ -19,7 +19,7 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '',
+            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', toggleVehicleYearPicker: true,
         }
         this.yearPicked = this.yearPicked.bind(this);
     }
@@ -41,9 +41,10 @@ class VehicleCreateScreen extends Component {
     }
 
     yearPicked(year) {
-        this.setState({ vehicleYear: year }, function () {
+        this.setState({ vehicleYear: year, toggleVehicleYearPicker: false }, function () {
             console.log(this.state, 'Updated year')
         });
+
     }
 
     makePicked(make) {
@@ -85,8 +86,8 @@ class VehicleCreateScreen extends Component {
 
                         <Content>
                             <Text>Vehicle Stats:</Text>
-                            <Text>{this.state.vehicleYear}</Text>
-                            <VehicleYearPicker vehicleYear={this.yearPicked} />
+                            <Text>Year: {this.state.vehicleYear}</Text>
+                            {this.state.toggleVehicleYearPicker ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
 
                             {this.state.vehicleYear !== '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
                         </Content>
