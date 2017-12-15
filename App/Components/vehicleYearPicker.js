@@ -47,6 +47,7 @@ export default class VehicleYearPicker extends Component {
                     {data.length > 0 ?
                 <ScrollView >
                 <SmartPicker
+                
                     expanded={this.state.expanded}
                     selectedValue={this.state.selected1}
                     label='Vehicle Year'
@@ -54,7 +55,7 @@ export default class VehicleYearPicker extends Component {
                 >
                 {
                     data.map((ele)=> {
-                    return (<Picker.Item label={ele.year.toString()} value={ele.year} />)
+                    return (<Picker.Item onPress={() => console.log('hit')}label={ele.year.toString()} value={ele.year} />)
                 }) 
             }
                     <Picker.Item label='Select Year' value='1941' />
