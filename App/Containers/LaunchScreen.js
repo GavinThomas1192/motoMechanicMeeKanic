@@ -21,7 +21,6 @@ class LaunchScreen extends Component {
     // this.goHomeIfUser = this.goHomeIfUser.bind(this);
   }
   componentDidUpdate() {
-    console.log('LAUNCH SCREEN DID UPDATE ', this.props)
   }
 
 
@@ -32,7 +31,6 @@ class LaunchScreen extends Component {
   componentWillReceiveProps(nextProps) {
     // ********* Grab navigate to use later  ********* 
     const { navigate } = this.props.navigation
-    console.log('NEXTPROPS', nextProps)
 
     // ********* If the length is null we can assume no user has been set yet *********
     if (this.state.user.length === 0) {
