@@ -24,9 +24,7 @@ class HomeScreen extends Component {
   }
 
   componentDidUpdate() {
-    console.log('login screen did update', this.props)
     const { navigate } = this.props.navigation
-    console.log('HOME SCREEN PROPS', this.props)
   }
 
   componentDidMount() {
@@ -66,7 +64,6 @@ class HomeScreen extends Component {
   onHistoryPress() {
     this.setState({ historyActive: true, OverviewActive: false, NewEventActive: false, headerTitle: 'History' }, function () {
       // do something with new state
-      console.log(this.state, 'history')
     });
     // this.setState = ({ historyActive: true })
   }
@@ -74,14 +71,12 @@ class HomeScreen extends Component {
   onNewEventPress() {
     this.setState({ historyActive: false, OverviewActive: false, NewEventActive: true, headerTitle: 'New Entry' }, function () {
       // do something with new state
-      console.log(this.state, 'new event')
     });
   }
 
   onOverviewPress() {
     this.setState({ historyActive: false, OverviewActive: true, NewEventActive: false, headerTitle: 'My Overview' }, function () {
       // do something with new state
-      console.log(this.state, 'overview')
     });
 
   }

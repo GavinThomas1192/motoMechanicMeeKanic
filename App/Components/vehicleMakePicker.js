@@ -5,7 +5,7 @@ import { Button, Text } from "native-base";
 // const Item = Picker.Item;
 import SmartPicker from 'react-native-smart-picker'
 
-export default class VehicleYearPicker extends Component {
+export default class VehicleMakePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,9 +15,28 @@ export default class VehicleYearPicker extends Component {
         };
     }
     componentDidMount() {
+        let year;
+        let url = `https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + this.props.pickedYear + `&sold_in_us=1`
+        { this.props.pickedYear ? year = this.props.pickedYear : undefined }
+        console.log('BEFORE API CALL YEAR', year, url)
+        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
+            .then(function (response) {
+                console.log('RETURNED FROM API', response._bodyText.slice(2))
+            })
+            .catch(err => console.log(err))
+
     }
 
     componentDidUpdate() {
+        let year;
+        let url = `https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + this.props.pickedYear + `&sold_in_us=1`
+        { this.props.pickedYear ? year = this.props.pickedYear : undefined }
+        console.log('BEFORE API CALL YEAR', year, url)
+        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + this.props.pickedYear + `&sold_in_us=1`)
+            .then(function (response) {
+                console.log('RETURNED FROM API', response.json())
+            })
+
     }
 
 
@@ -26,8 +45,6 @@ export default class VehicleYearPicker extends Component {
             selected1: value
         });
     }
-
-
 
 
 
@@ -59,7 +76,7 @@ export default class VehicleYearPicker extends Component {
                                 }
                                 <Picker.Item label='Select Year' value='1941' />
                             </SmartPicker>
-                            <Button block onPress={() => this.props.vehicleYear(this.state.selected1)}>
+                            <Button block onPress={() => this.props.vehicleMake(this.state.selected1)}>
                                 <Text>Done</Text>
                             </Button>
                         </ScrollView>

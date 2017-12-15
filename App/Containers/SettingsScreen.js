@@ -23,10 +23,8 @@ class SettingsScreen extends Component {
     }
 
     componentDidUpdate() {
-        console.log('login screen did update', this.props)
     }
     componentDidMount() {
-        console.log('login screen did mount', this.state)
     }
 
     onHomePress(props) {
