@@ -22,6 +22,7 @@ class VehicleCreateScreen extends Component {
             nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', toggleVehicleYearPicker: true,
         }
         this.yearPicked = this.yearPicked.bind(this);
+        this.makePicked = this.makePicked.bind(this)
     }
 
     componentDidUpdate() {
@@ -87,6 +88,7 @@ class VehicleCreateScreen extends Component {
                         <Content>
                             <Text>Vehicle Stats:</Text>
                             <Text>Year: {this.state.vehicleYear}</Text>
+                            <Text>Make: {this.state.vehicleMake}</Text>
                             {this.state.toggleVehicleYearPicker ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
 
                             {this.state.vehicleYear !== '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
