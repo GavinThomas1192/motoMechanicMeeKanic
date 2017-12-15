@@ -33,16 +33,8 @@ class VehicleCreateScreen extends Component {
     componentDidMount() {
         console.log('vehicleCreateScreen', this.state)
     }
-    onButtonPress() {
-        const { email, password } = this.state;
 
-        this.setState({ error: '', loading: true });
-
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(this.onLoginSuccess.bind(this))
-            .catch(this.onLoginFail.bind(this));
-    }
-
+    // Updates this containers/screens state from the static component user input
     yearPicked(year) {
         this.setState({ vehicleYear: year }, function () {
             console.log(this.state, 'Updated year')
@@ -50,12 +42,14 @@ class VehicleCreateScreen extends Component {
 
     }
 
+    // Updates this containers/screens state from the static component user input
     makePicked(make) {
         this.setState({ vehicleMake: make, toggleVehicleMake: false }, function () {
             console.log(this.state, 'Updated Make')
         });
     }
 
+    // Updates this containers/screens state from the static component user input
     modelPicked(model) {
         this.setState({ vehicleModel: model }, function () {
             console.log(this.state, 'Updated Make')
