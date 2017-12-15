@@ -21,7 +21,7 @@ export default class VehicleMakePicker extends Component {
         console.log('BEFORE API CALL YEAR', year, url)
         fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
             .then(function (response) {
-                console.log('RETURNED FROM API', response._bodyText.slice(2))
+                console.log('RETURNED FROM API', JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2))))
                 //this.setstate responses into makes
             })
             .catch(err => console.log(err))
