@@ -20,7 +20,7 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', vehicleModel: '', toggleVehicleYearPicker: true,
+            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', vehicleModel: '', toggleVehicleMake: false,
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
@@ -44,20 +44,20 @@ class VehicleCreateScreen extends Component {
     }
 
     yearPicked(year) {
-        this.setState({ vehicleYear: year, toggleVehicleYearPicker: false }, function () {
+        this.setState({ vehicleYear: year }, function () {
             console.log(this.state, 'Updated year')
         });
 
     }
 
     makePicked(make) {
-        this.setState({ vehicleMake: make }, function () {
+        this.setState({ vehicleMake: make, toggleVehicleMake: false }, function () {
             console.log(this.state, 'Updated Make')
         });
     }
 
     modelPicked(model) {
-        this.setState({ vehicleMake: make }, function () {
+        this.setState({ vehicleModel: model }, function () {
             console.log(this.state, 'Updated Make')
         });
     }
@@ -103,11 +103,11 @@ class VehicleCreateScreen extends Component {
                             <Text>Model: {this.state.vehicleModel}</Text>
 
 
-                            {this.state.toggleVehicleYearPicker ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
+                            {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
 
-                            {this.state.vehicleYear !== '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
+                            {this.state.vehicleYear !== '' && this.state.vehicleMake === '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
 
-                            {this.state.vehicleModel !== '' ? <VehicleMakePicker homeState={this.state} vehicleModel={this.makePicked} /> : undefined}
+                            {this.state.vehicleModel === '' && this.state.vehicleMake !== '' ? <VehicleModelPicker homeState={this.state} vehicleModel={this.modelPicked} /> : undefined}
 
                         </Content>
                     </Container>

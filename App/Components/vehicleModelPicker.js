@@ -9,30 +9,33 @@ export default class VehicleModelPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedMake: "key1",
-            makes: '',
+            selectedModel: "key1",
+            models: '',
             expanded: false
         };
     }
     componentDidMount() {
-        let allMakes;
-        let allMakesNames = [];
-        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
+        let allModels;
+        let allModelsNames = [];
+
+        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=` + `${this.props.homeState.vehicleMake.toLowerCase()}` + `&year=` + `${this.props.homeState.vehicleYear}` + `&sold_in_us=1`)
             .then((response) => {
-                allMakes = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
-                console.log('ALLMAKES', allMakes)
-                allMakes.Makes.map(ele => {
-                    allMakesNames.push(ele.make_display)
+                allModels = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
+                console.log('RESPONSEFOR MAKE AND YEAR', allModels.Models)
+
+                allModels.Models.map(ele => {
+                    allModelsNames.push(ele.model_name)
                 })
 
-                this.setState({ makes: allMakesNames }, () => {
+                this.setState({ models: allModelsNames }, () => {
                     // do something with new state
-                    console.log('STATE AFTER API CALL', this.state)
+                    console.log('STATE AFTER API CALL FOR MAKE AND YEAR', this.state)
                 })
             })
             .catch(err => console.log(err))
 
     }
+
 
     componentDidUpdate() {
 
@@ -42,7 +45,7 @@ export default class VehicleModelPicker extends Component {
 
     handleChange(value: string) {
         this.setState({
-            selectedMake: value
+            selectedModel: value
         });
     }
 
@@ -52,23 +55,23 @@ export default class VehicleModelPicker extends Component {
         return (
             <ScrollView >
                 <View style={{ flex: 1, marginTop: 20 }}>
-                    {this.state.makes.length > 1 ?
+                    {this.state.models.length > 0 ?
                         <ScrollView >
                             <SmartPicker
 
                                 expanded={this.state.expanded}
-                                selectedValue={this.state.selectedMake}
-                                label='Select Make'
+                                selectedValue={this.state.selectedModel}
+                                label='Select Model'
                                 onValueChange={this.handleChange.bind(this)}
                             >
                                 {
-                                    this.state.makes.map((ele) => {
+                                    this.state.models.map((ele) => {
                                         return (<Picker.Item label={ele} value={ele} />)
                                     })
                                 }
-                                <Picker.Item label='Select Make' value='Toyota' />
+                                <Picker.Item label='Select Model' value='4Runner' />
                             </SmartPicker>
-                            <Button block onPress={() => this.props.vehicleMake(this.state.selectedMake)}>
+                            <Button block onPress={() => this.props.vehicleModel(this.state.selectedModel)}>
                                 <Text>Done</Text>
                             </Button>
                         </ScrollView>
