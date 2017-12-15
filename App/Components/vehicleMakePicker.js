@@ -17,6 +17,7 @@ export default class VehicleMakePicker extends Component {
     componentDidMount() {
         let allMakes;
         let allMakesNames = [];
+
         fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
             .then((response) => {
                 allMakes = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
