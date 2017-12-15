@@ -77,6 +77,7 @@ class VehicleCreateScreen extends Component {
                     <Container style={styles.Container}>
 
                         <Content>
+                            <Text>{this.state.vehicleYear}</Text>
                             <VehicleYearPicker vehicleYear={this.yearPicked}  />
                         </Content>
                     </Container>
