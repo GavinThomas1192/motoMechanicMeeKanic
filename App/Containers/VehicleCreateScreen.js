@@ -5,6 +5,7 @@ import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Butto
 import Spinner from '../Components/Spinner'
 import VehicleYearPicker from '../Components/vehicleYearPicker'
 import VehicleMakePicker from '../Components/vehicleMakePicker'
+import VehicleModelPicker from '../Components/vehicleModelPicker'
 import firebase from 'firebase'
 import { loginRequest, signupRequest, passwordResetRequest } from '../Actions/auth-actions'
 import { Images } from '../Themes'
@@ -19,10 +20,11 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', toggleVehicleYearPicker: true,
+            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', vehicleModel: '', toggleVehicleYearPicker: true,
         }
         this.yearPicked = this.yearPicked.bind(this);
-        this.makePicked = this.makePicked.bind(this)
+        this.makePicked = this.makePicked.bind(this);
+        this.modelPicked = this.modelPicked.bind(this);
     }
 
     componentDidUpdate() {
@@ -54,6 +56,12 @@ class VehicleCreateScreen extends Component {
         });
     }
 
+    modelPicked(model) {
+        this.setState({ vehicleMake: make }, function () {
+            console.log(this.state, 'Updated Make')
+        });
+    }
+
     handleChange(text) {
         console.log(text)
     }
@@ -70,6 +78,9 @@ class VehicleCreateScreen extends Component {
         );
     }
     render() {
+        // Here we dynamically render each option for vehicle values after they have chosen
+        // So first is YEAR > then we hide year and show MAKE > then we hide make and show MODEL, etc
+        // All based on component did mount's API calls from the respective component
         return (
             <View>
                 <ScrollView>
@@ -89,9 +100,15 @@ class VehicleCreateScreen extends Component {
                             <Text>Vehicle Stats:</Text>
                             <Text>Year: {this.state.vehicleYear}</Text>
                             <Text>Make: {this.state.vehicleMake}</Text>
+                            <Text>Model: {this.state.vehicleModel}</Text>
+
+
                             {this.state.toggleVehicleYearPicker ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
 
                             {this.state.vehicleYear !== '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
+
+                            {this.state.vehicleModel !== '' ? <VehicleMakePicker homeState={this.state} vehicleModel={this.makePicked} /> : undefined}
+
                         </Content>
                     </Container>
                 </ScrollView>
