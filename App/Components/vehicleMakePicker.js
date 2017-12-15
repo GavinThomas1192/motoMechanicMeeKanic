@@ -10,7 +10,7 @@ export default class VehicleMakePicker extends Component {
         super(props);
         this.state = {
             selected1: "key1",
-            years: [],
+            makes: [],
             expanded: false
         };
     }
@@ -22,6 +22,7 @@ export default class VehicleMakePicker extends Component {
         fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
             .then(function (response) {
                 console.log('RETURNED FROM API', response._bodyText.slice(2))
+                //this.setstate responses into makes
             })
             .catch(err => console.log(err))
 
