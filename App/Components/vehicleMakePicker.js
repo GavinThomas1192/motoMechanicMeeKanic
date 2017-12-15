@@ -9,75 +9,66 @@ export default class VehicleMakePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected1: "key1",
-            makes: [],
+            selectedMake: "key1",
+            makes: '',
             expanded: false
         };
     }
     componentDidMount() {
-        let year;
-        let url = `https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + this.props.pickedYear + `&sold_in_us=1`
-        { this.props.pickedYear ? year = this.props.pickedYear : undefined }
-        console.log('BEFORE API CALL YEAR', year, url)
+        let allMakes;
+        let allMakesNames = [];
         fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
-            .then(function (response) {
-                console.log('RETURNED FROM API', JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2))))
-                //this.setstate responses into makes
+            .then((response) => {
+                allMakes = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
+                console.log('ALLMAKES', allMakes)
+                allMakes.Makes.map(ele => {
+                    allMakesNames.push(ele.make_display)
+                })
+
+                this.setState({ makes: allMakesNames }, () => {
+                    // do something with new state
+                    console.log('STATE AFTER API CALL', this.state)
+                })
             })
             .catch(err => console.log(err))
 
     }
 
     componentDidUpdate() {
-        let year;
-        let url = `https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + this.props.pickedYear + `&sold_in_us=1`
-        { this.props.pickedYear ? year = this.props.pickedYear : undefined }
-        console.log('BEFORE API CALL YEAR', year, url)
-        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + this.props.pickedYear + `&sold_in_us=1`)
-            .then(function (response) {
-                console.log('RETURNED FROM API', response.json())
-            })
+
 
     }
 
 
     handleChange(value: string) {
         this.setState({
-            selected1: value
+            selectedMake: value
         });
     }
 
 
 
     render() {
-
-        const data = [];
-        for (let i = 0; i < (2017 - 1941); i++) {
-
-            data.push(
-                { year: (1941 + i) }
-            )
-        }
         return (
             <ScrollView >
                 <View style={{ flex: 1, marginTop: 20 }}>
-                    {data.length > 0 ?
+                    {this.state.makes.length > 1 ?
                         <ScrollView >
                             <SmartPicker
 
                                 expanded={this.state.expanded}
-                                selectedValue={this.state.selected1}
-                                label='Vehicle Year'
+                                selectedValue={this.state.selectedMake}
+                                label='Select Make'
                                 onValueChange={this.handleChange.bind(this)}
                             >
                                 {
-                                    data.map((ele) => {
-                                        return (<Picker.Item label={ele.year.toString()} value={ele.year} />)
+                                    this.state.makes.map((ele) => {
+                                        return (<Picker.Item label={ele} value={ele} />)
                                     })
                                 }
-                                <Picker.Item label='Select Year' value='1941' />
+                                <Picker.Item label='Select Make' value='Toyota' />
                             </SmartPicker>
-                            <Button block onPress={() => this.props.vehicleMake(this.state.selected1)}>
+                            <Button block onPress={() => this.props.vehicleMake(this.state.selectedMake)}>
                                 <Text>Done</Text>
                             </Button>
                         </ScrollView>
