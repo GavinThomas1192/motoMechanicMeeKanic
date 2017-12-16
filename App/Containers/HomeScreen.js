@@ -60,7 +60,7 @@ class HomeScreen extends Component {
   };
 
 
-  // *************** These the the three bottons on the bottom nav
+  // *************** These the the three bottons on the bottom nav.
   onHistoryPress() {
     this.setState({ historyActive: true, OverviewActive: false, NewEventActive: false, headerTitle: 'History' }, function () {
       // do something with new state
