@@ -3,7 +3,7 @@ MeeKanic was created as a resource for DIY mechanics or everyday people wanting 
 
 
 ![Kritter Logo](./App/Images/homeScreen.jpeg)
-![Kritter Logo](./App/Images/homeScreenAndroid.png)
+![Kritter Logo](./App/Images/homeScreenAndroidFinal.png)
 
 
 ## :arrow_up: How to Setup
