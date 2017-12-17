@@ -24,7 +24,8 @@ MeeKanic was created as a resource for DIY mechanics or everyday people wanting 
   * for Android
     * Run Genymotion
     * run `react-native run-android`
-
+ 
+ 
 
 
 
