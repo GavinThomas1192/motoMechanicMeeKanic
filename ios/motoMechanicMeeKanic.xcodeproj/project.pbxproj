@@ -48,6 +48,7 @@
 		CAFCF215051E4F8B91433AFC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9BFA2B2ADF047978B42F3CC /* MaterialIcons.ttf */; };
 		CBEB020C3EBE48E5A8F39FF8 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BD09028524D4B8B8AB3AFEE /* SimpleLineIcons.ttf */; };
 		E628A14C600C48198EC1C8EA /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD86B0D428F044D2B072C25B /* Entypo.ttf */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -315,6 +316,7 @@
 		B9BFA2B2ADF047978B42F3CC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		CD86B0D428F044D2B072C25B /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		E797554DDF014F26A96AC580 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +346,15 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				34C856C3D8FC46BA82DE4D7D /* libRNVectorIcons.a in Frameworks */,
+
+				50CA4C594DC142348B73AC5B /* libReactNativeConfig.a in Frameworks */,
+				41BEDD8A42324C44AD0CB69B /* libRCTFBLogin.a in Frameworks */,
+				48F2C9FA69124F91B451FAF1 /* libReact.a in Frameworks */,
+				C0707673E6AB42CBA7135F1D /* libyoga.a in Frameworks */,
+				514E47C686EB48578DAF459D /* libcxxreact.a in Frameworks */,
+				E5C0544E87224224B5C75588 /* libjschelpers.a in Frameworks */,
+				BCBE61BAC03A4AC7B81C2741 /* libRNVectorIcons.a in Frameworks */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +541,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				1CDF6416ED5C4EF0911466F3 /* RNVectorIcons.xcodeproj */,
+
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -552,6 +564,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				D9B35E475132416EACDEC5EB /* Resources */,
 				2301C4771FE9B64E0042E92E /* Recovered References */,
+
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -595,6 +608,7 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1006,6 +1020,7 @@
 				AC49FDA24FD7449C8EF01AC4 /* Octicons.ttf in Resources */,
 				CBEB020C3EBE48E5A8F39FF8 /* SimpleLineIcons.ttf in Resources */,
 				C03198EFC538481B9BB4E8AE /* Zocial.ttf in Resources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1153,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1163,6 +1179,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1192,6 +1209,7 @@
 				);
 				PRODUCT_NAME = motoMechanicMeeKanic;
 				VERSIONING_SYSTEM = "apple-generic";
+
 			};
 			name = Debug;
 		};
@@ -1213,6 +1231,11 @@
 				);
 				PRODUCT_NAME = motoMechanicMeeKanic;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+				);
+
 			};
 			name = Release;
 		};
@@ -1237,6 +1260,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1271,6 +1295,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1300,6 +1325,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.motoMechanicMeeKanic-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1325,6 +1351,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.motoMechanicMeeKanic-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
