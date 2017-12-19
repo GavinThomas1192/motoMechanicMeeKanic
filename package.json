@@ -29,7 +29,7 @@
     "firebase-functions": "^0.7.3",
     "format-json": "^1.0.3",
     "lodash": "^4.17.2",
-    "native-base": "^2.3.3",
+    "native-base": "^2.3.5",
     "prop-types": "^15.5.10",
     "querystringify": "0.0.4",
     "ramda": "^0.24.1",
@@ -53,6 +53,7 @@
     "redux-saga": "^0.15.6",
     "redux-thunk": "^2.2.0",
     "reduxsauce": "0.4.1",
+    "rnpm": "^1.9.0",
     "seamless-immutable": "^7.0.1"
   },
   "devDependencies": {
