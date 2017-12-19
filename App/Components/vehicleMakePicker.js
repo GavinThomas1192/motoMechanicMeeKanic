@@ -10,6 +10,7 @@ export default class VehicleMakePicker extends Component {
         super(props);
         this.state = {
             selectedMake: "key1",
+            selectedMakeId: '',
             makes: '',
             expanded: false
         };
@@ -21,9 +22,8 @@ export default class VehicleMakePicker extends Component {
         fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
             .then((response) => {
                 allMakes = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
-                console.log('ALLMAKES', allMakes)
                 allMakes.Makes.map(ele => {
-                    allMakesNames.push(ele.make_display)
+                    allMakesNames.push(ele)
                 })
 
                 this.setState({ makes: allMakesNames }, () => {
@@ -64,7 +64,7 @@ export default class VehicleMakePicker extends Component {
                             >
                                 {
                                     this.state.makes.map((ele) => {
-                                        return (<Picker.Item label={ele} value={ele} />)
+                                        return (<Picker.Item label={ele.make_display} value={ele.make_display} />)
                                     })
                                 }
                                 <Picker.Item label='Select Make' value='Toyota' />

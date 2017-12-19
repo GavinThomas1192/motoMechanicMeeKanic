@@ -111,7 +111,8 @@ class VehicleCreateScreen extends Component {
         )
     }
 }
-
+//To get single car.
+// https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&year=2005&model=4runner&drive=4wd&keyword=sport&max_cylinders=6
 const mapStateToProps = (state) => {
     return {
         user: state.user,
