@@ -21,7 +21,6 @@ export default class VehicleModelPicker extends Component {
         fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=` + `${this.props.homeState.vehicleMake.toLowerCase()}` + `&year=` + `${this.props.homeState.vehicleYear}` + `&sold_in_us=1`)
             .then((response) => {
                 allModels = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
-                console.log('RESPONSEFOR MAKE AND YEAR', allModels.Models)
 
                 allModels.Models.map(ele => {
                     allModelsNames.push(ele.model_name)
