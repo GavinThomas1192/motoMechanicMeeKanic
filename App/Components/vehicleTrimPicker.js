@@ -15,6 +15,8 @@ export default class vehicleTrimPicker extends Component {
         };
     }
     componentDidMount() {
+        let name;
+        let id;
         let allTrims;
         let allTrimsNames = [];
         // https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&year=2005&model=4runner
@@ -24,15 +26,9 @@ export default class vehicleTrimPicker extends Component {
                 allTrims = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
                 console.log(allTrims, 'ALL RESULTS FROM MAKE, MODEL, YEAR')
                 allTrims.Trims.map(ele => {
-                    // RESPONSE = model_engine_valves_per_cyl
-                    // NEED TO REQUEST = sold_in_us=1&min_cylinders=4&max_cylinders=4
 
-                    //RESPONSE = model_drive
-                    //NEED TO REQUEST = &drive=Front, Rear, AWD, 4WD
 
-                    //RESPONSE = model_trim
-                    //NEED TO REQUEST = keyword=full trim name w/ spaces
-                    allTrimsNames.push(ele.model_trim)
+                    allTrimsNames.push({ name: ele.model_trim, id: ele.model_id })
                 })
 
                 this.setState({ trims: allTrimsNames, selectedTrim: allTrimsNames[0] }, () => {
@@ -51,7 +47,7 @@ export default class vehicleTrimPicker extends Component {
     }
 
 
-    handleChange(value: string) {
+    handleChange(value) {
         this.setState({
             selectedTrim: value
         });
@@ -68,13 +64,13 @@ export default class vehicleTrimPicker extends Component {
                             <SmartPicker
 
                                 expanded={this.state.expanded}
-                                selectedValue={this.state.selectedTrim}
+                                selectedValue={this.state.selectedTrim.name}
                                 label='Select Trim'
                                 onValueChange={this.handleChange.bind(this)}
                             >
                                 {
                                     this.state.trims.map((ele) => {
-                                        return (<Picker.Item label={ele} value={ele} />)
+                                        return (<Picker.Item label={ele.name} value={ele} />)
                                     })
                                 }
                             </SmartPicker>

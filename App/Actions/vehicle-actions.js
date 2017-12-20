@@ -24,17 +24,18 @@ import { userSet, userCreate, userUpdate, loginRequest } from './auth-actions';
 
 
 export const userVehicleCreateRequest = (user, vehicle) => dispatch => {
-    let { user } = getState();
+    // let { user } = getState();
 
-    allVehicles = []
-    allVehicles.push(vehicle);
+    // allVehicles = []
+    // allVehicles.push(vehicle);
 
-    firebase.database().ref('users/' + user.uid).set({
-        allVehicles
+    // firebase.database().ref('users/' + user.uid).set({
+    //     allVehicles
 
-    }).then(() => {
-        loginRequest(user)
-    })
+    // }).then(() => {
+    //     loginRequest(user)
+    // })
+    console.log('hit vehicle create')
 
 };
 
