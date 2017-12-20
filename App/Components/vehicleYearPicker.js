@@ -9,7 +9,7 @@ export default class VehicleYearPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected1: "key1",
+            selected1: 2017,
             years: [],
             expanded: false
         };
@@ -37,7 +37,7 @@ export default class VehicleYearPicker extends Component {
         for (let i = 0; i < (2017 - 1941); i++) {
 
             data.push(
-                { year: (1941 + i) }
+                { year: (2017 - i) }
             )
         }
         return (
@@ -57,7 +57,6 @@ export default class VehicleYearPicker extends Component {
                                         return (<Picker.Item label={ele.year.toString()} value={ele.year} />)
                                     })
                                 }
-                                <Picker.Item label='Select Year' value='1941' />
                             </SmartPicker>
                             <Button block onPress={() => this.props.vehicleYear(this.state.selected1)}>
                                 <Text>Done</Text>
@@ -71,3 +70,4 @@ export default class VehicleYearPicker extends Component {
         );
     }
 }
+{/* <Picker.Item label='Select Year' value='1941' /> */ }

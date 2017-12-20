@@ -21,7 +21,7 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', vehicleModel: '', toggleVehicleMake: false, vehicleTrims: '',
+            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', vehicleModel: '', toggleVehicleMake: false, vehicleTrim: '',
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
@@ -37,31 +37,39 @@ class VehicleCreateScreen extends Component {
     }
 
     // Updates this containers/screens state from the static component user input
+    // We allow the user to quickly click a stat on their vehicle to edit in case they mispressed. 
+    // So we need to reset all choices after, just in case. 
     yearPicked(year) {
-        this.setState({ vehicleYear: year }, function () {
+        this.setState({ vehicleYear: year, vehicleMake: '', vehicleModel: '', vehicleTrim: '', }, function () {
             console.log(this.state, 'Updated year')
         });
 
     }
 
     // Updates this containers/screens state from the static component user input
+    // We allow the user to quickly click a stat on their vehicle to edit in case they mispressed. 
+    // So we need to reset all choices after, just in case. 
     makePicked(make) {
-        this.setState({ vehicleMake: make, toggleVehicleMake: false }, function () {
+        this.setState({ vehicleMake: make, vehicleModel: '', vehicleTrim: '', }, function () {
             console.log(this.state, 'Updated Make')
         });
     }
 
     // Updates this containers/screens state from the static component user input
+    // We allow the user to quickly click a stat on their vehicle to edit in case they mispressed. 
+    // So we need to reset all choices after, just in case. 
     modelPicked(model) {
-        this.setState({ vehicleModel: model }, function () {
+        this.setState({ vehicleModel: model, vehicleTrim: '' }, function () {
             console.log(this.state, 'Updated Model')
         });
     }
 
     // Updates this containers/screens state from the static component user input
-    trimPicked(trims) {
-        this.setState({ vehicleTrims: trims }, function () {
-            console.log(this.state, 'Updated Trims')
+    // We allow the user to quickly click a stat on their vehicle to edit in case they mispressed. 
+    // So we need to reset all choices after, just in case. 
+    trimPicked(trim) {
+        this.setState({ vehicleTrim: trim }, function () {
+            console.log(this.state, 'Updated Trim')
         });
     }
 
@@ -101,9 +109,10 @@ class VehicleCreateScreen extends Component {
 
                         <Content>
                             <Text>Vehicle Stats:</Text>
-                            <Text>Year: {this.state.vehicleYear}</Text>
-                            <Text>Make: {this.state.vehicleMake}</Text>
-                            <Text>Model: {this.state.vehicleModel}</Text>
+                            <Text onPress={() => this.yearPicked('')} >Year: {this.state.vehicleYear}</Text>
+                            <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
+                            <Text onPress={() => this.modelPicked('')}>Model: {this.state.vehicleModel}</Text>
+                            <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim}</Text>
 
 
                             {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
@@ -112,7 +121,7 @@ class VehicleCreateScreen extends Component {
 
                             {this.state.vehicleModel === '' && this.state.vehicleMake !== '' ? <VehicleModelPicker homeState={this.state} vehicleModel={this.modelPicked} /> : undefined}
 
-                            {this.state.vehicleModel !== '' && this.state.vehicleMake !== '' && this.state.vehicleTrims === '' ? <VehicleTrimPicker homeState={this.state} vehicleModel={this.trimPicked} /> : undefined}
+                            {this.state.vehicleModel !== '' && this.state.vehicleMake !== '' && this.state.vehicleTrim === '' ? <VehicleTrimPicker homeState={this.state} vehicleTrim={this.trimPicked} /> : undefined}
 
 
 
