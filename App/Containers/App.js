@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import RootContainer from './RootContainer'
 import appStoreCreate from '../Redux/app-create-store'
 import * as firebase from 'firebase';
+import { Root } from "native-base";
+
 
 // create our store
 const store = appStoreCreate()
@@ -45,7 +47,9 @@ class App extends Component {
     console.ignoredYellowBox = ['Remote debugger'];
     return (
       <Provider store={store}>
-        <RootContainer />
+        <Root>
+          <RootContainer />
+        </Root>
       </Provider>
     )
   }

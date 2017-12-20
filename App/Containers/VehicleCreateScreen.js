@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title, Toast } from 'native-base';
 import Spinner from '../Components/Spinner'
 import VehicleYearPicker from '../Components/vehicleYearPicker'
 import VehicleMakePicker from '../Components/vehicleMakePicker'
 import VehicleModelPicker from '../Components/vehicleModelPicker'
 import VehicleTrimPicker from '../Components/vehicleTrimPicker'
 import firebase from 'firebase'
-import { loginRequest, signupRequest, passwordResetRequest } from '../Actions/auth-actions'
+import { userVehicleCreateRequest } from '../Actions/vehicle-actions';
 import { Images } from '../Themes'
 
 
@@ -21,12 +22,13 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '', make: '', model: '', vehicleYear: '', vehicleMake: '', vehicleModel: '', toggleVehicleMake: false, vehicleTrim: '',
+            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '',
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
         this.modelPicked = this.modelPicked.bind(this);
         this.trimPicked = this.trimPicked.bind(this);
+        this.submitVehicleInformation = this.submitVehicleInformation.bind(this);
     }
 
     componentDidUpdate() {
@@ -73,6 +75,33 @@ class VehicleCreateScreen extends Component {
         });
     }
 
+    submitVehicleInformation() {
+        let finalChoice;
+
+
+        //Here we fetch one last call with the selected trim.id to get an exact model. 
+        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=` + `${this.state.vehicleTrim.id}` + `&sold_in_us=1`)
+            .then((response) => {
+                console.log(response)
+                finalChoice = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
+                console.log(finalChoice, 'FINAL CHOICCCEEEE')
+            })
+            .catch(err => console.log(err))
+
+
+
+
+        Toast.show({
+            text: 'We stored your ' + this.state.vehicleYear + ' ' + this.state.vehicleModel + '! You can edit this later.',
+            position: 'bottom',
+            buttonText: 'Sounds Good',
+            duration: 3000,
+        })
+
+        this.props.userVehicleCreateRequest(finalChoice)
+        //store vehicle to firebase through actions..
+    }
+
     handleChange(text) {
         console.log(text)
     }
@@ -112,9 +141,10 @@ class VehicleCreateScreen extends Component {
                             <Text onPress={() => this.yearPicked('')} >Year: {this.state.vehicleYear}</Text>
                             <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
                             <Text onPress={() => this.modelPicked('')}>Model: {this.state.vehicleModel}</Text>
-                            <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim}</Text>
+                            <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim.name}</Text>
 
 
+                            {/* These next conditionals dynamically show based on completion of full vehicle information  */}
                             {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
 
                             {this.state.vehicleYear !== '' && this.state.vehicleMake === '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
@@ -122,6 +152,16 @@ class VehicleCreateScreen extends Component {
                             {this.state.vehicleModel === '' && this.state.vehicleMake !== '' ? <VehicleModelPicker homeState={this.state} vehicleModel={this.modelPicked} /> : undefined}
 
                             {this.state.vehicleModel !== '' && this.state.vehicleMake !== '' && this.state.vehicleTrim === '' ? <VehicleTrimPicker homeState={this.state} vehicleTrim={this.trimPicked} /> : undefined}
+
+                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
+                                <Text>Store Vehicle</Text>
+                            </Button> : undefined}
+
+
+
+
+
+
 
 
 
@@ -143,40 +183,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginRequest: (user) => dispatch(loginRequest(user)),
-        passwordReset: (email) => dispatch(passwordResetRequest(email)),
+        userVehicleCreateRequest: (vehicle) => dispatch(userVehicleCreateRequest(vehicle)),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(VehicleCreateScreen)
 
-    // <Form style={styles.textInput}>
-    //     <Item
-    //         success={true}
-    //         error={false}>
-    //         <Input
-    //             placeholder="Vehicle Nickname"
-    //             value={this.state.nickname}
-    //             onChangeText={(text) => this.handleChange(text)} />
-    //         <Icon name='checkmark-circle' />
-
-    //     </Item>
-    //     <Item
-    //         success={true}
-    //         error={false}>
-    //         <Input
-    //             placeholder="Make"
-    //             value={this.state.make}
-    //             onChangeText={(text) => this.handleChange(text)} />
-    //         <Icon name='checkmark-circle' />
-    //     </Item>
-    //     <Item
-    //         success={true}
-    //         error={false}>
-    //         <Input
-    //             placeholder="Model"
-    //             value={this.state.model}
-    //             onChangeText={(text) => this.handleChange(text)} />
-    //         <Icon name='checkmark-circle' />
-    //     </Item>
-    // </Form>
