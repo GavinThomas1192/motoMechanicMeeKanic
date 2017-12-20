@@ -9,7 +9,7 @@ export default class VehicleMakePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedMake: "key1",
+            selectedMake: '',
             selectedMakeId: '',
             makes: '',
             expanded: false
@@ -25,8 +25,10 @@ export default class VehicleMakePicker extends Component {
                 allMakes.Makes.map(ele => {
                     allMakesNames.push(ele)
                 })
-
-                this.setState({ makes: allMakesNames }, () => {
+                //Here we have to set selectedMake to the first item in the response list
+                //If the user doesn't move the scroll wheel, even though it starts on the first one
+                //The value won't change, because they never moved the scroll wheel. 
+                this.setState({ makes: allMakesNames, selectedMake: allMakesNames[0].make_display }, () => {
                     // do something with new state
                     console.log('STATE AFTER API CALL', this.state)
                 })
@@ -67,7 +69,6 @@ export default class VehicleMakePicker extends Component {
                                         return (<Picker.Item label={ele.make_display} value={ele.make_display} />)
                                     })
                                 }
-                                <Picker.Item label='Select Make' value='Toyota' />
                             </SmartPicker>
                             <Button block onPress={() => this.props.vehicleMake(this.state.selectedMake)}>
                                 <Text>Done</Text>
@@ -81,3 +82,4 @@ export default class VehicleMakePicker extends Component {
         );
     }
 }
+{/* <Picker.Item label='Select Make' value='Toyota' /> */ }

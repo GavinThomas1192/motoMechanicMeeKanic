@@ -9,7 +9,7 @@ export default class VehicleModelPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedModel: "key1",
+            selectedModel: '',
             models: '',
             expanded: false
         };
@@ -26,7 +26,7 @@ export default class VehicleModelPicker extends Component {
                     allModelsNames.push(ele.model_name)
                 })
 
-                this.setState({ models: allModelsNames }, () => {
+                this.setState({ models: allModelsNames, selectedModel: allModelsNames[0] }, () => {
                     // do something with new state
                     console.log('STATE AFTER API CALL FOR MAKE AND YEAR', this.state)
                 })
@@ -68,7 +68,6 @@ export default class VehicleModelPicker extends Component {
                                         return (<Picker.Item label={ele} value={ele} />)
                                     })
                                 }
-                                <Picker.Item label='Select Model' value='4Runner' />
                             </SmartPicker>
                             <Button block onPress={() => this.props.vehicleModel(this.state.selectedModel)}>
                                 <Text>Done</Text>
@@ -82,3 +81,4 @@ export default class VehicleModelPicker extends Component {
         );
     }
 }
+{/* <Picker.Item label='Select Model' value='4Runner' /> */ }
