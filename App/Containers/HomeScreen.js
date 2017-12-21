@@ -84,8 +84,8 @@ class HomeScreen extends Component {
 
   }
 
-  onProfilePress(props) {
-    props.navigate('SettingsScreen')
+  onVehicleCreatePress(props) {
+    props.navigate('VehicleCreateScreen')
     this.menu.hide();
   }
 
@@ -132,7 +132,7 @@ class HomeScreen extends Component {
                 ref={this.setMenuRef}
                 style={{ alignSelf: 'flex-end' }}
               >
-                {<MenuItem onPress={() => this.onProfilePress(this.props.navigation)}>Profile</MenuItem>}
+                {<MenuItem onPress={() => this.onVehicleCreatePress(this.props.navigation)}>Add New Vehicle</MenuItem>}
                 <MenuItem onPress={() => this.props.navigation.navigate('SettingsScreen')} >Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onPress={() => this.onLogoutPress(this.props.navigation)}>Logout</MenuItem>
