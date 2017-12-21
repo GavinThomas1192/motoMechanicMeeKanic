@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Spinner from './Spinner'
-import { Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 
 import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Left, Button, Thumbnail, Body } from 'native-base';
 import { Images } from '../Themes'
@@ -42,59 +42,60 @@ export default class HomeOverview extends Component {
             // ******* The first if, renders loading spinner if firebase promise isn't returned yet.
             // ******* The second if, checks to make sure the user returned from firebase has vehicles.
 
-            <Container>
+            <ScrollView>
+                <Container>
 
-                {this.state.loading ? <Spinner /> :
-                    <Container>
-                        {this.state.user.allVehicles ?
-                             this.props.props.allVehicles.allVehiclesArray.map(ele => {
-                                return (
-                                    <Card style={{ flex: 0 }}>
-                                        <CardItem>
-                                            <Left>
-                                                <Thumbnail source={Images.background} />
+                    {this.state.loading ? <Spinner /> :
+                        <Container>
+                            {this.state.user.allVehicles ?
+                                this.props.props.allVehicles.allVehiclesArray.map(ele => {
+                                    return (
+                                        <Card style={{ flex: 0 }}>
+                                            <CardItem>
+                                                <Left>
+                                                    <Thumbnail source={Images.background} />
+                                                    <Body>
+                                                        <Text>{ele.model_year + ' ' + ele.make_display + ' ' + ele.model_name}</Text>
+                                                        <Text note>{ele.model_trim}</Text>
+                                                    </Body>
+                                                </Left>
+                                            </CardItem>
+                                            <CardItem>
                                                 <Body>
-                                                    <Text>{ele.model_year + ' ' + ele.make_display+ ' ' + ele.model_name}</Text>
-                                                    <Text note>{ele.model_trim}</Text>
+                                                    <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} />
+                                                    <Text>
+                                                        {`Transmission: ` + ele.model_transmission_type}
+                                                    </Text>
+                                                    <Text>
+                                                        {`Horsepower: ` + ele.model_engine_power_hp}
+                                                    </Text>
+
                                                 </Body>
-                                            </Left>
-                                        </CardItem>
-                                        <CardItem>
-                                            <Body>
-                                                <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} />
-                                                <Text>
-                                                    {`Transmission: ` + ele.model_transmission_type}
-                                                </Text>
-                                                <Text>
-                                                    {`Horsepower: ` + ele.model_engine_power_hp}
-                                                </Text>
-                                                
-                                            </Body>
-                                        </CardItem>
-                                        <CardItem>
-                                            <Left>
-                                                <Button transparent textStyle={{ color: '#87838B' }}>
-                                                    <Icon name="build" />
-                                                    <Text>10 Maintaince Records</Text>
-                                                </Button>
-                                            </Left>
-                                        </CardItem>
-                                    </Card>
-                                )
-                            })
-                        
-                            :
-                            <Container>
-                                <Content>
-                                    <Text>Opps it looks like you don't have any vehicles yet!</Text>
-                                    <Button transparent onPress={() => this.props.navigation.navigate('VehicleCreateScreen')} >
-                                        <Text>Go Make one!</Text>
-                                    </Button>
-                                </Content>
-                            </Container>
-                        }
-                    </Container>}
-            </Container>
+                                            </CardItem>
+                                            <CardItem>
+                                                <Left>
+                                                    <Button transparent textStyle={{ color: '#87838B' }}>
+                                                        <Icon name="build" />
+                                                        <Text>10 Maintaince Records</Text>
+                                                    </Button>
+                                                </Left>
+                                            </CardItem>
+                                        </Card>
+                                    )
+                                })
+                                :
+                                <Container>
+                                    <Content>
+                                        <Text>Opps it looks like you don't have any vehicles yet!</Text>
+                                        <Button transparent onPress={() => this.props.navigation.navigate('VehicleCreateScreen')} >
+                                            <Text>Go Make one!</Text>
+                                        </Button>
+                                    </Content>
+                                </Container>
+                            }
+                        </Container>}
+                </Container>
+            </ScrollView>
         );
     }
 }
