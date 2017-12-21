@@ -43,7 +43,7 @@ export default class HomeOverview extends Component {
                                 <Card>
                                     <CardItem>
                                         <Icon active name="logo-googleplus" />
-                                        <Text>{this.state.user ? this.state.user.allVehicles[0].name : 'didnt work'}</Text>
+                                        <Text>{this.state.user ? this.state.user.allVehicles.allVehiclesArray[0].model_name : 'didnt work'}</Text>
                                         <Right>
                                             <Icon name="arrow-forward" />
                                         </Right>
