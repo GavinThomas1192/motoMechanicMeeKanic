@@ -9,6 +9,9 @@ import { Dropdown } from 'react-native-material-dropdown';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import HomeOverview from '../Components/HomeOverview'
 
+const backgroundImage = require("../Images/vw.jpg");
+
+
 
 
 
