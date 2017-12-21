@@ -7,10 +7,6 @@ import { userSet, userCreate, userUpdate, loginRequest } from './auth-actions';
 // ************ Notice we are still calling the auth-actions redux actions to update the total user object ************
 
 
-// export const userSet = user => ({
-//     type: 'USER_SET',
-//     payload: user,
-// });
 
 // export const userCreate = user => ({
 //     type: 'USER_CREATE',
@@ -25,20 +21,49 @@ import { userSet, userCreate, userUpdate, loginRequest } from './auth-actions';
 
 export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
     console.log('This user got passed through', user, vehicle)
-
     let allVehiclesArray = []
     allVehiclesArray.push(vehicle[0]);
-
-    firebase.database().ref('users/' + user.uid + '/allVehicles').set({
-        allVehiclesArray
-    })
 
     firebase.database().ref('users/' + user.uid + '/allVehicles').once('value').then(function (snapshot) {
         // ******** This method is straight from their docs ********
         // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
         let username = snapshot.val();
+        {
+            username === null ? firebase.database().ref('users/' + user.uid + '/allVehicles').set({
+                allVehiclesArray
+            }).then(() => {
+                firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
+
+                    let username = snapshot.val();
+                    console.log(' FOUND THIS USER FROM THE DB', username);
+
+                    { !username.account ? console.log('errrrrrrrrr') : dispatch(userSet(username)) }
+                })
+            }) :
+
+                Promise.all(username.allVehiclesArray.map(ele => {
+                    allVehiclesArray.push(ele);
+                })).then(() => {
+
+                    firebase.database().ref('users/' + user.uid + '/allVehicles').set({
+                        allVehiclesArray
+                    }).then(() => {
+                        firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
+
+                            let username = snapshot.val();
+                            console.log(' FOUND THIS USER FROM THE DB', username);
+
+                            { !username.account ? console.log('errrrrrrrrr') : dispatch(userSet(username)) }
+                        })
+                    })
+                })
+
+        }
         console.log('TESTING BAD ROUTE!', username);
     })
+
+
+
 
     //     {
     //         username.length < 2 ? firebase.database().ref('users/' + user.uid + '/allVehicles').set({
