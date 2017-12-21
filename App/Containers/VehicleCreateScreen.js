@@ -76,6 +76,7 @@ class VehicleCreateScreen extends Component {
     }
 
     submitVehicleInformation() {
+        console.log(this.props, '%%%%%%%%%%%%%%%%%%%')
         let finalChoice;
 
 
@@ -85,6 +86,7 @@ class VehicleCreateScreen extends Component {
                 console.log(response)
                 finalChoice = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
                 console.log(finalChoice, 'FINAL CHOICCCEEEE')
+                this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
             })
             .catch(err => console.log(err))
 
@@ -98,8 +100,6 @@ class VehicleCreateScreen extends Component {
             duration: 3000,
         })
 
-        this.props.userVehicleCreateRequest(finalChoice)
-        //store vehicle to firebase through actions..
     }
 
     handleChange(text) {
@@ -183,7 +183,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userVehicleCreateRequest: (vehicle) => dispatch(userVehicleCreateRequest(vehicle)),
+        userVehicleCreateRequest: (vehicle, user) => dispatch(userVehicleCreateRequest(vehicle, user)),
     }
 }
 

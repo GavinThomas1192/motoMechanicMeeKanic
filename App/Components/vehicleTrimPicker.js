@@ -10,9 +10,11 @@ export default class vehicleTrimPicker extends Component {
         super(props);
         this.state = {
             selectedTrim: '',
+            trimWithId: '',
             trims: '',
             expanded: false
         };
+        this.handleTrimPick = this.handleTrimPick.bind(this);
     }
     componentDidMount() {
         let name;
@@ -31,7 +33,7 @@ export default class vehicleTrimPicker extends Component {
                     allTrimsNames.push({ name: ele.model_trim, id: ele.model_id })
                 })
 
-                this.setState({ trims: allTrimsNames, selectedTrim: allTrimsNames[0] }, () => {
+                this.setState({ trims: allTrimsNames, selectedTrim: allTrimsNames[0].name }, () => {
                     // do something with new state
                     console.log('VEHICLETRIMPICKER STATE AFTER GRABBING ALL TRIMS', this.state)
                 })
@@ -46,10 +48,22 @@ export default class vehicleTrimPicker extends Component {
 
     }
 
+    //we need to do this extra step unlike the other components because we need both the name AND id.
+    //Our Picker doesn't support entire objects as values. 
+    handleTrimPick(value) {
+        this.state.trims.filter(ele => {
+            ele.name === value ? this.setState({ trimWithId: ele }, () => {
+                console.log('bouts to call some redux')
+                this.props.vehicleTrim(this.state.trimWithId)
+            }) : console.log('no match you suck')
+        })
+
+    }
 
     handleChange(value) {
+        console.log('VALUE', value)
         this.setState({
-            selectedTrim: value
+            selectedTrim: value,
         });
     }
 
@@ -64,17 +78,17 @@ export default class vehicleTrimPicker extends Component {
                             <SmartPicker
 
                                 expanded={this.state.expanded}
-                                selectedValue={this.state.selectedTrim.name}
+                                selectedValue={this.state.selectedTrim}
                                 label='Select Trim'
                                 onValueChange={this.handleChange.bind(this)}
                             >
                                 {
                                     this.state.trims.map((ele) => {
-                                        return (<Picker.Item label={ele.name} value={ele} />)
+                                        return (<Picker.Item label={ele.name} value={ele.name} />)
                                     })
                                 }
                             </SmartPicker>
-                            <Button block onPress={() => this.props.vehicleTrim(this.state.selectedTrim)}>
+                            <Button block onPress={() => this.handleTrimPick(this.state.selectedTrim)}>
                                 <Text>Done</Text>
                             </Button>
                         </ScrollView>

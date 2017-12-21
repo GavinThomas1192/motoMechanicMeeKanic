@@ -23,19 +23,43 @@ import { userSet, userCreate, userUpdate, loginRequest } from './auth-actions';
 // });
 
 
-export const userVehicleCreateRequest = (user, vehicle) => dispatch => {
-    // let { user } = getState();
+export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
+    console.log('This user got passed through', user, vehicle)
 
-    // allVehicles = []
-    // allVehicles.push(vehicle);
+    let allVehiclesArray = []
+    allVehiclesArray.push(vehicle[0]);
 
-    // firebase.database().ref('users/' + user.uid).set({
-    //     allVehicles
+    firebase.database().ref('users/' + user.uid + '/allVehicles').set({
+        allVehiclesArray
+    })
 
-    // }).then(() => {
-    //     loginRequest(user)
+    firebase.database().ref('users/' + user.uid + '/allVehicles').once('value').then(function (snapshot) {
+        // ******** This method is straight from their docs ********
+        // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
+        let username = snapshot.val();
+        console.log('TESTING BAD ROUTE!', username);
+    })
+
+    //     {
+    //         username.length < 2 ? firebase.database().ref('users/' + user.uid + '/allVehicles').set({
+    //             allVehiclesArray
+    //         }).then(() => {
+    //             console.log('user didnt have vehicles, so we created allVehicles')
+    //             loginRequest(user)
+    //         })
+    //             :
+
+    //             allVehiclesArray.push(username.allVehicles)
+
+    //         firebase.database().ref('users/' + user.uid + '/allVehicles').set({
+    //             allVehiclesArray
+    //         }).then(() => {
+    //             loginRequest(user)
+    //             console.log('user already had vehicles, so we added to allVehicles')
+    //         })
+    //     }
+
     // })
-    console.log('hit vehicle create')
 
 };
 
