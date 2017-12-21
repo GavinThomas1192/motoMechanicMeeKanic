@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import Spinner from './Spinner'
-import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Button } from 'native-base';
+import { Image } from 'react-native';
+
+import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Left, Button, Thumbnail, Body } from 'native-base';
+import { Images } from '../Themes'
+const backgroundImage = require("../Images/vw.jpg");
+
+
 export default class HomeOverview extends Component {
     constructor(props) {
         super(props);
@@ -26,10 +32,12 @@ export default class HomeOverview extends Component {
         // ******* We have to render everything in this component from this.state.user to avoid async errors
 
         this.setState({ user: nextProps.props, loading: false }, function () {
+            console.log(this.state, "*********************")
         });
     }
 
     render() {
+        console.log(this.state, this.props, '**************')
         return (
             // ******* The first if, renders loading spinner if firebase promise isn't returned yet.
             // ******* The second if, checks to make sure the user returned from firebase has vehicles.
@@ -39,17 +47,42 @@ export default class HomeOverview extends Component {
                 {this.state.loading ? <Spinner /> :
                     <Container>
                         {this.state.user.allVehicles ?
-                            <Content>
-                                <Card>
-                                    <CardItem>
-                                        <Icon active name="logo-googleplus" />
-                                        <Text>{this.state.user ? this.state.user.allVehicles.allVehiclesArray[0].model_name : 'didnt work'}</Text>
-                                        <Right>
-                                            <Icon name="arrow-forward" />
-                                        </Right>
-                                    </CardItem>
-                                </Card>
-                            </Content>
+                             this.props.props.allVehicles.allVehiclesArray.map(ele => {
+                                return (
+                                    <Card style={{ flex: 0 }}>
+                                        <CardItem>
+                                            <Left>
+                                                <Thumbnail source={Images.background} />
+                                                <Body>
+                                                    <Text>{ele.model_year + ' ' + ele.make_display+ ' ' + ele.model_name}</Text>
+                                                    <Text note>{ele.model_trim}</Text>
+                                                </Body>
+                                            </Left>
+                                        </CardItem>
+                                        <CardItem>
+                                            <Body>
+                                                <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} />
+                                                <Text>
+                                                    {`Transmission: ` + ele.model_transmission_type}
+                                                </Text>
+                                                <Text>
+                                                    {`Horsepower: ` + ele.model_engine_power_hp}
+                                                </Text>
+                                                
+                                            </Body>
+                                        </CardItem>
+                                        <CardItem>
+                                            <Left>
+                                                <Button transparent textStyle={{ color: '#87838B' }}>
+                                                    <Icon name="build" />
+                                                    <Text>10 Maintaince Records</Text>
+                                                </Button>
+                                            </Left>
+                                        </CardItem>
+                                    </Card>
+                                )
+                            })
+                        
                             :
                             <Container>
                                 <Content>
