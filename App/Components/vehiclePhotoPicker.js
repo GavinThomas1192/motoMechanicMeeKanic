@@ -9,8 +9,9 @@ import {
     Platform,
     Dimensions,
     Image,
+    Switch
 } from 'react-native';
-import { Button, Text, Icon } from "native-base";
+import { Button, Text, Icon, CheckBox, Container, Content, Body, Radio, Right } from "native-base";
 import ImagePicker from 'react-native-image-picker'
 
 
@@ -33,8 +34,8 @@ export default class VehiclePhotoPicker extends React.Component {
         this.state = {
             vehiclePhoto: '', wantsPhotoUpload: false,
         }
-        this.submitPhoto = this.submitPhoto.bind(this);
-        this.choosePhoto = this.choosePhoto.bind(this)
+        this.choosePhoto = this.choosePhoto.bind(this);
+        this.handleCheckboxPress = this.handleCheckboxPress.bind(this)
     }
 
     componentDidUpdate() {
@@ -73,46 +74,51 @@ export default class VehiclePhotoPicker extends React.Component {
                 this.setState({
                     vehiclePhoto: source
                 });
+
+                this.props.vehiclePhoto(source);
             }
         });
     }
 
-    submitPhoto() {
-
-        return new Promise((resolve, reject) => {
-            let mime = 'application/octet-stream'
-            const uri = this.state.vehiclePhoto.uri
-            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-            const sessionId = new Date().getTime()
-            let uploadBlob = null
-            const imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`somesortofuniqueidentifyer`)
-
-            fs.readFile(uploadUri, 'base64')
-                .then((data) => {
-                    console.log('First then')
-                    return Blob.build(data, { type: `${mime};BASE64` })
-                })
-                .then((blob) => {
-                    console.log('second then', blob)
-                    uploadBlob = blob
-                    return imageRef.put(blob, { contentType: mime })
-                })
-                .then(() => {
-                    console.log('Third then')
-                    uploadBlob.close()
-                    return imageRef.getDownloadURL()
-                })
-                .then((url) => {
-                    console.log('Download URL', url)
-                    resolve(url)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-
-
+    handleCheckboxPress() {
+        this.setState({ wantsPhotoUpload: !this.state.wantsPhotoUpload })
     }
+    // submitPhoto() {
+
+    //     return new Promise((resolve, reject) => {
+    //         let mime = 'application/octet-stream'
+    //         const uri = this.state.vehiclePhoto.uri
+    //         const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+    //         const sessionId = new Date().getTime()
+    //         let uploadBlob = null
+    //         const imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`somesortofuniqueidentifyer`)
+
+    //         fs.readFile(uploadUri, 'base64')
+    //             .then((data) => {
+    //                 console.log('First then')
+    //                 return Blob.build(data, { type: `${mime};BASE64` })
+    //             })
+    //             .then((blob) => {
+    //                 console.log('second then', blob)
+    //                 uploadBlob = blob
+    //                 return imageRef.put(blob, { contentType: mime })
+    //             })
+    //             .then(() => {
+    //                 console.log('Third then')
+    //                 uploadBlob.close()
+    //                 return imageRef.getDownloadURL()
+    //             })
+    //             .then((url) => {
+    //                 console.log('Download URL', url)
+    //                 resolve(url)
+    //             })
+    //             .catch((error) => {
+    //                 reject(error)
+    //             })
+    //     })
+
+
+    // }
 
     render() {
 
@@ -120,20 +126,15 @@ export default class VehiclePhotoPicker extends React.Component {
         return (
             <View>
                 <Content>
-                    <CheckBox checked={this.state.wantsPhotoUpload} />
-                    <Body>
-                        <Text>Upload photo of this vehicle now?</Text>
-                    </Body>
+
+                    <Text>Upload photo of vehicle now?</Text>
+                    <Button transparent onPress={this.choosePhoto} >
+                        <Icon name="images" />
+                        <Text>Yes!</Text>
+                    </Button>
+
                 </Content>
-                <Text>Hello</Text>
-                <Button transparent onPress={this.choosePhoto} >
-                    <Icon name="build" />
-                    <Text>Pick photo</Text>
-                </Button>
-                <Button transparent onPress={this.submitPhoto} >
-                    <Icon name="build" />
-                    <Text>Submit photo</Text>
-                </Button>
+
             </View>
 
         )
