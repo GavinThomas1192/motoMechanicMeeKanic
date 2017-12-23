@@ -31,7 +31,7 @@ export default class VehiclePhotoPicker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            avatarSource: ''
+            vehiclePhoto: '', wantsPhotoUpload: false,
         }
         this.submitPhoto = this.submitPhoto.bind(this);
         this.choosePhoto = this.choosePhoto.bind(this)
@@ -71,7 +71,7 @@ export default class VehiclePhotoPicker extends React.Component {
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
-                    avatarSource: source
+                    vehiclePhoto: source
                 });
             }
         });
@@ -81,7 +81,7 @@ export default class VehiclePhotoPicker extends React.Component {
 
         return new Promise((resolve, reject) => {
             let mime = 'application/octet-stream'
-            const uri = this.state.avatarSource.uri
+            const uri = this.state.vehiclePhoto.uri
             const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
             const sessionId = new Date().getTime()
             let uploadBlob = null
@@ -119,7 +119,12 @@ export default class VehiclePhotoPicker extends React.Component {
 
         return (
             <View>
-
+                <Content>
+                    <CheckBox checked={this.state.wantsPhotoUpload} />
+                    <Body>
+                        <Text>Upload photo of this vehicle now?</Text>
+                    </Body>
+                </Content>
                 <Text>Hello</Text>
                 <Button transparent onPress={this.choosePhoto} >
                     <Icon name="build" />

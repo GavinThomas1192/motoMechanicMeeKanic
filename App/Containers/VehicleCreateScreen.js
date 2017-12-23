@@ -23,7 +23,7 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '',
+            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: '',
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
@@ -73,6 +73,12 @@ class VehicleCreateScreen extends Component {
     trimPicked(trim) {
         this.setState({ vehicleTrim: trim }, function () {
             console.log(this.state, 'Updated Trim')
+        });
+    }
+
+    photoPicked(photo) {
+        this.setState({ vehiclePhoto: photo }, function () {
+            console.log(this.state, 'Updated Photo')
         });
     }
 
@@ -158,6 +164,8 @@ class VehicleCreateScreen extends Component {
                                 <Text>Store Vehicle</Text>
                             </Button> : undefined}
 
+
+                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehicleImage === '' ? <VehiclePhotoPicker homeState={this.state} user={this.props.user} /> : undefined}
 
 
 
