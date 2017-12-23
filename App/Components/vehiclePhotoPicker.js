@@ -1,4 +1,4 @@
-
+import firebase from 'firebase';
 import React from 'react';
 import {
     AppRegistry,
@@ -16,10 +16,16 @@ import ImagePicker from 'react-native-image-picker'
 
 import RNFetchBlob from 'react-native-fetch-blob'
 
-// const polyfill = RNFetchBlob.polyfill
 
-// window.XMLHttpRequest = polyfill.XMLHttpRequest
-// window.Blob = polyfill.Blob
+
+
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
+
+
+
 import { RNS3 } from 'react-native-aws3';
 export default class VehiclePhotoPicker extends React.Component {
     constructor(props) {
@@ -31,7 +37,9 @@ export default class VehiclePhotoPicker extends React.Component {
         this.choosePhoto = this.choosePhoto.bind(this)
     }
 
-
+    componentDidUpdate() {
+        console.log(this.state)
+    }
     choosePhoto() {
 
         var options = {
@@ -69,35 +77,36 @@ export default class VehiclePhotoPicker extends React.Component {
         });
     }
     submitPhoto() {
-        const file = {
-            // `uri` can also be a file system path (i.e. file://)
-            uri: "/Users/Gavinator/coding/postGrad/motoMechanicMeeKanic/App/Images/dirtyHandsDark.jpg",
-            name: "image.png",
-            type: "image/png"
-        }
-        const options = {
-            // keyPrefix: "uploads/",
-            bucket: "meekanic",
-            region: "us-east-1",
-            accessKey: "AKIAJ2I7KGRAA2YVAQLA",
-            secretKey: "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",
-            successActionStatus: 201
-        }
-        RNS3.put(file, options).then(response => {
 
-            console.log(response.body);
-            /**
-             * {
-             *   postResponse: {
-             *     bucket: "your-bucket",
-             *     etag : "9f620878e06d28774406017480a59fd4",
-             *     key: "uploads/image.png",
-             *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
-             *   }
-             * }
-             */
+        return new Promise((resolve, reject) => {
+            let mime = 'application/octet-stream'
+            const uri = this.state.avatarSource.uri
+            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+            const sessionId = new Date().getTime()
+            let uploadBlob = null
+            const imageRef = firebase.storage().ref('images').child(`${sessionId}`)
+
+            fs.readFile(uploadUri, 'base64')
+                .then((data) => {
+                    return Blob.build(data, { type: `${mime};BASE64` })
+                })
+                .then((blob) => {
+                    uploadBlob = blob
+                    return imageRef.put(blob, { contentType: mime })
+                })
+                .then(() => {
+                    uploadBlob.close()
+                    return imageRef.getDownloadURL()
+                })
+                .then((url) => {
+                    resolve(url)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-            .catch((error) => { console.log(error) });
+
+
     }
 
     render() {
