@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Spinner from './Spinner'
 import { Image, ScrollView } from 'react-native';
-
+import VehiclePhotoPicker from './vehiclePhotoPicker'
 import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Left, Button, Thumbnail, Body } from 'native-base';
 import { Images } from '../Themes'
 const backgroundImage = require("../Images/vw.jpg");
@@ -47,7 +47,10 @@ export default class HomeOverview extends Component {
 
                     {this.state.loading ? <Spinner /> :
                         <Container>
+                            < VehiclePhotoPicker />
+
                             {this.state.user.allVehicles ?
+
                                 this.props.props.allVehicles.allVehiclesArray.map(ele => {
                                     return (
                                         <Card style={{ flex: 0 }}>
@@ -63,8 +66,10 @@ export default class HomeOverview extends Component {
                                             <CardItem>
                                                 <Body>
                                                     <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} />
+                                                    {/* //I have no idea why transmission is white/why this works.. but it does... */}
                                                     <Text>
-                                                        {`Transmission: ` + ele.model_transmission_type}
+
+                                                        Transmission:   {ele.model_transmission_type === undefined ? 'Automatic' : ele.model_transmission_type}
                                                     </Text>
                                                     <Text>
                                                         {`Horsepower: ` + ele.model_engine_power_hp}
