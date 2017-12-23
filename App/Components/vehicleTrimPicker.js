@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Platform, ScrollView, View, Picker } from "react-native";
 import Spinner from '../Components/Spinner'
 import { Button, Text } from "native-base";
-// const Item = Picker.Item;
+import axios from 'axios'
 import SmartPicker from 'react-native-smart-picker'
 
 export default class vehicleTrimPicker extends Component {
@@ -21,24 +21,28 @@ export default class vehicleTrimPicker extends Component {
         let id;
         let allTrims;
         let allTrimsNames = [];
-        // https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&year=2005&model=4runner
 
-        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&year=` + `${this.props.homeState.vehicleYear}` + `&model=` + `${this.props.homeState.vehicleModel}` + `&sold_in_us=1`)
+
+
+        axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&year=` + `${this.props.homeState.vehicleYear}` + `&model=` + `${this.props.homeState.vehicleModel}` + `&sold_in_us=1`)
             .then((response) => {
-                allTrims = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
+                allTrims = JSON.parse(response.data.slice(2, (response.data.length - 2)))
                 console.log(allTrims, 'ALL RESULTS FROM MAKE, MODEL, YEAR')
-                allTrims.Trims.map(ele => {
 
 
+                Promise.all(allTrims.Trims.map(ele => {
                     allTrimsNames.push({ name: ele.model_trim, id: ele.model_id })
-                })
-
-                this.setState({ trims: allTrimsNames, selectedTrim: allTrimsNames[0].name }, () => {
-                    // do something with new state
-                    console.log('VEHICLETRIMPICKER STATE AFTER GRABBING ALL TRIMS', this.state)
+                })).then(() => {
+                    this.setState({ trims: allTrimsNames, selectedTrim: allTrimsNames[0].name }, () => {
+                        // do something with new state
+                        console.log('VEHICLETRIMPICKER STATE AFTER GRABBING ALL TRIMS', this.state)
+                    })
                 })
             })
-            .catch(err => console.log(err))
+            .catch(function (error) {
+                console.log(error);
+            });
+
 
     }
 

@@ -23,12 +23,14 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '',
+            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: '',
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
         this.modelPicked = this.modelPicked.bind(this);
         this.trimPicked = this.trimPicked.bind(this);
+        this.photoPicked = this.photoPicked.bind(this)
+        this.submitPhoto = this.submitPhoto.bind(this)
         this.submitVehicleInformation = this.submitVehicleInformation.bind(this);
     }
 
@@ -76,6 +78,12 @@ class VehicleCreateScreen extends Component {
         });
     }
 
+    photoPicked(photo) {
+        this.setState({ vehiclePhoto: photo }, function () {
+            console.log(this.state, 'Updated Photo')
+        });
+    }
+
     submitVehicleInformation() {
         console.log(this.props, '%%%%%%%%%%%%%%%%%%%')
         let finalChoice;
@@ -102,6 +110,44 @@ class VehicleCreateScreen extends Component {
         })
 
     }
+
+    submitPhoto() {
+
+        return new Promise((resolve, reject) => {
+            let mime = 'application/octet-stream'
+            const uri = this.state.vehiclePhoto.uri
+            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+            const sessionId = new Date().getTime()
+            let uploadBlob = null
+            const imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`somesortofuniqueidentifyer`)
+
+            fs.readFile(uploadUri, 'base64')
+                .then((data) => {
+                    console.log('First then')
+                    return Blob.build(data, { type: `${mime};BASE64` })
+                })
+                .then((blob) => {
+                    console.log('second then', blob)
+                    uploadBlob = blob
+                    return imageRef.put(blob, { contentType: mime })
+                })
+                .then(() => {
+                    console.log('Third then')
+                    uploadBlob.close()
+                    return imageRef.getDownloadURL()
+                })
+                .then((url) => {
+                    console.log('Download URL', url)
+                    resolve(url)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+
+
+    }
+
 
     handleChange(text) {
         console.log(text)
@@ -143,7 +189,7 @@ class VehicleCreateScreen extends Component {
                             <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
                             <Text onPress={() => this.modelPicked('')}>Model: {this.state.vehicleModel}</Text>
                             <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim.name}</Text>
-
+                            <Text onPress={() => this.photoPicked('')}>Photo: {this.state.vehiclePhoto !== '' ? this.state.vehiclePhoto.uri : 'No Photo Chosen'}</Text>
 
                             {/* These next conditionals dynamically show based on completion of full vehicle information  */}
                             {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
@@ -154,11 +200,13 @@ class VehicleCreateScreen extends Component {
 
                             {this.state.vehicleModel !== '' && this.state.vehicleMake !== '' && this.state.vehicleTrim === '' ? <VehicleTrimPicker homeState={this.state} vehicleTrim={this.trimPicked} /> : undefined}
 
+
+
+                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto === '' ? <VehiclePhotoPicker homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : undefined}
+
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
-                                <Text>Store Vehicle</Text>
+                                <Text>I'll do it later, save vehicle</Text>
                             </Button> : undefined}
-
-
 
 
 

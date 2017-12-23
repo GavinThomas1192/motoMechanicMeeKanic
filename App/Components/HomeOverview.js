@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Spinner from './Spinner'
 import { Image, ScrollView } from 'react-native';
-import VehiclePhotoPicker from './vehiclePhotoPicker'
 import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Left, Button, Thumbnail, Body } from 'native-base';
 import { Images } from '../Themes'
 const backgroundImage = require("../Images/vw.jpg");
@@ -47,7 +46,6 @@ export default class HomeOverview extends Component {
 
                     {this.state.loading ? <Spinner /> :
                         <Container>
-                            < VehiclePhotoPicker user={this.props.props.account} />
 
                             {this.state.user.allVehicles ?
 

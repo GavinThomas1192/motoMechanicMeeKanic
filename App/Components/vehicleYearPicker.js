@@ -70,4 +70,3 @@ export default class VehicleYearPicker extends Component {
         );
     }
 }
-{/* <Picker.Item label='Select Year' value='1941' /> */ }

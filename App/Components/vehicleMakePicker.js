@@ -4,6 +4,7 @@ import Spinner from '../Components/Spinner'
 import { Button, Text } from "native-base";
 // const Item = Picker.Item;
 import SmartPicker from 'react-native-smart-picker'
+import axios from 'axios'
 
 export default class VehicleMakePicker extends Component {
     constructor(props) {
@@ -16,24 +17,31 @@ export default class VehicleMakePicker extends Component {
         };
     }
     componentDidMount() {
+        console.log('DEBUGGING', this.props)
         let allMakes;
         let allMakesNames = [];
 
-        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
+        axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
             .then((response) => {
-                allMakes = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
-                allMakes.Makes.map(ele => {
+                console.log(response)
+                allMakes = JSON.parse(response.data.slice(2, (response.data.length - 2)))
+
+                Promise.all(allMakes.Makes.map(ele => {
                     allMakesNames.push(ele)
+                })).then(() => {
+
+                    this.setState({ makes: allMakesNames, selectedMake: allMakesNames[0].make_display }, () => {
+                        // do something with new state
+                        console.log('STATE AFTER API CALL', this.state)
+                    })
                 })
                 //Here we have to set selectedMake to the first item in the response list
                 //If the user doesn't move the scroll wheel, even though it starts on the first one
                 //The value won't change, because they never moved the scroll wheel. 
-                this.setState({ makes: allMakesNames, selectedMake: allMakesNames[0].make_display }, () => {
-                    // do something with new state
-                    console.log('STATE AFTER API CALL', this.state)
-                })
             })
-            .catch(err => console.log(err))
+            .catch(function (error) {
+                console.log(error);
+            });
 
     }
 

@@ -4,6 +4,7 @@ import Spinner from '../Components/Spinner'
 import { Button, Text } from "native-base";
 // const Item = Picker.Item;
 import SmartPicker from 'react-native-smart-picker'
+import axios from 'axios'
 
 export default class VehicleModelPicker extends Component {
     constructor(props) {
@@ -18,20 +19,26 @@ export default class VehicleModelPicker extends Component {
         let allModels;
         let allModelsNames = [];
 
-        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=` + `${this.props.homeState.vehicleMake.toLowerCase()}` + `&year=` + `${this.props.homeState.vehicleYear}` + `&sold_in_us=1`)
+
+        axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=` + `${this.props.homeState.vehicleMake.toLowerCase()}` + `&year=` + `${this.props.homeState.vehicleYear}` + `&sold_in_us=1`)
             .then((response) => {
-                allModels = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
+                allModels = JSON.parse(response.data.slice(2, (response.data.length - 2)))
 
-                allModels.Models.map(ele => {
+                Promise.all(allModels.Models.map(ele => {
                     allModelsNames.push(ele.model_name)
+                })).then(() => {
+                    this.setState({ models: allModelsNames, selectedModel: allModelsNames[0] }, () => {
+                        // do something with new state
+                        console.log('STATE AFTER API CALL FOR MAKE AND YEAR', this.state)
+                    })
+
                 })
 
-                this.setState({ models: allModelsNames, selectedModel: allModelsNames[0] }, () => {
-                    // do something with new state
-                    console.log('STATE AFTER API CALL FOR MAKE AND YEAR', this.state)
-                })
             })
-            .catch(err => console.log(err))
+            .catch(function (error) {
+                console.log(error);
+            });
+
 
     }
 
