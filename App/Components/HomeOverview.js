@@ -47,7 +47,7 @@ export default class HomeOverview extends Component {
 
                     {this.state.loading ? <Spinner /> :
                         <Container>
-                            < VehiclePhotoPicker />
+                            < VehiclePhotoPicker user={this.props.props.account} />
 
                             {this.state.user.allVehicles ?
 
