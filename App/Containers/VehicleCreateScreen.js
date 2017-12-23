@@ -8,6 +8,7 @@ import VehicleYearPicker from '../Components/vehicleYearPicker'
 import VehicleMakePicker from '../Components/vehicleMakePicker'
 import VehicleModelPicker from '../Components/vehicleModelPicker'
 import VehicleTrimPicker from '../Components/vehicleTrimPicker'
+import VehiclePhotoPicker from '../Components/vehiclePhotoPicker'
 import firebase from 'firebase'
 import { userVehicleCreateRequest } from '../Actions/vehicle-actions';
 import { Images } from '../Themes'
