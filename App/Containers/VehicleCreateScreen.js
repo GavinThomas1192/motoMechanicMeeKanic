@@ -44,6 +44,11 @@ class VehicleCreateScreen extends Component {
     // Updates this containers/screens state from the static component user input
     // We allow the user to quickly click a stat on their vehicle to edit in case they mispressed. 
     // So we need to reset all choices after, just in case. 
+    // yearpicked = (year) => {
+    //     this.setState({ vehicleYear: year, vehicleMake: '', vehicleModel: '', vehicleTrim: '', }, function () {
+    //         console.log(this.state, 'Updated year')
+    //     });
+    // }
     yearPicked(year) {
         this.setState({ vehicleYear: year, vehicleMake: '', vehicleModel: '', vehicleTrim: '', }, function () {
             console.log(this.state, 'Updated year')
@@ -189,7 +194,11 @@ class VehicleCreateScreen extends Component {
                             <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
                             <Text onPress={() => this.modelPicked('')}>Model: {this.state.vehicleModel}</Text>
                             <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim.name}</Text>
-                            <Text onPress={() => this.photoPicked('')}>Photo: {this.state.vehiclePhoto !== '' ? this.state.vehiclePhoto.uri : 'No Photo Chosen'}</Text>
+                            <Image
+                                onPress={() => this.photoPicked('')}
+                                style={{ width: 50, height: 50 }}
+                                source={{ uri: `${this.state.vehiclePhoto.uri}` }}
+                            />
 
                             {/* These next conditionals dynamically show based on completion of full vehicle information  */}
                             {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
@@ -201,12 +210,14 @@ class VehicleCreateScreen extends Component {
                             {this.state.vehicleModel !== '' && this.state.vehicleMake !== '' && this.state.vehicleTrim === '' ? <VehicleTrimPicker homeState={this.state} vehicleTrim={this.trimPicked} /> : undefined}
 
 
-
+                            {/* Here we offer photo upload if they want.. */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto === '' ? <VehiclePhotoPicker homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : undefined}
 
+                            {/* If they don't upload photo change button text  */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
-                                <Text>I'll do it later, save vehicle</Text>
+                                {this.state.vehiclePhoto !== '' ? <Text>Save Vehicle</Text> : <Text>Not now, Save Vehicle</Text>}
                             </Button> : undefined}
+
 
 
 

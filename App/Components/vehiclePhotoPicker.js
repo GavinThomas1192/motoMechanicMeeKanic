@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Button, Text, Icon, CheckBox, Container, Content, Body, Radio, Right } from "native-base";
 import ImagePicker from 'react-native-image-picker'
-
+import Spinner from '../Components/Spinner'
 
 import RNFetchBlob from 'react-native-fetch-blob'
 
@@ -42,6 +42,7 @@ export default class VehiclePhotoPicker extends React.Component {
         console.log(this.state)
     }
     choosePhoto() {
+        this.setState({ wantsPhotoUpload: true })
 
         var options = {
             title: 'Select Avatar',
@@ -72,7 +73,7 @@ export default class VehiclePhotoPicker extends React.Component {
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
-                    vehiclePhoto: source
+                    vehiclePhoto: source, wantsPhotoUpload: false
                 });
 
                 this.props.vehiclePhoto(source);
@@ -83,42 +84,7 @@ export default class VehiclePhotoPicker extends React.Component {
     handleCheckboxPress() {
         this.setState({ wantsPhotoUpload: !this.state.wantsPhotoUpload })
     }
-    // submitPhoto() {
 
-    //     return new Promise((resolve, reject) => {
-    //         let mime = 'application/octet-stream'
-    //         const uri = this.state.vehiclePhoto.uri
-    //         const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-    //         const sessionId = new Date().getTime()
-    //         let uploadBlob = null
-    //         const imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`somesortofuniqueidentifyer`)
-
-    //         fs.readFile(uploadUri, 'base64')
-    //             .then((data) => {
-    //                 console.log('First then')
-    //                 return Blob.build(data, { type: `${mime};BASE64` })
-    //             })
-    //             .then((blob) => {
-    //                 console.log('second then', blob)
-    //                 uploadBlob = blob
-    //                 return imageRef.put(blob, { contentType: mime })
-    //             })
-    //             .then(() => {
-    //                 console.log('Third then')
-    //                 uploadBlob.close()
-    //                 return imageRef.getDownloadURL()
-    //             })
-    //             .then((url) => {
-    //                 console.log('Download URL', url)
-    //                 resolve(url)
-    //             })
-    //             .catch((error) => {
-    //                 reject(error)
-    //             })
-    //     })
-
-
-    // }
 
     render() {
 
@@ -126,13 +92,16 @@ export default class VehiclePhotoPicker extends React.Component {
         return (
             <View>
                 <Content>
+                    {this.state.wantsPhotoUpload ? <Spinner /> :
+                        <Content>
 
-                    <Text>Upload photo of vehicle now?</Text>
-                    <Button transparent onPress={this.choosePhoto} >
-                        <Icon name="images" />
-                        <Text>Yes!</Text>
-                    </Button>
-
+                            <Text>Upload photo of vehicle now?</Text>
+                            <Button transparent onPress={this.choosePhoto} >
+                                <Icon name="images" />
+                                <Text>Yes!</Text>
+                            </Button>
+                        </Content>
+                    }
                 </Content>
 
             </View>
