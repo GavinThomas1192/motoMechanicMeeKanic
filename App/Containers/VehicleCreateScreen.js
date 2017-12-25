@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image } from 'react-native'
+import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title, Toast } from 'native-base';
 import Spinner from '../Components/Spinner'
@@ -23,14 +23,15 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: '',
+            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: [],
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
         this.modelPicked = this.modelPicked.bind(this);
         this.trimPicked = this.trimPicked.bind(this);
-        this.photoPicked = this.photoPicked.bind(this)
-        this.submitPhoto = this.submitPhoto.bind(this)
+        this.photoPicked = this.photoPicked.bind(this);
+        this.submitPhoto = this.submitPhoto.bind(this);
+        this.specificPhotoDelete = this.specificPhotoDelete.bind(this)
         this.submitVehicleInformation = this.submitVehicleInformation.bind(this);
     }
 
@@ -84,6 +85,13 @@ class VehicleCreateScreen extends Component {
         this.setState({ vehiclePhoto: photo }, function () {
             console.log(this.state, 'Updated Photo')
         });
+    }
+
+    specificPhotoDelete(photo) {
+        console.log('specificphotodelete', photo)
+        let filteredArray = this.state.vehiclePhoto.filter(ele => ele.uri !== photo.uri)
+        console.log('AFTER FILTERING', filteredArray)
+        this.setState({ vehiclePhoto: filteredArray })
     }
 
     submitVehicleInformation() {
@@ -191,12 +199,16 @@ class VehicleCreateScreen extends Component {
                             <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
                             <Text onPress={() => this.modelPicked('')}>Model: {this.state.vehicleModel}</Text>
                             <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim.name}</Text>
+                            {/* Here we display all photos they uploaded */}
+                            {/* TODO if they click a photo it will remove it  */}
                             {this.state.vehiclePhoto.length > 0 ? this.state.vehiclePhoto.map(ele => {
-                                return <Image
-                                    onPress={() => this.photoPicked('')}
-                                    style={{ width: 50, height: 50 }}
-                                    source={{ uri: `${ele.uri}` }}
-                                />
+
+                                return <TouchableHighlight onPress={() => this.specificPhotoDelete(ele)}>
+                                    <Image
+                                        style={{ width: 50, height: 50 }}
+                                        source={{ uri: `${ele.uri}` }}
+                                    />
+                                </TouchableHighlight>
 
                             }) : undefined}
 
@@ -211,7 +223,10 @@ class VehicleCreateScreen extends Component {
 
 
                             {/* Here we offer photo upload if they want.. */}
-                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto === '' ? <VehiclePhotoPicker homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : undefined}
+                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto.length === 0 ? <VehiclePhotoPicker buttonText={'Photo'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : <VehiclePhotoPicker buttonText={'Another'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} />}
+
+                            
+                            
 
                             {/* If they don't upload photo change button text  */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
