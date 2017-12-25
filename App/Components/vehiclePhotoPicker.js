@@ -32,7 +32,7 @@ export default class VehiclePhotoPicker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            vehiclePhoto: '', wantsPhotoUpload: false,
+            vehiclePhoto: '', wantsPhotoUpload: false, photoPool: [],
         }
         this.choosePhoto = this.choosePhoto.bind(this);
         this.handleCheckboxPress = this.handleCheckboxPress.bind(this)
@@ -68,15 +68,12 @@ export default class VehiclePhotoPicker extends React.Component {
             }
             else {
                 let source = { uri: response.uri };
-
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-                this.setState({
-                    vehiclePhoto: source, wantsPhotoUpload: false
-                });
 
-                this.props.vehiclePhoto(source);
+                this.setState({ photoPool: [...this.state.photoPool, source], vehiclePhoto: source, wantsPhotoUpload: false })
+                this.props.vehiclePhoto(this.state.photoPool);
             }
         });
     }
@@ -95,10 +92,10 @@ export default class VehiclePhotoPicker extends React.Component {
                     {this.state.wantsPhotoUpload ? <Spinner /> :
                         <Content>
 
-                            <Text>Upload photo of vehicle now?</Text>
+                            <Text>Upload {this.props.buttonText} of vehicle</Text>
                             <Button transparent onPress={this.choosePhoto} >
                                 <Icon name="images" />
-                                <Text>Yes!</Text>
+                                {<Text>Yes!</Text>}
                             </Button>
                         </Content>
                     }
