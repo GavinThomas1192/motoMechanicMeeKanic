@@ -44,11 +44,7 @@ class VehicleCreateScreen extends Component {
     // Updates this containers/screens state from the static component user input
     // We allow the user to quickly click a stat on their vehicle to edit in case they mispressed. 
     // So we need to reset all choices after, just in case. 
-    // yearpicked = (year) => {
-    //     this.setState({ vehicleYear: year, vehicleMake: '', vehicleModel: '', vehicleTrim: '', }, function () {
-    //         console.log(this.state, 'Updated year')
-    //     });
-    // }
+
     yearPicked(year) {
         this.setState({ vehicleYear: year, vehicleMake: '', vehicleModel: '', vehicleTrim: '', }, function () {
             console.log(this.state, 'Updated year')
@@ -233,8 +229,7 @@ class VehicleCreateScreen extends Component {
         )
     }
 }
-//To get single car.
-// https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&year=2005&model=4runner&drive=4wd&keyword=sport&max_cylinders=6
+//Merry Christmas Github
 const mapStateToProps = (state) => {
     return {
         user: state.user,
