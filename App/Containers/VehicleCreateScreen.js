@@ -80,6 +80,7 @@ class VehicleCreateScreen extends Component {
     }
 
     photoPicked(photo) {
+        console.log(photo)
         this.setState({ vehiclePhoto: photo }, function () {
             console.log(this.state, 'Updated Photo')
         });
@@ -190,11 +191,14 @@ class VehicleCreateScreen extends Component {
                             <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
                             <Text onPress={() => this.modelPicked('')}>Model: {this.state.vehicleModel}</Text>
                             <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim.name}</Text>
-                            <Image
-                                onPress={() => this.photoPicked('')}
-                                style={{ width: 50, height: 50 }}
-                                source={{ uri: `${this.state.vehiclePhoto.uri}` }}
-                            />
+                            {this.state.vehiclePhoto.length > 0 ? this.state.vehiclePhoto.map(ele => {
+                                return <Image
+                                    onPress={() => this.photoPicked('')}
+                                    style={{ width: 50, height: 50 }}
+                                    source={{ uri: `${ele.uri}` }}
+                                />
+
+                            }) : undefined}
 
                             {/* These next conditionals dynamically show based on completion of full vehicle information  */}
                             {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
