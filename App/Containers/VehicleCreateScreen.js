@@ -10,7 +10,7 @@ import VehicleModelPicker from '../Components/vehicleModelPicker'
 import VehicleTrimPicker from '../Components/vehicleTrimPicker'
 import VehiclePhotoPicker from '../Components/vehiclePhotoPicker'
 import firebase from 'firebase'
-import { userVehicleCreateRequest } from '../Actions/vehicle-actions';
+import { userVehicleCreateRequest, userVehiclePhotoUploadRequest } from '../Actions/vehicle-actions';
 import { Images } from '../Themes'
 
 
@@ -122,39 +122,7 @@ class VehicleCreateScreen extends Component {
     }
 
     submitPhoto() {
-
-        return new Promise((resolve, reject) => {
-            let mime = 'application/octet-stream'
-            const uri = this.state.vehiclePhoto.uri
-            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-            const sessionId = new Date().getTime()
-            let uploadBlob = null
-            const imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`somesortofuniqueidentifyer`)
-
-            fs.readFile(uploadUri, 'base64')
-                .then((data) => {
-                    console.log('First then')
-                    return Blob.build(data, { type: `${mime};BASE64` })
-                })
-                .then((blob) => {
-                    console.log('second then', blob)
-                    uploadBlob = blob
-                    return imageRef.put(blob, { contentType: mime })
-                })
-                .then(() => {
-                    console.log('Third then')
-                    uploadBlob.close()
-                    return imageRef.getDownloadURL()
-                })
-                .then((url) => {
-                    console.log('Download URL', url)
-                    resolve(url)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-
+        this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user)
 
     }
 
@@ -261,6 +229,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userVehicleCreateRequest: (vehicle, user) => dispatch(userVehicleCreateRequest(vehicle, user)),
+        userVehiclePhotoUploadRequest: (photos, user) => dispatch(userVehiclePhotoUploadRequest(photos, user))
     }
 }
 

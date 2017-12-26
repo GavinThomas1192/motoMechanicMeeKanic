@@ -65,7 +65,45 @@ export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
 
 };
 
+export const userVehiclePhotoUploadRequest = (photos, user) => dispatch => {
+    console.log('Inside vehiclePhotoUpload Actions', photos, user)
+    return new Promise((resolve, reject) => {
+        let mime = 'application/octet-stream'
+        
+        photos.map(ele => {
 
+            let uri = ele.uri
+            let uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+            let sessionId = new Date().getTime()
+            let uploadBlob = null
+            let imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`${uri}`)
+    
+            fs.readFile(uploadUri, 'base64')
+                .then((data) => {
+                    console.log('First then')
+                    return Blob.build(data, { type: `${mime};BASE64` })
+                })
+                .then((blob) => {
+                    console.log('second then', blob)
+                    uploadBlob = blob
+                    return imageRef.put(blob, { contentType: mime })
+                })
+                .then(() => {
+                    console.log('Third then')
+                    uploadBlob.close()
+                    return imageRef.getDownloadURL()
+                })
+                .then((url) => {
+                    console.log('Download URL', url)
+                    resolve(url)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    })
+
+};
 //TODO
 // export const userVehicleUpdateRequest = (user, vehicle) => dispatch => {
 //     let { user } = getState();
@@ -73,7 +111,7 @@ export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
 //     dispatch(bikeUpdate(bike));
 
 
-// };
+// };d
 
 // export const userVehicleDeleteRequest = (user, vehicle) => dispatch => {
 
