@@ -100,15 +100,28 @@ class VehicleCreateScreen extends Component {
 
 
         //Here we fetch one last call with the selected trim.id to get an exact model. 
-        fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=` + `${this.state.vehicleTrim.id}` + `&sold_in_us=1`)
-            .then((response) => {
-                console.log(response)
-                finalChoice = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
-                console.log(finalChoice, 'FINAL CHOICCCEEEE')
-                this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
-            })
-            .catch(err => console.log(err))
+        // fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=` + `${this.state.vehicleTrim.id}` + `&sold_in_us=1`)
+        //     .then((response) => {
+        //         console.log(response)
+        //         finalChoice = JSON.parse(response._bodyText.slice(2, (response._bodyText.length - 2)))
+        //         console.log(finalChoice, 'FINAL CHOICCCEEEE')
 
+        //         this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
+        //     })
+        //     .catch(err => console.log(err))
+
+
+            axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=` + `${this.state.vehicleTrim.id}` + `&sold_in_us=1`)
+            .then((response) => {
+                finalChoice = JSON.parse(response.data.slice(2, (response.data.length - 2)))
+                console.log(finalChoice, 'FINAL CHOICCCEEEE')
+                
+                this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
+                this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
 
 
@@ -122,6 +135,7 @@ class VehicleCreateScreen extends Component {
     }
 
     submitPhoto() {
+        console.log('YOLOOOOOOOOOOOO')
         this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user)
 
     }

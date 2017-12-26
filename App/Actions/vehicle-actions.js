@@ -68,15 +68,15 @@ export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
 export const userVehiclePhotoUploadRequest = (photos, user) => dispatch => {
     console.log('Inside vehiclePhotoUpload Actions', photos, user)
     return new Promise((resolve, reject) => {
-        let mime = 'application/octet-stream'
         
         photos.map(ele => {
+            let mime = 'application/octet-stream'
 
             let uri = ele.uri
             let uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
             let sessionId = new Date().getTime()
             let uploadBlob = null
-            let imageRef = firebase.storage().ref('vehicleImages/' + `${this.props.user.uid}`).child(`${uri}`)
+            let imageRef = firebase.storage().ref('vehicleImages/' + `${user.account.uid}`).child(`${uri}`)
     
             fs.readFile(uploadUri, 'base64')
                 .then((data) => {
