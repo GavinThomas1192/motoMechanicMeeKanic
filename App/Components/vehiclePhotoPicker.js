@@ -35,15 +35,13 @@ export default class VehiclePhotoPicker extends React.Component {
             vehiclePhoto: '', wantsPhotoUpload: false, photoPool: [],
         }
         this.choosePhoto = this.choosePhoto.bind(this);
-        this.handleCheckboxPress = this.handleCheckboxPress.bind(this)
     }
 
     componentDidUpdate() {
         console.log(this.state)
     }
     choosePhoto() {
-        this.setState({ wantsPhotoUpload: true })
-
+        
         var options = {
             title: 'Select Avatar',
             customButtons: [
@@ -56,6 +54,7 @@ export default class VehiclePhotoPicker extends React.Component {
         };
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
+            this.setState({ wantsPhotoUpload: true })
 
             if (response.didCancel) {
                 console.log('User cancelled image picker');
@@ -72,15 +71,13 @@ export default class VehiclePhotoPicker extends React.Component {
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
 
-                this.setState({ photoPool: [...this.state.photoPool, source], vehiclePhoto: source, wantsPhotoUpload: false })
+                this.setState({ photoPool: source, vehiclePhoto: source, wantsPhotoUpload: false })
                 this.props.vehiclePhoto(this.state.photoPool);
             }
         });
     }
 
-    handleCheckboxPress() {
-        this.setState({ wantsPhotoUpload: !this.state.wantsPhotoUpload })
-    }
+
 
 
     render() {
@@ -89,7 +86,7 @@ export default class VehiclePhotoPicker extends React.Component {
         return (
             <View>
                 <Content>
-                    {this.state.wantsPhotoUpload ? <Spinner /> :
+                    {this.state.wantsPhotoUpload ? <Spinner /> : undefined }
                         <Content>
 
                             <Text>Upload {this.props.buttonText} of vehicle</Text>
@@ -98,7 +95,7 @@ export default class VehiclePhotoPicker extends React.Component {
                                 {<Text>Yes!</Text>}
                             </Button>
                         </Content>
-                    }
+                    
                 </Content>
 
             </View>

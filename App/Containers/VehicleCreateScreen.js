@@ -81,16 +81,16 @@ class VehicleCreateScreen extends Component {
     }
 
     photoPicked(photo) {
+        // [...this.state.photoPool, source]
         console.log(photo)
-        this.setState({ vehiclePhoto: photo }, function () {
+        this.setState({ vehiclePhoto: [...this.state.vehiclePhoto, photo] }, function () {
             console.log(this.state, 'Updated Photo')
         });
     }
 
     specificPhotoDelete(photo) {
-        console.log('specificphotodelete', photo)
         let filteredArray = this.state.vehiclePhoto.filter(ele => ele.uri !== photo.uri)
-        console.log('AFTER FILTERING', filteredArray)
+        console.log(filteredArray)
         this.setState({ vehiclePhoto: filteredArray })
     }
 
@@ -193,7 +193,7 @@ class VehicleCreateScreen extends Component {
                     </Header>
                     <Container style={styles.Container}>
 
-                        <Content>
+                        <View>
                             <Text>Vehicle Stats:</Text>
                             <Text onPress={() => this.yearPicked('')} >Year: {this.state.vehicleYear}</Text>
                             <Text onPress={() => this.makePicked('')}>Make: {this.state.vehicleMake}</Text>
@@ -204,14 +204,18 @@ class VehicleCreateScreen extends Component {
                             {this.state.vehiclePhoto.length > 0 ? this.state.vehiclePhoto.map(ele => {
 
                                 return <TouchableHighlight onPress={() => this.specificPhotoDelete(ele)}>
+                                <View>
                                     <Image
                                         style={{ width: 50, height: 50 }}
                                         source={{ uri: `${ele.uri}` }}
                                     />
+                                        <Icon name="close" />
+                                </View>
                                 </TouchableHighlight>
 
                             }) : undefined}
-
+                        </View>
+                        <Content>
                             {/* These next conditionals dynamically show based on completion of full vehicle information  */}
                             {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
 
@@ -225,8 +229,7 @@ class VehicleCreateScreen extends Component {
                             {/* Here we offer photo upload if they want.. */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto.length === 0 ? <VehiclePhotoPicker buttonText={'Photo'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : <VehiclePhotoPicker buttonText={'Another'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} />}
 
-                            
-                            
+                    
 
                             {/* If they don't upload photo change button text  */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
