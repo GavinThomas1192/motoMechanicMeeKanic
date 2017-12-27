@@ -101,11 +101,11 @@ class VehicleCreateScreen extends Component {
 
         //Here we fetch one last call with the selected trim.id to get an exact model. 
 
-            axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=` + `${this.state.vehicleTrim.id}` + `&sold_in_us=1`)
+        axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=` + `${this.state.vehicleTrim.id}` + `&sold_in_us=1`)
             .then((response) => {
                 finalChoice = JSON.parse(response.data.slice(2, (response.data.length - 2)))
                 console.log(finalChoice, 'FINAL CHOICCCEEEE')
-                
+
                 this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
                 this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user, this.state.vehicleYear)
             })
@@ -176,13 +176,13 @@ class VehicleCreateScreen extends Component {
                             {this.state.vehiclePhoto.length > 0 ? this.state.vehiclePhoto.map(ele => {
 
                                 return <TouchableHighlight onPress={() => this.specificPhotoDelete(ele)}>
-                                <View>
-                                    <Image
-                                        style={{ width: 50, height: 50 }}
-                                        source={{ uri: `${ele.uri}` }}
-                                    />
+                                    <View>
+                                        <Image
+                                            style={{ width: 50, height: 50 }}
+                                            source={{ uri: `${ele.uri}` }}
+                                        />
                                         <Icon name="close" />
-                                </View>
+                                    </View>
                                 </TouchableHighlight>
 
                             }) : undefined}
@@ -201,7 +201,7 @@ class VehicleCreateScreen extends Component {
                             {/* Here we offer photo upload if they want.. */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto.length === 0 ? <VehiclePhotoPicker buttonText={'Photo'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : <VehiclePhotoPicker buttonText={'Another'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} />}
 
-                    
+
 
                             {/* If they don't upload photo change button text  */}
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
