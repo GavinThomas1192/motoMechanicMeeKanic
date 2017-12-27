@@ -31,30 +31,36 @@ export default class HomeOverview extends Component {
         // ******* We have to render everything in this component from this.state.user to avoid async errors
 
         this.setState({ user: nextProps.props, loading: false }, function () {
-            console.log(this.state, "*********************")
         });
     }
 
     render() {
-        console.log(this.state, this.props, '**************')
+        console.log(this.state, this.props, this.props.props.allVehicles.allVehiclesArray[0].photosReference.referenceToUploadedPhotos[0], '**************')
+        // let dynamicAvatar = Images.background;
+        // {this.props.props.allVehicles.allVehiclesArray[0].photosReference !== null ? dynamicAvatar = ele.photosReference.referenceToUploadedPhotos[0] : undefined}
         return (
             // ******* The first if, renders loading spinner if firebase promise isn't returned yet.
             // ******* The second if, checks to make sure the user returned from firebase has vehicles.
 
             <ScrollView>
                 <Container>
-
                     {this.state.loading ? <Spinner /> :
                         <Container>
 
                             {this.state.user.allVehicles ?
 
                                 this.props.props.allVehicles.allVehiclesArray.map(ele => {
+                                    {ele.photosReference !== undefined ? console.log(ele.photosReference.referenceToUploadedPhotos[0], '<========='): undefined}
+                                    let dynamicAvatar = Images.background;
+                                    {ele.photosReference !== undefined ? dynamicAvatar = {uri: `${ele.photosReference.referenceToUploadedPhotos[0]}`} : undefined}
+                                    console.log(dynamicAvatar, '<=============DYNAMIC AVATAR')
                                     return (
                                         <Card style={{ flex: 0 }}>
+                                        <Image source={dynamicAvatar} style={{ height: 200, width: 200, flex: 1 }} />
                                             <CardItem>
                                                 <Left>
-                                                    <Thumbnail source={Images.background} />
+                                                {/* {ele.photosReference !== null ? source={{uri: `${ele.photosReference.referenceToUploadedPhotos[0]}` }} : source={Images.background} } */}
+                                                    <Thumbnail source={dynamicAvatar} />
                                                     <Body>
                                                         <Text>{ele.model_year + ' ' + ele.make_display + ' ' + ele.model_name}</Text>
                                                         <Text note>{ele.model_trim}</Text>
@@ -63,6 +69,7 @@ export default class HomeOverview extends Component {
                                             </CardItem>
                                             <CardItem>
                                                 <Body>
+                                                    {/* ele.photosReference.referenceToUploadedPhotos[0] */}
                                                     <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} />
                                                     {/* //I have no idea why transmission is white/why this works.. but it does... */}
                                                     <Text>
