@@ -117,7 +117,7 @@ class VehicleCreateScreen extends Component {
                 console.log(finalChoice, 'FINAL CHOICCCEEEE')
                 
                 this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
-                this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user)
+                this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user, this.state.vehicleYear)
             })
             .catch(function (error) {
                 console.log(error);
@@ -243,7 +243,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userVehicleCreateRequest: (vehicle, user) => dispatch(userVehicleCreateRequest(vehicle, user)),
-        userVehiclePhotoUploadRequest: (photos, user) => dispatch(userVehiclePhotoUploadRequest(photos, user))
+        userVehiclePhotoUploadRequest: (photos, user, year) => dispatch(userVehiclePhotoUploadRequest(photos, user, year))
     }
 }
 

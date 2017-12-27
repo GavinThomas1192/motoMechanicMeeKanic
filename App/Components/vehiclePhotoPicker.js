@@ -27,7 +27,6 @@ window.Blob = Blob
 
 
 
-import { RNS3 } from 'react-native-aws3';
 export default class VehiclePhotoPicker extends React.Component {
     constructor(props) {
         super(props)
