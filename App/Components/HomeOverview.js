@@ -88,7 +88,22 @@ export default class HomeOverview extends Component {
                                                 <Left>
                                                     <Button transparent textStyle={{ color: '#87838B' }}>
                                                         <Icon name="build" />
-                                                        <Text>10 Maintaince Records</Text>
+                                                        <Text>10 Maintaince Records</Text>  
+                                                    </Button>
+                                                </Left>
+                                          
+                                                <Right>
+                                                    <Button transparent textStyle={{ color: '#87838B' }}>
+                                                        <Icon name="close-circle" />
+                                                        <Text>Delete</Text>
+                                                    </Button>
+                                                </Right>
+                                            </CardItem>
+                                            <CardItem>
+                                                <Left>
+                                                    <Button transparent>
+                                                    <Icon active name="chatbubbles" />
+                                                    <Text>4 Comments</Text>
                                                     </Button>
                                                 </Left>
                                             </CardItem>
