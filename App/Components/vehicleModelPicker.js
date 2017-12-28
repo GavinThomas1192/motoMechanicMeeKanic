@@ -29,7 +29,6 @@ export default class VehicleModelPicker extends Component {
                 })).then(() => {
                     this.setState({ models: allModelsNames, selectedModel: allModelsNames[0] }, () => {
                         // do something with new state
-                        console.log('STATE AFTER API CALL FOR MAKE AND YEAR', this.state)
                     })
 
                 })

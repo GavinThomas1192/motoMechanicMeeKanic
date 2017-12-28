@@ -30,12 +30,10 @@ export const loginRequest = user => dispatch => {
     // ******** FYI - The entire user object also contains their vehicles ********
     // ******** Here we need to check if user already exists in Firebase Database so that we dont overwrite their old data ********
     // ******** WARNING! With Firebase if you set data to a spot that has existing data it will overwrite it! ********
-    console.log('RECIEVED USER TO LOOKUP', user);
     firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
         // ******** This method is straight from their docs ********
         // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
         let username = snapshot.val();
-        console.log(' FOUND THIS USER FROM THE DB', username);
         // {
         //     // ******** If the username object is empty there wasn't any data at xxxxxx/user/user.uid ********
         //     // ******** It's safe to write data to this spot ********
@@ -56,7 +54,6 @@ export const loginRequest = user => dispatch => {
 };
 export const signupRequest = (email, password, username) => dispatch => {
     // ******** The signup actions only trigger for first time users, no need to check database ********
-    console.log('RECIEVED USER TO SIGNUP', email, password);
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((authData) => {
             // ******** Firebase will create a route with whatever KEY is fed to the .set method ********
@@ -72,7 +69,6 @@ export const signupRequest = (email, password, username) => dispatch => {
                 // ******** Now we need to grap a snapshot from the DB to validate account creation and update the redux store locally ********
                 firebase.database().ref('users/' + authData.uid).once('value').then(function (snapshot) {
                     let updatedUser = snapshot.val();
-                    console.log(' FOUND THIS USER FROM THE DB after signup', username);
                 }).then(() => {
                     dispatch(userSet(updatedUser));
 

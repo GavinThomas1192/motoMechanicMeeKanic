@@ -8,7 +8,7 @@ import SideBar from '../Components/SideBar';
 import { Dropdown } from 'react-native-material-dropdown';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import HomeOverview from '../Components/HomeOverview'
-
+import { deleteVehicleRequest } from '../Actions/vehicle-actions'
 const backgroundImage = require("../Images/vw.jpg");
 
 
@@ -140,7 +140,7 @@ class HomeScreen extends Component {
             </Right>
           </Header>
 
-          {this.state.OverviewActive ? <HomeOverview navigation={this.props.navigation} props={this.props.user} /> : <Spinner />}
+          {this.state.OverviewActive ? <HomeOverview navigation={this.props.navigation} props={this.props.user} deleteVehicleRequest={this.props.deleteVehicleRequest} /> : <Spinner />}
 
         </Drawer>
         <Footer>
@@ -179,6 +179,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginRequest: (user) => dispatch(loginRequest(user)),
+    deleteVehicleRequest: (user, vehicle, index) => dispatch(deleteVehicleRequest(user, vehicle, index)),
 
   }
 }

@@ -34,8 +34,6 @@ export default class vehicleTrimPicker extends Component {
                     allTrimsNames.push({ name: ele.model_trim, id: ele.model_id })
                 })).then(() => {
                     this.setState({ trims: allTrimsNames, selectedTrim: allTrimsNames[0].name }, () => {
-                        // do something with new state
-                        console.log('VEHICLETRIMPICKER STATE AFTER GRABBING ALL TRIMS', this.state)
                     })
                 })
             })

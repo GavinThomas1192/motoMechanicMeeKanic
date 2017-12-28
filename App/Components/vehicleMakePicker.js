@@ -17,13 +17,11 @@ export default class VehicleMakePicker extends Component {
         };
     }
     componentDidMount() {
-        console.log('DEBUGGING', this.props)
         let allMakes;
         let allMakesNames = [];
 
         axios.get(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=` + `${this.props.pickedYear}` + `&sold_in_us=1`)
             .then((response) => {
-                console.log(response)
                 allMakes = JSON.parse(response.data.slice(2, (response.data.length - 2)))
 
                 Promise.all(allMakes.Makes.map(ele => {
@@ -32,7 +30,6 @@ export default class VehicleMakePicker extends Component {
 
                     this.setState({ makes: allMakesNames, selectedMake: allMakesNames[0].make_display }, () => {
                         // do something with new state
-                        console.log('STATE AFTER API CALL', this.state)
                     })
                 })
                 //Here we have to set selectedMake to the first item in the response list

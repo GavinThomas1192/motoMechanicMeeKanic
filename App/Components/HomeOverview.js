@@ -13,6 +13,7 @@ export default class HomeOverview extends Component {
             loading: true,
             user: {},
         }
+        this.handleDelete = this.handleDelete.bind(this)
     }
 
     componentDidMount() {
@@ -34,10 +35,14 @@ export default class HomeOverview extends Component {
         });
     }
 
+    handleDelete(vehicle, index) {
+        // console.log(vehicle)
+        // TODO
+        this.props.deleteVehicleRequest(this.state.user, vehicle, index)
+    }
+
     render() {
-        console.log(this.state, this.props, '**************')
-        // let dynamicAvatar = Images.background;
-       
+
         return (
             // ******* The first if, renders loading spinner if firebase promise isn't returned yet.
             // ******* The second if, checks to make sure the user returned from firebase has vehicles.
@@ -48,68 +53,66 @@ export default class HomeOverview extends Component {
                     {this.state.loading ? <Spinner /> :
                         <Container>
                             {this.state.user.allVehicles ?
-                            <ScrollView>
-                                {this.props.props.allVehicles.allVehiclesArray.map(ele => {
-                                    { ele.photosReference !== undefined ? console.log(ele.photosReference.referenceToUploadedPhotos[0], '<=========') : undefined }
-                                    let dynamicAvatar = Images.background;
-                                    { ele.photosReference !== undefined ? dynamicAvatar = { uri: `${ele.photosReference.referenceToUploadedPhotos[0]}` } : undefined }
-                                    console.log(dynamicAvatar, '<=============DYNAMIC AVATAR')
-                                    return (
-                                        <Card style={{ flex: 0 }}>
-                                            <CardItem>
-                                                <Left>
-                                                    {/* {ele.photosReference !== null ? source={{uri: `${ele.photosReference.referenceToUploadedPhotos[0]}` }} : source={Images.background} } */}
-                                                    <Thumbnail source={dynamicAvatar} />
+                                <ScrollView>
+                                    {this.props.props.allVehicles.allVehiclesArray.map(ele => {
+
+                                        let dynamicAvatar = Images.background;
+                                        { ele.photosReference !== undefined ? dynamicAvatar = { uri: `${ele.photosReference.referenceToUploadedPhotos[0]}` } : undefined }
+                                        return (
+                                            <Card style={{ flex: 0 }}>
+                                                <CardItem>
+                                                    <Left>
+
+                                                        <Thumbnail source={dynamicAvatar} />
+                                                        <Body>
+                                                            <Text>{ele.model_year + ' ' + ele.make_display + ' ' + ele.model_name}</Text>
+                                                            <Text note>{ele.model_trim}</Text>
+                                                        </Body>
+                                                    </Left>
+                                                </CardItem>
+                                                <CardItem cardBody>
+                                                    <Image source={dynamicAvatar} style={{ height: 200, width: null, flex: 1 }} />
+                                                </CardItem>
+
+                                                <CardItem>
                                                     <Body>
-                                                        <Text>{ele.model_year + ' ' + ele.make_display + ' ' + ele.model_name}</Text>
-                                                        <Text note>{ele.model_trim}</Text>
+                                                        {/* //I have no idea why transmission is white/why this works.. but it does... */}
+                                                        <Text>
+
+                                                            Transmission:   {ele.model_transmission_type === undefined ? 'Automatic' : ele.model_transmission_type}
+                                                        </Text>
+                                                        <Text>
+                                                            {`Horsepower: ` + ele.model_engine_power_hp}
+                                                        </Text>
+
                                                     </Body>
-                                                </Left>
-                                            </CardItem>
-                                            <CardItem cardBody>
-                                                <Image source={dynamicAvatar} style={{ height: 200, width: null, flex: 1 }} />
-                                            </CardItem>
+                                                </CardItem>
+                                                <CardItem>
+                                                    <Left>
+                                                        <Button transparent textStyle={{ color: '#87838B' }}>
+                                                            <Icon name="build" />
+                                                            <Text>10 Maintaince Records</Text>
+                                                        </Button>
+                                                    </Left>
 
-                                            <CardItem>
-                                                <Body>
-                                                    {/* <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} /> */}
-                                                    {/* //I have no idea why transmission is white/why this works.. but it does... */}
-                                                    <Text>
-
-                                                        Transmission:   {ele.model_transmission_type === undefined ? 'Automatic' : ele.model_transmission_type}
-                                                    </Text>
-                                                    <Text>
-                                                        {`Horsepower: ` + ele.model_engine_power_hp}
-                                                    </Text>
-
-                                                </Body>
-                                            </CardItem>
-                                            <CardItem>
-                                                <Left>
-                                                    <Button transparent textStyle={{ color: '#87838B' }}>
-                                                        <Icon name="build" />
-                                                        <Text>10 Maintaince Records</Text>  
-                                                    </Button>
-                                                </Left>
-                                          
-                                                <Right>
-                                                    <Button transparent textStyle={{ color: '#87838B' }}>
-                                                        <Icon name="close-circle" />
-                                                        <Text>Delete</Text>
-                                                    </Button>
-                                                </Right>
-                                            </CardItem>
-                                            <CardItem>
-                                                <Left>
-                                                    <Button transparent>
-                                                    <Icon active name="chatbubbles" />
-                                                    <Text>4 Comments</Text>
-                                                    </Button>
-                                                </Left>
-                                            </CardItem>
-                                        </Card>
-                                    )
-                                })}
+                                                    <Right>
+                                                        <Button transparent onPress={() => this.handleDelete(ele, this.props.props.allVehicles.allVehiclesArray.indexOf(ele))} textStyle={{ color: '#87838B' }}>
+                                                            <Icon name="close-circle" />
+                                                            <Text>Delete</Text>
+                                                        </Button>
+                                                    </Right>
+                                                </CardItem>
+                                                <CardItem>
+                                                    <Left>
+                                                        <Button transparent>
+                                                            <Icon active name="chatbubbles" />
+                                                            <Text>4 Comments</Text>
+                                                        </Button>
+                                                    </Left>
+                                                </CardItem>
+                                            </Card>
+                                        )
+                                    })}
                                 </ScrollView>
                                 :
                                 <Container>
