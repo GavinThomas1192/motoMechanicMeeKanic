@@ -37,20 +37,19 @@ export default class HomeOverview extends Component {
     render() {
         console.log(this.state, this.props, '**************')
         // let dynamicAvatar = Images.background;
-        // {this.props.props.allVehicles.allVehiclesArray[0].photosReference !== null ? dynamicAvatar = ele.photosReference.referenceToUploadedPhotos[0] : undefined}
+       
         return (
             // ******* The first if, renders loading spinner if firebase promise isn't returned yet.
             // ******* The second if, checks to make sure the user returned from firebase has vehicles.
 
             <ScrollView>
-                {/* <Image source={{ uri: `https://firebasestorage.googleapis.com/v0/b/motomechanic-dd66a.appspot.com/o/vehicleImages%2Ff0X6FtEvpjhrsOGLFK0xlp6c8l82%2F1514339421332?alt=media&token=f8e70dd1-5eac-4508-922f-04e380678c24` }} /> */}
+
                 <Container>
                     {this.state.loading ? <Spinner /> :
                         <Container>
-
                             {this.state.user.allVehicles ?
-
-                                this.props.props.allVehicles.allVehiclesArray.map(ele => {
+                            <ScrollView>
+                                {this.props.props.allVehicles.allVehiclesArray.map(ele => {
                                     { ele.photosReference !== undefined ? console.log(ele.photosReference.referenceToUploadedPhotos[0], '<=========') : undefined }
                                     let dynamicAvatar = Images.background;
                                     { ele.photosReference !== undefined ? dynamicAvatar = { uri: `${ele.photosReference.referenceToUploadedPhotos[0]}` } : undefined }
@@ -67,9 +66,13 @@ export default class HomeOverview extends Component {
                                                     </Body>
                                                 </Left>
                                             </CardItem>
+                                            <CardItem cardBody>
+                                                <Image source={dynamicAvatar} style={{ height: 200, width: null, flex: 1 }} />
+                                            </CardItem>
+
                                             <CardItem>
                                                 <Body>
-                                                    <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} />
+                                                    {/* <Image source={require("../Images/vw.jpg")} style={{ height: 200, width: 200, flex: 1 }} /> */}
                                                     {/* //I have no idea why transmission is white/why this works.. but it does... */}
                                                     <Text>
 
@@ -85,13 +88,29 @@ export default class HomeOverview extends Component {
                                                 <Left>
                                                     <Button transparent textStyle={{ color: '#87838B' }}>
                                                         <Icon name="build" />
-                                                        <Text>10 Maintaince Records</Text>
+                                                        <Text>10 Maintaince Records</Text>  
+                                                    </Button>
+                                                </Left>
+                                          
+                                                <Right>
+                                                    <Button transparent textStyle={{ color: '#87838B' }}>
+                                                        <Icon name="close-circle" />
+                                                        <Text>Delete</Text>
+                                                    </Button>
+                                                </Right>
+                                            </CardItem>
+                                            <CardItem>
+                                                <Left>
+                                                    <Button transparent>
+                                                    <Icon active name="chatbubbles" />
+                                                    <Text>4 Comments</Text>
                                                     </Button>
                                                 </Left>
                                             </CardItem>
                                         </Card>
                                     )
-                                })
+                                })}
+                                </ScrollView>
                                 :
                                 <Container>
                                     <Content>
