@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import { userSet, userCreate, userUpdate, loginRequest } from './auth-actions';
-import {Platform} from 'react-native'
+import { Platform } from 'react-native'
 import RNFetchBlob from 'react-native-fetch-blob'
 
 
@@ -38,7 +38,6 @@ export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
                 firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
 
                     let username = snapshot.val();
-                    console.log(' FOUND THIS USER FROM THE DB', username);
 
                     //Edge case if database get screwed up, otherwise update redux store
                     { !username.account ? console.log('errrrrrrrrr') : dispatch(userSet(username)) }
@@ -59,7 +58,6 @@ export const userVehicleCreateRequest = (vehicle, user) => dispatch => {
                         firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
 
                             let username = snapshot.val();
-                            console.log(' FOUND THIS USER FROM THE DB', username);
 
 
                             //Edge case if database get screwed up, otherwise update redux store
@@ -79,10 +77,9 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
     console.log('Inside vehiclePhotoUpload Actions', photos, user)
 
     let referenceToUploadedPhotos = [];
-    
+
     return new Promise((resolve, reject) => {
         photos.map(ele => {
-            console.log('INSIDE MAP ====>>>>', ele)
             let mime = 'application/octet-stream'
 
             let uri = ele.uri
@@ -90,49 +87,49 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
             let sessionId = new Date().getTime()
             let uploadBlob = null
             let imageRef = firebase.storage().ref('vehicleImages/' + `${user.account.uid}`).child(`${sessionId}`)
-    
+
             fs.readFile(uploadUri, 'base64')
                 .then((data) => {
-                    console.log('First then')
                     return Blob.build(data, { type: `${mime};BASE64` })
                 })
                 .then((blob) => {
-                    console.log('second then', blob)
                     uploadBlob = blob
                     return imageRef.put(blob, { contentType: mime })
                 })
                 .then(() => {
-                    console.log('Third then')
                     uploadBlob.close()
                     return imageRef.getDownloadURL()
                 })
                 .then((url) => {
                     referenceToUploadedPhotos.push(url)
-                    console.log('Download URL', url)
                     resolve(url)
                 })
                 .catch((error) => {
                     reject(error)
                 })
-            })
+        })
     })
-    .then(() => {
-        let vehicles;
-        firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray`).limitToFirst(1).once('value').then(function (snapshot) {
-            // ******** This method is straight from their docs ********
-            // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
-            vehicles = snapshot.val();
-            console.log('%%%%%%%%%%%%%', Object.keys(vehicles)[0], vehicles)
-        }).then(() => {
-            // let lastVehicle = vehicles.length - 1;
-            firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + `${Object.keys(vehicles)[0]}` + `/photosReference`).set({
-                        referenceToUploadedPhotos
-                    })
+        .then(() => {
+            let vehicles;
+            firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray`).limitToFirst(1).once('value').then(function (snapshot) {
+                // ******** This method is straight from their docs ********
+                // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
+                vehicles = snapshot.val();
+            }).then(() => {
+                // let lastVehicle = vehicles.length - 1;
+                firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + `${Object.keys(vehicles)[0]}` + `/photosReference`).set({
+                    referenceToUploadedPhotos
+                })
+            })
+
         })
 
-    })
-
 };
+
+export const deleteVehicleRequest = (user, vehicle, index) => dispatch => {
+    console.log('INSIDE VEHICLE DELETE', user, vehicle)
+    console.log('YOLO', index)
+}
 //TODO
 // export const userVehicleUpdateRequest = (user, vehicle) => dispatch => {
 //     let { user } = getState();

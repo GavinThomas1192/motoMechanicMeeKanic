@@ -37,10 +37,9 @@ export default class VehiclePhotoPicker extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state)
     }
     choosePhoto() {
-        
+
         var options = {
             title: 'Select Avatar',
             customButtons: [
@@ -85,16 +84,16 @@ export default class VehiclePhotoPicker extends React.Component {
         return (
             <View>
                 <Content>
-                    {this.state.wantsPhotoUpload ? <Spinner /> : undefined }
-                        <Content>
+                    {this.state.wantsPhotoUpload ? <Spinner /> : undefined}
+                    <Content>
 
-                            <Text>Upload {this.props.buttonText} of vehicle</Text>
-                            <Button transparent onPress={this.choosePhoto} >
-                                <Icon name="images" />
-                                {<Text>Yes!</Text>}
-                            </Button>
-                        </Content>
-                    
+                        <Text>Upload {this.props.buttonText} of vehicle</Text>
+                        <Button transparent onPress={this.choosePhoto} >
+                            <Icon name="images" />
+                            {<Text>Yes!</Text>}
+                        </Button>
+                    </Content>
+
                 </Content>
 
             </View>
