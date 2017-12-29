@@ -130,8 +130,23 @@ export const deleteVehicleRequest = (user, vehicle, index) => dispatch => {
     console.log('INSIDE VEHICLE DELETE', user, vehicle)
     console.log('YOLO', index)
 
-    firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index).remove();
-    dispatch(loginRequest(user.account))
+    let listOfUrls = [];
+    //Here we captures all the photos associated with this vehicle
+    firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index + `/photosReference/referenceToUploadedPhotos`).once('value').then(function (snapshot) {
+
+        listOfUrls = snapshot.val();
+        console.log(listOfUrls)
+    }).then(() => {
+        //Then we delete these photos from STORAGE
+        firebase.storage().refFromURL(`${listOfUrls[0]}`).delete().then(() => {
+            //Then we delete the vehicle information from DATABASE
+            firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index).remove();
+            //Dispatch loginRequest to update our redux store!
+            dispatch(loginRequest(user.account))
+
+        })
+
+    })
 }
 
 
