@@ -94,8 +94,8 @@ export default class vehicleTrimPicker extends Component {
                                 <Text>Done</Text>
                             </Button>
                         </ScrollView>
-                        : <Button block onPress={() => this.props.vehicleTrim('No Possible Trims')}>
-                            <Text>That one!</Text>
+                        : <Button block onPress={() => this.handleTrimPick(this.state.selectedTrim)}>
+                            <Text>No Trims Available</Text>
                         </Button>}
 
                 </View>

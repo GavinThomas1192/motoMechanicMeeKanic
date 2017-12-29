@@ -102,6 +102,7 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
                 })
                 .then((url) => {
                     referenceToUploadedPhotos.push(url)
+                    console.log('ARRAY OF URLS WHILE PUSHING', referenceToUploadedPhotos)
                     resolve(url)
                 })
                 .catch((error) => {
@@ -110,19 +111,26 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
         })
     })
         .then(() => {
+            //I did this to not go home until photos are done uploading. 
+
             let vehicles;
             firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray`).limitToFirst(1).once('value').then(function (snapshot) {
                 // ******** This method is straight from their docs ********
                 // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
                 vehicles = snapshot.val();
             }).then(() => {
+                console.log('ARRAY OF URLS BEFORE SETTING', referenceToUploadedPhotos)
                 // let lastVehicle = vehicles.length - 1;
                 firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + `${Object.keys(vehicles)[0]}` + `/photosReference`).set({
                     referenceToUploadedPhotos
+                }).then(() => {
+                    dispatch(loginRequest(user.account))
                 })
             })
 
+
         })
+
 
 };
 
@@ -137,14 +145,23 @@ export const deleteVehicleRequest = (user, vehicle, index) => dispatch => {
         listOfUrls = snapshot.val();
         console.log(listOfUrls)
     }).then(() => {
-        //Then we delete these photos from STORAGE
-        firebase.storage().refFromURL(`${listOfUrls[0]}`).delete().then(() => {
-            //Then we delete the vehicle information from DATABASE
-            firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index).remove();
+        {
+            //if not null then there are photos to delete
+            listOfUrls !== null ?
+                //Then we delete these photos from STORAGE
+                firebase.storage().refFromURL(`${listOfUrls[0]}`).delete().then(() => {
+                    //Then we delete the vehicle information from DATABASE
+                    firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index).remove();
+                    //Dispatch loginRequest to update our redux store!
+                    dispatch(loginRequest(user.account))
+
+                }) :
+                //otherwise no photos just delete data from database
+                firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index).remove();
             //Dispatch loginRequest to update our redux store!
             dispatch(loginRequest(user.account))
+        }
 
-        })
 
     })
 }
@@ -166,3 +183,4 @@ export const deleteVehicleRequest = (user, vehicle, index) => dispatch => {
 //     dispatch(bikeDelete(bike));
 
 // };
+
