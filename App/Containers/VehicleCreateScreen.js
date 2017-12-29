@@ -107,7 +107,10 @@ class VehicleCreateScreen extends Component {
                 console.log(finalChoice, 'FINAL CHOICCCEEEE')
 
                 this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
-                this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user, this.state.vehicleYear)
+                this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user, this.state.vehicleYear).then(() => {
+                    this.props.navigation.navigate('HomeScreen')
+
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -121,7 +124,7 @@ class VehicleCreateScreen extends Component {
             buttonText: 'Sounds Good',
             duration: 3000,
         })
-        this.props.navigation.navigate('HomeScreen')
+        // this.props.navigation.navigate('HomeScreen')
     }
 
     submitPhoto() {
