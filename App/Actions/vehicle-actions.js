@@ -129,7 +129,12 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
 export const deleteVehicleRequest = (user, vehicle, index) => dispatch => {
     console.log('INSIDE VEHICLE DELETE', user, vehicle)
     console.log('YOLO', index)
+
+    firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + index).remove();
+    dispatch(loginRequest(user.account))
 }
+
+
 //TODO
 // export const userVehicleUpdateRequest = (user, vehicle) => dispatch => {
 //     let { user } = getState();
