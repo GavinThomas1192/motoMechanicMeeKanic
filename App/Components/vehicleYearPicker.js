@@ -21,7 +21,7 @@ export default class VehicleYearPicker extends Component {
     }
 
 
-    handleChange(value: string) {
+    handleChange(value) {
         this.setState({
             selected1: value
         });

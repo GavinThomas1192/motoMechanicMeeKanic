@@ -111,6 +111,8 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
         })
     })
         .then(() => {
+            //I did this to not go home until photos are done uploading. 
+
             let vehicles;
             firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray`).limitToFirst(1).once('value').then(function (snapshot) {
                 // ******** This method is straight from their docs ********
@@ -121,8 +123,11 @@ export const userVehiclePhotoUploadRequest = (photos, user, year) => dispatch =>
                 // let lastVehicle = vehicles.length - 1;
                 firebase.database().ref('users/' + user.account.uid + `/allVehicles/allVehiclesArray/` + `${Object.keys(vehicles)[0]}` + `/photosReference`).set({
                     referenceToUploadedPhotos
+                }).then(() => {
+                    dispatch(loginRequest(user.account))
                 })
             })
+
 
         })
 

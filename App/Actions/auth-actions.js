@@ -34,17 +34,7 @@ export const loginRequest = user => dispatch => {
         // ******** This method is straight from their docs ********
         // ******** It returns whatever is found at the path xxxxx/users/user.uid ********
         let username = snapshot.val();
-        // {
-        //     // ******** If the username object is empty there wasn't any data at xxxxxx/user/user.uid ********
-        //     // ******** It's safe to write data to this spot ********
-        //     username === null ? firebase.database().ref('users/' + user.uid).set({
-        //         account: username
-        //     }).then(function () {
-        //         console.log('STORED THIS USER TO FIREBASE DB', username);
-        //         dispatch(userSet(username))
-        //     })
-        //         : undefined
-        // }
+
         // ******** Otherwise, the user already exists and we should update redux store with logged in user ********
         { !username.account ? console.log('errrrrrrrrr') : dispatch(userSet(username)) }
     })
