@@ -48,7 +48,7 @@ export default class VehicleMakePicker extends Component {
     }
 
 
-    handleChange(value: string) {
+    handleChange(value) {
         this.setState({
             selectedMake: value
         });
