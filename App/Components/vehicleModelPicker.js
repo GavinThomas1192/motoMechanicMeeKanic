@@ -48,7 +48,7 @@ export default class VehicleModelPicker extends Component {
     }
 
 
-    handleChange(value: string) {
+    handleChange(value) {
         this.setState({
             selectedModel: value
         });

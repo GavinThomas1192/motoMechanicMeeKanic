@@ -122,7 +122,7 @@ class HomeScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Title>{this.state.headerTitle}</Title>
+              <Title style={{ "fontSize": "10" }} >Welcome Back {this.props.user.account.username}</Title>
             </Body>
             <Right>
               <Button transparent onPress={this.showMenu}>
