@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { ScrollView, Text, KeyboardAvoidingView, View, TextInput, StatusBar, Image, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title, Toast } from 'native-base';
-import Spinner from '../Components/Spinner'
+import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Button, Icon, Title, Toast, Spinner } from 'native-base';
+// import Spinner from '../Components/Spinner'
 import VehicleYearPicker from '../Components/vehicleYearPicker'
 import VehicleMakePicker from '../Components/vehicleMakePicker'
 import VehicleModelPicker from '../Components/vehicleModelPicker'
@@ -23,7 +23,7 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: [],
+            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: [], loading: false,
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
@@ -105,9 +105,15 @@ class VehicleCreateScreen extends Component {
             .then((response) => {
                 finalChoice = JSON.parse(response.data.slice(2, (response.data.length - 2)))
                 console.log(finalChoice, 'FINAL CHOICCCEEEE')
+                this.setState({ loading: true }, function () {
+
+                })
 
                 this.props.userVehicleCreateRequest(finalChoice, this.props.user.account)
                 this.props.userVehiclePhotoUploadRequest(this.state.vehiclePhoto, this.props.user, this.state.vehicleYear).then(() => {
+                    this.setState({ loading: false }, function () {
+
+                    })
                     this.props.navigation.navigate('HomeScreen')
 
                 })
@@ -138,17 +144,17 @@ class VehicleCreateScreen extends Component {
         console.log(text)
     }
 
-    renderButton() {
-        if (this.state.loading) {
-            return <Spinner size="small" />;
-        }
+    // renderButton() {
+    //     if (this.state.loading) {
+    //         return <Spinner size="small" />;
+    //     }
 
-        return (
-            <Button style={{ backgroundColor: '#757575', margin: 5 }} block onPress={this.onButtonPress.bind(this)}>
-                <Text>Log In</Text>
-            </Button>
-        );
-    }
+    //     return (
+    //         <Button style={{ backgroundColor: '#757575', margin: 5 }} block onPress={this.onButtonPress.bind(this)}>
+    //             <Text>Log In</Text>
+    //         </Button>
+    //     );
+    // }
     render() {
         // Here we dynamically render each option for vehicle values after they have chosen
         // So first is YEAR > then we hide year and show MAKE > then we hide make and show MODEL, etc
@@ -210,6 +216,8 @@ class VehicleCreateScreen extends Component {
                             {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
                                 {this.state.vehiclePhoto !== '' ? <Text>Save Vehicle</Text> : <Text>Not now, Save Vehicle</Text>}
                             </Button> : undefined}
+
+                            {this.state.loading ? <Spinner color='blue' /> : undefined}
 
 
 
