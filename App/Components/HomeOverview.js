@@ -17,7 +17,6 @@ export default class HomeOverview extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.props)
         // ********** This will always be undefined the first time this component mounts. 
         // However the Second time, props will already be loaded from the store **********
         {
@@ -37,9 +36,13 @@ export default class HomeOverview extends Component {
     }
 
     handleDelete(vehicle, index) {
-        // console.log(vehicle)
-        // TODO
-        this.props.deleteVehicleRequest(this.state.user, vehicle, index)
+        this.setState({ loading: true }, function () {
+            this.props.deleteVehicleRequest(this.state.user, vehicle, index)
+            this.setState({ loading: false }, function () {
+
+            })
+
+        })
     }
 
     render() {
@@ -90,7 +93,7 @@ export default class HomeOverview extends Component {
                                                 </CardItem>
                                                 <CardItem>
                                                     <Left>
-                                                        <Button transparent textStyle={{ color: '#87838B' }}>
+                                                        <Button transparent onPress={() => this.props.navigation.navigate('MaintScreen')} textStyle={{ color: '#87838B' }}>
                                                             <Icon name="build" />
                                                             <Text>10 Maintaince Records</Text>
                                                         </Button>

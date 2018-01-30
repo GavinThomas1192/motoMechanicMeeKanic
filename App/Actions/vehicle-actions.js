@@ -164,6 +164,7 @@ export const deleteVehicleRequest = (user, vehicle, index) => dispatch => {
 
 
     })
+        .catch(error => console.log(error))
 }
 
 
