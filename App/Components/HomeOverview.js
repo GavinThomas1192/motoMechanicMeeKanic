@@ -93,9 +93,9 @@ export default class HomeOverview extends Component {
                                                 </CardItem>
                                                 <CardItem>
                                                     <Left>
-                                                        <Button transparent onPress={() => this.props.navigation.navigate('MaintScreen')} textStyle={{ color: '#87838B' }}>
+                                                        <Button transparent onPress={() => this.props.navigation.navigate('RepairScreen', { vehicle: ele })} textStyle={{ color: '#87838B' }}>
                                                             <Icon name="build" />
-                                                            <Text>10 Maintaince Records</Text>
+                                                            <Text>Fix-It</Text>
                                                         </Button>
                                                     </Left>
 

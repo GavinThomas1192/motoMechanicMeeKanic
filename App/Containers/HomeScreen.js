@@ -8,6 +8,7 @@ import SideBar from '../Components/SideBar';
 import { Dropdown } from 'react-native-material-dropdown';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import HomeOverview from '../Components/HomeOverview'
+// import RepairScreen from '../Components/RepairScreen'
 import { deleteVehicleRequest } from '../Actions/vehicle-actions'
 const backgroundImage = require("../Images/vw.jpg");
 
@@ -140,22 +141,26 @@ class HomeScreen extends Component {
             </Right>
           </Header>
 
-          {this.state.OverviewActive ? <HomeOverview navigation={this.props.navigation} props={this.props.user} deleteVehicleRequest={this.props.deleteVehicleRequest} /> : <Spinner />}
+
+          {/* Show home overview from tab at bottom.  */}
+          {this.state.OverviewActive ? <HomeOverview navigation={this.props.navigation} props={this.props.user} deleteVehicleRequest={this.props.deleteVehicleRequest} /> : undefined}
+          {/* Show MaintHistory from tab at bottom */}
+          {this.state.historyActive ? <MaintHistory navigation={this.props.navigation} props={this.props.user} /> : undefined}
 
         </Drawer>
         <Footer>
           <FooterTab>
             <Button vertical onPress={() => this.onHistoryPress()} active={this.state.historyActive}>
-              <Icon name="apps" />
-              <Text>Maintence History</Text>
+              <Icon name="build" />
+              <Text>Maintence</Text>
             </Button>
             <Button vertical onPress={() => this.onOverviewPress()} active={this.state.OverviewActive}>
-              <Icon name="camera" />
+              <Icon name="home" />
               <Text>Overview</Text>
             </Button>
             <Button vertical onPress={() => this.onNewEventPress()} active={this.state.NewEventActive}>
               <Icon active name="navigate" />
-              <Text>New Event</Text>
+              <Text>Repair</Text>
             </Button>
           </FooterTab>
         </Footer>
