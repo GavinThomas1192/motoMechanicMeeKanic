@@ -22,7 +22,7 @@ class RepairScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vehicle: '', repairRequest: '', youtubeVideoResults: [], isReady: '', status: '', quality: '', error: '', videoId: '',
+            vehicle: '', repairRequest: '', youtubeVideoResults: [], toggleToolsNeeded: false, toggleRepairVideo: false, toggleShowInstructions: false,
         }
         this.searchYoutube = this.searchYoutube.bind(this)
         this.showYoutubeVideo = this.showYoutubeVideo.bind(this)
@@ -46,10 +46,10 @@ class RepairScreen extends Component {
     searchYoutube() {
 
 
-        YTSearch({ key: 'AIzaSyD356pL-yUmg00fr43Geu-_fIUZUF8X1Cc', term: this.state.repairRequest }, result => {
+        YTSearch({ key: 'AIzaSyD356pL-yUmg00fr43Geu-_fIUZUF8X1Cc', term: this.state.vehicle.model_year + ' ' + this.state.vehicle.make_display + ' ' + this.state.vehicle.model_name + ' ' + this.state.repairRequest }, result => {
             this.setState({ youtubeVideoResults: result }, function () {
 
-                console.log(this.state);
+                console.log('firing search youtube', this.state);
             })
         });
 
@@ -98,59 +98,56 @@ class RepairScreen extends Component {
                             </Body>
                         </CardItem>
                         <CardItem>
-                            <Text>Alright, lets fix this thing. Here's some common repairs.</Text>
-                        </CardItem>
-                        <CardItem>
-                            <Button transparent textStyle={{ color: '#87838B' }}>
-                                <Icon name="build" />
-                                <Text>Oil Change</Text>
-                            </Button>
-                        </CardItem>
-                        <CardItem>
-                            <Button transparent textStyle={{ color: '#87838B' }}>
-                                <Icon name="build" />
-                                <Text>Brakes</Text>
-                            </Button>
-                        </CardItem>
-                        <CardItem>
-                            <Button transparent textStyle={{ color: '#87838B' }}>
-                                <Icon name="build" />
-                                <Text>Radiator Flush</Text>
-                            </Button>
-                        </CardItem>
-                        <CardItem>
-                            <Text>Don't see what you need to do? Tell me what you want to fix below.</Text>
+                            <Body>
+                                <Text>Let's get started...</Text>
+                                <Text>Tell me what you need to fix and I'll do the rest.</Text>
 
+                            </Body>
                         </CardItem>
                         <CardItem>
-                            <Text>Ex. "CV Boot Replacement"</Text>
+                            <Text>Ex. "Oil Change" or "Brake Pad Replacement"</Text>
                         </CardItem>
                         <CardItem>
                             <Item rounded>
                                 <Input placeholder='Rounded Textbox' onChangeText={repairRequest => this.setState({ repairRequest })} />
-                                <Button onPress={this.searchYoutube}>
-
-                                    <Text>Search</Text>
-                                </Button>
                             </Item>
+
                         </CardItem>
 
+                        <Button style={{ margin: 5 }} block onPress={this.searchYoutube}>
+                            <Text>Go</Text>
+                        </Button>
 
 
-                        {this.state.youtubeVideoResults.map(ele => {
+                        {/* //Showed after initial repair request */}
+                        {this.state.youtubeVideoResults.length > 1 ?
+                            <Content>
+                                <Text>Okay, heres what I found...</Text>
+                                <Button style={{ margin: 5 }} block onPress={() => this.setState({ toggleToolsNeeded: !this.state.toggleToolsNeeded })}>
+                                    <Text>Show Tools Needed</Text>
+                                </Button>
+                                <Button style={{ margin: 5 }} block onPress={() => this.setState({ toggleRepairVideo: !this.state.toggleRepairVideo })}>
+                                    <Text>Show Repair Videos</Text>
+                                </Button>
+                                {/* //show video results on request */}
+                                {this.state.toggleRepairVideo ?
+                                    this.state.youtubeVideoResults.map(ele => {
 
-                            return <Content>
-                                <CardItem>
-                                    <Text>{ele.snippet.title}</Text>
-                                </CardItem>
-                                <CardItem>
-                                    <WebView
-                                        source={{ uri: `https://www.youtube.com/embed/${this.state.videoId}` }}
-                                        style={{ marginBottom: 20, height: 200, width: null, flex: 1 }}
-                                    />
-                                </CardItem>
-                            </Content>
-                        })}
+                                        return <Content>
+                                            <CardItem>
+                                                <WebView
+                                                    source={{ uri: `https://www.youtube.com/embed/${ele.id.videoId}` }}
+                                                    style={{ marginBottom: 20, height: 200, width: null, flex: 1 }}
+                                                />
+                                            </CardItem>
+                                        </Content>
+                                    }) : undefined}
+
+                                <Button style={{ margin: 5 }} block onPress={() => this.setState({ toggleShowInstructions: !this.state.toggleShowInstructions })}>
+                                    <Text>Show Instructions</Text>
+                                </Button>
+                            </Content> : undefined}
+
 
                     </Card>
                     : undefined
