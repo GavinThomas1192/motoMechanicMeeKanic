@@ -45,10 +45,11 @@
     "react-native-i18n": "1.0.0",
     "react-native-image-picker": "^0.26.7",
     "react-native-material-dropdown": "^0.6.0",
-    "react-native-material-menu": "^0.2.3",
+    "react-native-material-menu": "^0.2.4",
     "react-native-navigator-animation": "^1.2.0",
     "react-native-smart-picker": "^1.0.4",
     "react-native-vector-icons": "4.3.0",
+    "react-native-youtube": "^1.1.0",
     "react-navigation": "^1.0.0-beta.7",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
@@ -57,7 +58,8 @@
     "redux-thunk": "^2.2.0",
     "reduxsauce": "0.4.1",
     "rnpm": "^1.9.0",
-    "seamless-immutable": "^7.0.1"
+    "seamless-immutable": "^7.0.1",
+    "youtube-api-search": "0.0.5"
   },
   "devDependencies": {
     "@storybook/addon-storyshots": "^3.2.3",

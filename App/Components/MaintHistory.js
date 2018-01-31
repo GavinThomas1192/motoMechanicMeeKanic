@@ -15,7 +15,7 @@ import { Images } from '../Themes'
 
 // import styles from './Styles/VehicleCreateScreenStyle'
 
-class MaintScreen extends Component {
+class MaintHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,6 +27,7 @@ class MaintScreen extends Component {
     componentDidUpdate() {
     }
     componentDidMount() {
+        //This should be a list of all maint history, stats, money, etc. 
     }
 
 
@@ -56,5 +57,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MaintScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(MaintHistory)
 
