@@ -3,11 +3,9 @@ package com.motomechanicmeekanic;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
-import com.magus.fblogin.FacebookLoginPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -31,11 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativeYouTube(),
             new ImagePickerPackage(),
             new RNFetchBlobPackage(),
             new RNGoogleSignInPackage(),
-            new FacebookLoginPackage(),
             new ReactNativeConfigPackage(),
             new ReactNativeI18n(),
             new VectorIconsPackage()
