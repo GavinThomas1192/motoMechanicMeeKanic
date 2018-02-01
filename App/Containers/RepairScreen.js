@@ -6,7 +6,6 @@ import { Container, Header, Content, Form, Item, Input, Left, Body, Right, Butto
 import Spinner from '../Components/Spinner'
 // import Search from 'youtube-search'
 import YTSearch from 'youtube-api-search';
-import YouTube, { YouTubeStandaloneIOS, YouTubeStandaloneAndroid } from 'react-native-youtube';
 import firebase from 'firebase'
 import { userVehicleCreateRequest, userVehiclePhotoUploadRequest } from '../Actions/vehicle-actions';
 import { Images } from '../Themes'
