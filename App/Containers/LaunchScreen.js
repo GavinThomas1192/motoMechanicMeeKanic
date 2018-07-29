@@ -20,9 +20,6 @@ class LaunchScreen extends Component {
     }
     // this.goHomeIfUser = this.goHomeIfUser.bind(this);
   }
-  componentDidUpdate() {
-  }
-
 
   // ********* Here we need to track if someone is logged in from previous user of our application so they don't need to log in every time ********* 
   // *********  We use willRecieveRrops to avoid memory usage and infinite loops that componentDidUpdate() causes ********* 
@@ -147,23 +144,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LaunchScreen)
-
-{/* <Form style={styles.textInput}>
-<Item>
-  <Input placeholder="Username"
-    value={this.state.username}
-    onChangeText={username => this.setState({ username })} />
-</Item>
-<Item>
-  <Input placeholder="Email"
-    value={this.state.email}
-    onChangeText={email => this.setState({ email })} />
-</Item>
-<Item last>
-  <Input
-    value={this.state.password}
-    onChangeText={password => this.setState({ password })}
-    placeholder="Password" />
-</Item>
-</Form> */}
-

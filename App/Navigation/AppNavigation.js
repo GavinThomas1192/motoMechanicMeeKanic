@@ -39,6 +39,3 @@ const PrimaryNav = StackNavigator({
 )
 
 export default PrimaryNav
-
-
-//hello

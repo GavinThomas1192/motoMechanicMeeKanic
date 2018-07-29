@@ -111,11 +111,11 @@ class HomeScreen extends Component {
       // ******** The Drawer will show garage, maintence logs, repair lookup info ********
       // ******** The menu will hold settings, profile, and logout ********
       <View style={{ flex: 1 }}>
-        <Drawer
+        {/* <Drawer
           ref={(ref) => { this.drawer = ref; }}
           content={<SideBar navigation={this.props.navigation} close={this.closeDrawer} />}
           onClose={() => this.closeDrawer()}
-          onOpen={() => this.openDrawer()} >
+          onOpen={() => this.openDrawer()} > */}
           <Header>
             <Left>
               <Button transparent onPress={this.openDrawer}>
@@ -126,13 +126,14 @@ class HomeScreen extends Component {
               <Title style={{ fontSize: 10 }} >Welcome Back {this.props.user.account.username}</Title>
             </Body>
             <Right>
-              <Button transparent onPress={this.showMenu}>
-                <Icon name='settings' />
-              </Button>
               <Menu
                 ref={this.setMenuRef}
                 style={{ alignSelf: 'flex-end' }}
-              >
+                button={
+                <Button transparent onPress={this.showMenu}>
+                  <Icon name='settings' />
+                </Button>
+                } >
                 {<MenuItem onPress={() => this.onVehicleCreatePress(this.props.navigation)}>Add New Vehicle</MenuItem>}
                 <MenuItem onPress={() => this.props.navigation.navigate('SettingsScreen')} >Settings</MenuItem>
                 <MenuDivider />
@@ -143,11 +144,11 @@ class HomeScreen extends Component {
 
 
           {/* Show home overview from tab at bottom.  */}
-          {this.state.OverviewActive ? <HomeOverview navigation={this.props.navigation} props={this.props.user} deleteVehicleRequest={this.props.deleteVehicleRequest} /> : undefined}
+          {this.state.OverviewActive && <HomeOverview navigation={this.props.navigation} props={this.props.user} deleteVehicleRequest={this.props.deleteVehicleRequest} /> }
           {/* Show MaintHistory from tab at bottom */}
-          {this.state.historyActive ? <MaintHistory navigation={this.props.navigation} props={this.props.user} /> : undefined}
+          {this.state.historyActive && <MaintHistory navigation={this.props.navigation} props={this.props.user} /> }
 
-        </Drawer>
+        {/* </Drawer> */}
         <Footer>
           <FooterTab>
             <Button vertical onPress={() => this.onHistoryPress()} active={this.state.historyActive}>
@@ -190,4 +191,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
-//hello
