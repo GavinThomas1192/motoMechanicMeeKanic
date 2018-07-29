@@ -23,7 +23,12 @@ class VehicleCreateScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleTrim: '', vehiclePhoto: [], loading: false,
+            vehicleYear: '', 
+            vehicleMake: '', 
+            vehicleModel: '', 
+            vehicleTrim: '', 
+            vehiclePhoto: [], 
+            loading: false,
         }
         this.yearPicked = this.yearPicked.bind(this);
         this.makePicked = this.makePicked.bind(this);
@@ -182,7 +187,7 @@ class VehicleCreateScreen extends Component {
                             <Text onPress={() => this.trimPicked('')}>Trim: {this.state.vehicleTrim.name}</Text>
                             {/* Here we display all photos they uploaded */}
                             {/* TODO if they click a photo it will remove it  */}
-                            {this.state.vehiclePhoto.length > 0 ? this.state.vehiclePhoto.map(ele => {
+                            {this.state.vehiclePhoto.length > 0 && this.state.vehiclePhoto.map(ele => {
 
                                 return <TouchableHighlight onPress={() => this.specificPhotoDelete(ele)}>
                                     <View>
@@ -194,30 +199,30 @@ class VehicleCreateScreen extends Component {
                                     </View>
                                 </TouchableHighlight>
 
-                            }) : undefined}
+                            }) }
                         </View>
                         <Content>
                             {/* These next conditionals dynamically show based on completion of full vehicle information  */}
-                            {this.state.vehicleYear === '' ? <VehicleYearPicker vehicleYear={this.yearPicked} /> : undefined}
+                            {!this.state.vehicleYear && <VehicleYearPicker vehicleYear={this.yearPicked} /> }
 
-                            {this.state.vehicleYear !== '' && this.state.vehicleMake === '' ? <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> : undefined}
+                            {!!this.state.vehicleYear && !this.state.vehicleMake && <VehicleMakePicker pickedYear={this.state.vehicleYear} vehicleMake={this.makePicked} /> }
 
-                            {this.state.vehicleModel === '' && this.state.vehicleMake !== '' ? <VehicleModelPicker homeState={this.state} vehicleModel={this.modelPicked} /> : undefined}
+                            {!this.state.vehicleModel && !!this.state.vehicleMake && <VehicleModelPicker homeState={this.state} vehicleModel={this.modelPicked} /> }
 
-                            {this.state.vehicleModel !== '' && this.state.vehicleMake !== '' && this.state.vehicleTrim === '' ? <VehicleTrimPicker homeState={this.state} vehicleTrim={this.trimPicked} /> : undefined}
+                            {!!this.state.vehicleModel && !!this.state.vehicleMake && this.state.vehicleTrim === '' && <VehicleTrimPicker homeState={this.state} vehicleTrim={this.trimPicked} /> }
 
 
                             {/* Here we offer photo upload if they want.. */}
-                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && this.state.vehiclePhoto.length === 0 ? <VehiclePhotoPicker buttonText={'Photo'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : <VehiclePhotoPicker buttonText={'Another'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} />}
+                            {!!this.state.vehicleMake && !!this.state.vehicleYear && !!this.state.vehicleModel && !!this.state.vehicleTrim && this.state.vehiclePhoto.length === 0 ? <VehiclePhotoPicker buttonText={'Photo'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} /> : <VehiclePhotoPicker buttonText={'Another'} homeState={this.state} user={this.props.user} vehiclePhoto={this.photoPicked} />}
 
 
 
                             {/* If they don't upload photo change button text  */}
-                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' ? <Button block onPress={this.submitVehicleInformation}>
+                            {this.state.vehicleMake !== '' && this.state.vehicleYear !== '' && this.state.vehicleModel !== '' && this.state.vehicleTrim !== '' && <Button block onPress={this.submitVehicleInformation}>
                                 {this.state.vehiclePhoto !== '' ? <Text>Save Vehicle</Text> : <Text>Not now, Save Vehicle</Text>}
-                            </Button> : undefined}
+                            </Button> }
 
-                            {this.state.loading ? <Spinner color='blue' /> : undefined}
+                            {this.state.loading && <Spinner color='blue' /> }
 
 
 
