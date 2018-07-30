@@ -144,22 +144,10 @@ class VehicleCreateScreen extends Component {
 
     }
 
-
     handleChange(text) {
         console.log(text)
     }
 
-    // renderButton() {
-    //     if (this.state.loading) {
-    //         return <Spinner size="small" />;
-    //     }
-
-    //     return (
-    //         <Button style={{ backgroundColor: '#757575', margin: 5 }} block onPress={this.onButtonPress.bind(this)}>
-    //             <Text>Log In</Text>
-    //         </Button>
-    //     );
-    // }
     render() {
         // Here we dynamically render each option for vehicle values after they have chosen
         // So first is YEAR > then we hide year and show MAKE > then we hide make and show MODEL, etc
@@ -223,14 +211,6 @@ class VehicleCreateScreen extends Component {
                             </Button> }
 
                             {this.state.loading && <Spinner color='blue' /> }
-
-
-
-
-
-
-
-
                         </Content>
                     </Container>
                 </ScrollView>
@@ -239,7 +219,6 @@ class VehicleCreateScreen extends Component {
         )
     }
 }
-//Merry Christmas Github
 const mapStateToProps = (state) => {
     return {
         user: state.user,
